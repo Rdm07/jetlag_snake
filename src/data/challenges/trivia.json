@@ -1,0 +1,167 @@
+[
+  {
+    "question": "Which South Korean city is home to the UNESCO-listed Haeinsa temple?",
+    "options": ["Gyeongju", "Jeonju", "Hapcheon", "Andong"],
+    "answer": "Hapcheon"
+  },
+  {
+    "question": "What is the highest peak in South Korea?",
+    "options": ["Hallasan", "Seoraksan", "Jirisan", "Taebaeksan"],
+    "answer": "Hallasan"
+  },
+  {
+    "question": "Which city hosted the 1988 Summer Olympics?",
+    "options": ["Busan", "Incheon", "Seoul", "Daegu"],
+    "answer": "Seoul"
+  },
+  {
+    "question": "What does 'KTX' stand for in Korean train terminology?",
+    "options": [
+      "Korea Train eXpress",
+      "Korean Transit eXchange",
+      "Korea Terminal eXpress",
+      "Korean Transport eXpress"
+    ],
+    "answer": "Korea Train eXpress"
+  },
+  {
+    "question": "Which South Korean island is the largest by area?",
+    "options": ["Ganghwado", "Geojedo", "Jejudo", "Namhaedo"],
+    "answer": "Jejudo"
+  },
+  {
+    "question": "What is the name of South Korea's currency?",
+    "options": ["Won", "Yuan", "Yen", "Baht"],
+    "answer": "Won"
+  },
+  {
+    "question": "The Gyeongbokgung Palace is located in which city?",
+    "options": ["Busan", "Gyeongju", "Seoul", "Suwon"],
+    "answer": "Seoul"
+  },
+  {
+    "question": "Which Korean dish consists of rice topped with various vegetables, meat, and a fried egg?",
+    "options": ["Kimchi jjigae", "Bibimbap", "Japchae", "Sundubu jjigae"],
+    "answer": "Bibimbap"
+  },
+  {
+    "question": "Donghae city faces which body of water?",
+    "options": ["Yellow Sea", "East China Sea", "Sea of Japan (East Sea)", "South China Sea"],
+    "answer": "Sea of Japan (East Sea)"
+  },
+  {
+    "question": "Which line connects Seoul to Gangneung?",
+    "options": ["Gyeongbu line", "Honam line", "Gangneung line", "Jungang line"],
+    "answer": "Gangneung line"
+  },
+  {
+    "question": "South Korea shares a border with which countries?",
+    "options": [
+      "China and Japan",
+      "North Korea and China",
+      "North Korea only",
+      "North Korea, China, and Russia"
+    ],
+    "answer": "North Korea only"
+  },
+  {
+    "question": "What is the capital of South Korea?",
+    "options": ["Busan", "Incheon", "Seoul", "Suwon"],
+    "answer": "Seoul"
+  },
+  {
+    "question": "The Silla kingdom had its capital in which modern city?",
+    "options": ["Gyeongju", "Jeonju", "Gongju", "Kaesong"],
+    "answer": "Gyeongju"
+  },
+  {
+    "question": "Which port city is South Korea's second-largest by population?",
+    "options": ["Incheon", "Daegu", "Busan", "Gwangju"],
+    "answer": "Busan"
+  },
+  {
+    "question": "Which temple is famous for its 80,000 Tripitaka Koreana wooden blocks?",
+    "options": ["Bulguksa", "Tongdosa", "Haeinsa", "Jogyesa"],
+    "answer": "Haeinsa"
+  },
+  {
+    "question": "What year did KTX (Korea Train Express) begin commercial operations?",
+    "options": ["2000", "2002", "2004", "2006"],
+    "answer": "2004"
+  },
+  {
+    "question": "Which Korean war ceasefire line divides the peninsula?",
+    "options": ["38th Parallel", "DMZ", "36th Parallel", "40th Parallel"],
+    "answer": "38th Parallel"
+  },
+  {
+    "question": "Jeju Island is known for which traditional female divers?",
+    "options": ["Musuri", "Haenyeo", "Gisaeng", "Mudang"],
+    "answer": "Haenyeo"
+  },
+  {
+    "question": "Which South Korean river flows through Seoul?",
+    "options": ["Nakdong", "Geum", "Han", "Seomjin"],
+    "answer": "Han"
+  },
+  {
+    "question": "The Boseong region in South Korea is famous for which crop?",
+    "options": ["Rice", "Ginseng", "Green tea", "Persimmon"],
+    "answer": "Green tea"
+  },
+  {
+    "question": "Which city hosts BIFF (Busan International Film Festival)?",
+    "options": ["Seoul", "Incheon", "Busan", "Daejeon"],
+    "answer": "Busan"
+  },
+  {
+    "question": "What does 'Hangul' refer to?",
+    "options": [
+      "Korean food",
+      "Korean traditional dress",
+      "The Korean writing system",
+      "A Korean martial art"
+    ],
+    "answer": "The Korean writing system"
+  },
+  {
+    "question": "Which Korean city is known as 'the city of culture' and famous for bibimbap?",
+    "options": ["Jeonju", "Andong", "Gyeongju", "Suwon"],
+    "answer": "Jeonju"
+  },
+  {
+    "question": "Seoraksan National Park is located in which province?",
+    "options": ["Gangwon", "Gyeonggi", "North Chungcheong", "South Gyeongsang"],
+    "answer": "Gangwon"
+  },
+  {
+    "question": "Which Korean traditional instrument is a 12-string zither?",
+    "options": ["Haegeum", "Gayageum", "Daegeum", "Piri"],
+    "answer": "Gayageum"
+  },
+  {
+    "question": "The demilitarized zone (DMZ) is approximately how wide?",
+    "options": ["1 km", "2 km", "4 km", "10 km"],
+    "answer": "4 km"
+  },
+  {
+    "question": "Which direction from Seoul is Busan?",
+    "options": ["North", "East", "South", "Southeast"],
+    "answer": "Southeast"
+  },
+  {
+    "question": "What is kimchi primarily made from?",
+    "options": ["Soybean", "Fermented cabbage", "Seaweed", "Tofu"],
+    "answer": "Fermented cabbage"
+  },
+  {
+    "question": "Which South Korean company manufactures the KTX-Sancheon train?",
+    "options": ["Samsung", "Hyundai Rotem", "Doosan", "LG"],
+    "answer": "Hyundai Rotem"
+  },
+  {
+    "question": "Andong is known for which traditional Korean festival?",
+    "options": ["Lantern festival", "Mask dance festival", "Cherry blossom festival", "Mud festival"],
+    "answer": "Mask dance festival"
+  }
+]

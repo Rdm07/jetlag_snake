@@ -1,0 +1,4378 @@
+{
+  "sangbong_to_yongsan": [
+    {
+      "trainNum": "L2301",
+      "type": "Local",
+      "depart": "07:05",
+      "arrive": "07:35"
+    },
+    {
+      "trainNum": "L2303",
+      "type": "Local",
+      "depart": "08:05",
+      "arrive": "08:35"
+    },
+    {
+      "trainNum": "L2305",
+      "type": "Local",
+      "depart": "09:05",
+      "arrive": "09:35"
+    },
+    {
+      "trainNum": "L2307",
+      "type": "Local",
+      "depart": "10:05",
+      "arrive": "10:35"
+    },
+    {
+      "trainNum": "L2309",
+      "type": "Local",
+      "depart": "11:05",
+      "arrive": "11:35"
+    },
+    {
+      "trainNum": "L2311",
+      "type": "Local",
+      "depart": "12:05",
+      "arrive": "12:35"
+    },
+    {
+      "trainNum": "L2313",
+      "type": "Local",
+      "depart": "13:05",
+      "arrive": "13:35"
+    },
+    {
+      "trainNum": "L2315",
+      "type": "Local",
+      "depart": "14:05",
+      "arrive": "14:35"
+    },
+    {
+      "trainNum": "L2317",
+      "type": "Local",
+      "depart": "15:05",
+      "arrive": "15:35"
+    },
+    {
+      "trainNum": "L2319",
+      "type": "Local",
+      "depart": "16:05",
+      "arrive": "16:35"
+    },
+    {
+      "trainNum": "L2321",
+      "type": "Local",
+      "depart": "17:05",
+      "arrive": "17:35"
+    },
+    {
+      "trainNum": "L2323",
+      "type": "Local",
+      "depart": "18:05",
+      "arrive": "18:35"
+    }
+  ],
+  "yongsan_to_sangbong": [
+    {
+      "trainNum": "L2302",
+      "type": "Local",
+      "depart": "07:10",
+      "arrive": "07:40"
+    },
+    {
+      "trainNum": "L2304",
+      "type": "Local",
+      "depart": "08:10",
+      "arrive": "08:40"
+    },
+    {
+      "trainNum": "L2306",
+      "type": "Local",
+      "depart": "09:10",
+      "arrive": "09:40"
+    },
+    {
+      "trainNum": "L2308",
+      "type": "Local",
+      "depart": "10:10",
+      "arrive": "10:40"
+    },
+    {
+      "trainNum": "L2310",
+      "type": "Local",
+      "depart": "11:10",
+      "arrive": "11:40"
+    },
+    {
+      "trainNum": "L2312",
+      "type": "Local",
+      "depart": "12:10",
+      "arrive": "12:40"
+    },
+    {
+      "trainNum": "L2314",
+      "type": "Local",
+      "depart": "13:10",
+      "arrive": "13:40"
+    },
+    {
+      "trainNum": "L2316",
+      "type": "Local",
+      "depart": "14:10",
+      "arrive": "14:40"
+    },
+    {
+      "trainNum": "L2318",
+      "type": "Local",
+      "depart": "15:10",
+      "arrive": "15:40"
+    },
+    {
+      "trainNum": "L2320",
+      "type": "Local",
+      "depart": "16:10",
+      "arrive": "16:40"
+    },
+    {
+      "trainNum": "L2322",
+      "type": "Local",
+      "depart": "17:10",
+      "arrive": "17:40"
+    },
+    {
+      "trainNum": "L2324",
+      "type": "Local",
+      "depart": "18:10",
+      "arrive": "18:40"
+    }
+  ],
+  "sangbong_to_jinbu": [
+    {
+      "trainNum": "L2401",
+      "type": "Local",
+      "depart": "07:15",
+      "arrive": "08:10"
+    },
+    {
+      "trainNum": "L2403",
+      "type": "Local",
+      "depart": "09:15",
+      "arrive": "10:10"
+    },
+    {
+      "trainNum": "L2405",
+      "type": "Local",
+      "depart": "11:15",
+      "arrive": "12:10"
+    },
+    {
+      "trainNum": "L2407",
+      "type": "Local",
+      "depart": "13:15",
+      "arrive": "14:10"
+    },
+    {
+      "trainNum": "L2409",
+      "type": "Local",
+      "depart": "15:15",
+      "arrive": "16:10"
+    },
+    {
+      "trainNum": "L2411",
+      "type": "Local",
+      "depart": "17:15",
+      "arrive": "18:10"
+    }
+  ],
+  "jinbu_to_sangbong": [
+    {
+      "trainNum": "L2402",
+      "type": "Local",
+      "depart": "07:20",
+      "arrive": "08:15"
+    },
+    {
+      "trainNum": "L2404",
+      "type": "Local",
+      "depart": "09:20",
+      "arrive": "10:15"
+    },
+    {
+      "trainNum": "L2406",
+      "type": "Local",
+      "depart": "11:20",
+      "arrive": "12:15"
+    },
+    {
+      "trainNum": "L2408",
+      "type": "Local",
+      "depart": "13:20",
+      "arrive": "14:15"
+    },
+    {
+      "trainNum": "L2410",
+      "type": "Local",
+      "depart": "15:20",
+      "arrive": "16:15"
+    },
+    {
+      "trainNum": "L2412",
+      "type": "Local",
+      "depart": "17:20",
+      "arrive": "18:15"
+    }
+  ],
+  "yongsan_to_pyeongtaek": [
+    {
+      "trainNum": "L2201",
+      "type": "Local",
+      "depart": "07:10",
+      "arrive": "07:45"
+    },
+    {
+      "trainNum": "L2203",
+      "type": "Local",
+      "depart": "08:10",
+      "arrive": "08:45"
+    },
+    {
+      "trainNum": "L2205",
+      "type": "Local",
+      "depart": "09:10",
+      "arrive": "09:45"
+    },
+    {
+      "trainNum": "L2207",
+      "type": "Local",
+      "depart": "10:10",
+      "arrive": "10:45"
+    },
+    {
+      "trainNum": "L2209",
+      "type": "Local",
+      "depart": "11:10",
+      "arrive": "11:45"
+    },
+    {
+      "trainNum": "L2211",
+      "type": "Local",
+      "depart": "12:10",
+      "arrive": "12:45"
+    },
+    {
+      "trainNum": "L2213",
+      "type": "Local",
+      "depart": "13:10",
+      "arrive": "13:45"
+    },
+    {
+      "trainNum": "L2215",
+      "type": "Local",
+      "depart": "14:10",
+      "arrive": "14:45"
+    },
+    {
+      "trainNum": "L2217",
+      "type": "Local",
+      "depart": "15:10",
+      "arrive": "15:45"
+    },
+    {
+      "trainNum": "L2219",
+      "type": "Local",
+      "depart": "16:10",
+      "arrive": "16:45"
+    },
+    {
+      "trainNum": "L2221",
+      "type": "Local",
+      "depart": "17:10",
+      "arrive": "17:45"
+    },
+    {
+      "trainNum": "L2223",
+      "type": "Local",
+      "depart": "18:10",
+      "arrive": "18:45"
+    }
+  ],
+  "pyeongtaek_to_yongsan": [
+    {
+      "trainNum": "L2202",
+      "type": "Local",
+      "depart": "07:20",
+      "arrive": "07:55"
+    },
+    {
+      "trainNum": "L2204",
+      "type": "Local",
+      "depart": "08:20",
+      "arrive": "08:55"
+    },
+    {
+      "trainNum": "L2206",
+      "type": "Local",
+      "depart": "09:20",
+      "arrive": "09:55"
+    },
+    {
+      "trainNum": "L2208",
+      "type": "Local",
+      "depart": "10:20",
+      "arrive": "10:55"
+    },
+    {
+      "trainNum": "L2210",
+      "type": "Local",
+      "depart": "11:20",
+      "arrive": "11:55"
+    },
+    {
+      "trainNum": "L2212",
+      "type": "Local",
+      "depart": "12:20",
+      "arrive": "12:55"
+    },
+    {
+      "trainNum": "L2214",
+      "type": "Local",
+      "depart": "13:20",
+      "arrive": "13:55"
+    },
+    {
+      "trainNum": "L2216",
+      "type": "Local",
+      "depart": "14:20",
+      "arrive": "14:55"
+    },
+    {
+      "trainNum": "L2218",
+      "type": "Local",
+      "depart": "15:20",
+      "arrive": "15:55"
+    },
+    {
+      "trainNum": "L2220",
+      "type": "Local",
+      "depart": "16:20",
+      "arrive": "16:55"
+    },
+    {
+      "trainNum": "L2222",
+      "type": "Local",
+      "depart": "17:20",
+      "arrive": "17:55"
+    },
+    {
+      "trainNum": "L2224",
+      "type": "Local",
+      "depart": "18:20",
+      "arrive": "18:55"
+    }
+  ],
+  "yongsan_to_bongyang": [
+    {
+      "trainNum": "L101",
+      "type": "Local",
+      "depart": "07:10",
+      "arrive": "07:50"
+    },
+    {
+      "trainNum": "L103",
+      "type": "Local",
+      "depart": "08:10",
+      "arrive": "08:50"
+    },
+    {
+      "trainNum": "L105",
+      "type": "Local",
+      "depart": "09:10",
+      "arrive": "09:50"
+    },
+    {
+      "trainNum": "L107",
+      "type": "Local",
+      "depart": "10:10",
+      "arrive": "10:50"
+    },
+    {
+      "trainNum": "L109",
+      "type": "Local",
+      "depart": "11:10",
+      "arrive": "11:50"
+    },
+    {
+      "trainNum": "L111",
+      "type": "Local",
+      "depart": "12:10",
+      "arrive": "12:50"
+    },
+    {
+      "trainNum": "L113",
+      "type": "Local",
+      "depart": "13:10",
+      "arrive": "13:50"
+    },
+    {
+      "trainNum": "L115",
+      "type": "Local",
+      "depart": "14:10",
+      "arrive": "14:50"
+    },
+    {
+      "trainNum": "L117",
+      "type": "Local",
+      "depart": "15:10",
+      "arrive": "15:50"
+    },
+    {
+      "trainNum": "L119",
+      "type": "Local",
+      "depart": "16:10",
+      "arrive": "16:50"
+    },
+    {
+      "trainNum": "L121",
+      "type": "Local",
+      "depart": "17:10",
+      "arrive": "17:50"
+    },
+    {
+      "trainNum": "L123",
+      "type": "Local",
+      "depart": "18:10",
+      "arrive": "18:50"
+    }
+  ],
+  "bongyang_to_yongsan": [
+    {
+      "trainNum": "L102",
+      "type": "Local",
+      "depart": "07:20",
+      "arrive": "08:00"
+    },
+    {
+      "trainNum": "L104",
+      "type": "Local",
+      "depart": "08:20",
+      "arrive": "09:00"
+    },
+    {
+      "trainNum": "L106",
+      "type": "Local",
+      "depart": "09:20",
+      "arrive": "10:00"
+    },
+    {
+      "trainNum": "L108",
+      "type": "Local",
+      "depart": "10:20",
+      "arrive": "11:00"
+    },
+    {
+      "trainNum": "L110",
+      "type": "Local",
+      "depart": "11:20",
+      "arrive": "12:00"
+    },
+    {
+      "trainNum": "L112",
+      "type": "Local",
+      "depart": "12:20",
+      "arrive": "13:00"
+    },
+    {
+      "trainNum": "L114",
+      "type": "Local",
+      "depart": "13:20",
+      "arrive": "14:00"
+    },
+    {
+      "trainNum": "L116",
+      "type": "Local",
+      "depart": "14:20",
+      "arrive": "15:00"
+    },
+    {
+      "trainNum": "L118",
+      "type": "Local",
+      "depart": "15:20",
+      "arrive": "16:00"
+    },
+    {
+      "trainNum": "L120",
+      "type": "Local",
+      "depart": "16:20",
+      "arrive": "17:00"
+    },
+    {
+      "trainNum": "L122",
+      "type": "Local",
+      "depart": "17:20",
+      "arrive": "18:00"
+    },
+    {
+      "trainNum": "L124",
+      "type": "Local",
+      "depart": "18:20",
+      "arrive": "19:00"
+    }
+  ],
+  "pyeongtaek_to_anjung": [
+    {
+      "trainNum": "L301",
+      "type": "Local",
+      "depart": "07:00",
+      "arrive": "07:15"
+    },
+    {
+      "trainNum": "L303",
+      "type": "Local",
+      "depart": "07:45",
+      "arrive": "08:00"
+    },
+    {
+      "trainNum": "L305",
+      "type": "Local",
+      "depart": "08:30",
+      "arrive": "08:45"
+    },
+    {
+      "trainNum": "L307",
+      "type": "Local",
+      "depart": "09:30",
+      "arrive": "09:45"
+    },
+    {
+      "trainNum": "L309",
+      "type": "Local",
+      "depart": "10:30",
+      "arrive": "10:45"
+    },
+    {
+      "trainNum": "L311",
+      "type": "Local",
+      "depart": "11:30",
+      "arrive": "11:45"
+    },
+    {
+      "trainNum": "L313",
+      "type": "Local",
+      "depart": "12:30",
+      "arrive": "12:45"
+    },
+    {
+      "trainNum": "L315",
+      "type": "Local",
+      "depart": "13:30",
+      "arrive": "13:45"
+    },
+    {
+      "trainNum": "L317",
+      "type": "Local",
+      "depart": "14:30",
+      "arrive": "14:45"
+    },
+    {
+      "trainNum": "L319",
+      "type": "Local",
+      "depart": "15:30",
+      "arrive": "15:45"
+    },
+    {
+      "trainNum": "L321",
+      "type": "Local",
+      "depart": "16:30",
+      "arrive": "16:45"
+    },
+    {
+      "trainNum": "L323",
+      "type": "Local",
+      "depart": "17:30",
+      "arrive": "17:45"
+    },
+    {
+      "trainNum": "L325",
+      "type": "Local",
+      "depart": "18:30",
+      "arrive": "18:45"
+    }
+  ],
+  "anjung_to_pyeongtaek": [
+    {
+      "trainNum": "L302",
+      "type": "Local",
+      "depart": "07:10",
+      "arrive": "07:25"
+    },
+    {
+      "trainNum": "L304",
+      "type": "Local",
+      "depart": "07:55",
+      "arrive": "08:10"
+    },
+    {
+      "trainNum": "L306",
+      "type": "Local",
+      "depart": "08:55",
+      "arrive": "09:10"
+    },
+    {
+      "trainNum": "L308",
+      "type": "Local",
+      "depart": "09:55",
+      "arrive": "10:10"
+    },
+    {
+      "trainNum": "L310",
+      "type": "Local",
+      "depart": "10:55",
+      "arrive": "11:10"
+    },
+    {
+      "trainNum": "L312",
+      "type": "Local",
+      "depart": "11:55",
+      "arrive": "12:10"
+    },
+    {
+      "trainNum": "L314",
+      "type": "Local",
+      "depart": "12:55",
+      "arrive": "13:10"
+    },
+    {
+      "trainNum": "L316",
+      "type": "Local",
+      "depart": "13:55",
+      "arrive": "14:10"
+    },
+    {
+      "trainNum": "L318",
+      "type": "Local",
+      "depart": "14:55",
+      "arrive": "15:10"
+    },
+    {
+      "trainNum": "L320",
+      "type": "Local",
+      "depart": "15:55",
+      "arrive": "16:10"
+    },
+    {
+      "trainNum": "L322",
+      "type": "Local",
+      "depart": "16:55",
+      "arrive": "17:10"
+    },
+    {
+      "trainNum": "L324",
+      "type": "Local",
+      "depart": "17:55",
+      "arrive": "18:10"
+    },
+    {
+      "trainNum": "L326",
+      "type": "Local",
+      "depart": "18:40",
+      "arrive": "18:55"
+    }
+  ],
+  "pyeongtaek_to_cheonan": [
+    {
+      "trainNum": "L401",
+      "type": "Local",
+      "depart": "07:10",
+      "arrive": "07:30"
+    },
+    {
+      "trainNum": "L403",
+      "type": "Local",
+      "depart": "08:10",
+      "arrive": "08:30"
+    },
+    {
+      "trainNum": "L405",
+      "type": "Local",
+      "depart": "09:10",
+      "arrive": "09:30"
+    },
+    {
+      "trainNum": "L407",
+      "type": "Local",
+      "depart": "10:10",
+      "arrive": "10:30"
+    },
+    {
+      "trainNum": "L409",
+      "type": "Local",
+      "depart": "11:10",
+      "arrive": "11:30"
+    },
+    {
+      "trainNum": "L411",
+      "type": "Local",
+      "depart": "12:10",
+      "arrive": "12:30"
+    },
+    {
+      "trainNum": "L413",
+      "type": "Local",
+      "depart": "13:10",
+      "arrive": "13:30"
+    },
+    {
+      "trainNum": "L415",
+      "type": "Local",
+      "depart": "14:10",
+      "arrive": "14:30"
+    },
+    {
+      "trainNum": "L417",
+      "type": "Local",
+      "depart": "15:10",
+      "arrive": "15:30"
+    },
+    {
+      "trainNum": "L419",
+      "type": "Local",
+      "depart": "16:10",
+      "arrive": "16:30"
+    },
+    {
+      "trainNum": "L421",
+      "type": "Local",
+      "depart": "17:10",
+      "arrive": "17:30"
+    },
+    {
+      "trainNum": "L423",
+      "type": "Local",
+      "depart": "18:10",
+      "arrive": "18:30"
+    }
+  ],
+  "cheonan_to_pyeongtaek": [
+    {
+      "trainNum": "L402",
+      "type": "Local",
+      "depart": "07:20",
+      "arrive": "07:40"
+    },
+    {
+      "trainNum": "L404",
+      "type": "Local",
+      "depart": "08:20",
+      "arrive": "08:40"
+    },
+    {
+      "trainNum": "L406",
+      "type": "Local",
+      "depart": "09:20",
+      "arrive": "09:40"
+    },
+    {
+      "trainNum": "L408",
+      "type": "Local",
+      "depart": "10:20",
+      "arrive": "10:40"
+    },
+    {
+      "trainNum": "L410",
+      "type": "Local",
+      "depart": "11:20",
+      "arrive": "11:40"
+    },
+    {
+      "trainNum": "L412",
+      "type": "Local",
+      "depart": "12:20",
+      "arrive": "12:40"
+    },
+    {
+      "trainNum": "L414",
+      "type": "Local",
+      "depart": "13:20",
+      "arrive": "13:40"
+    },
+    {
+      "trainNum": "L416",
+      "type": "Local",
+      "depart": "14:20",
+      "arrive": "14:40"
+    },
+    {
+      "trainNum": "L418",
+      "type": "Local",
+      "depart": "15:20",
+      "arrive": "15:40"
+    },
+    {
+      "trainNum": "L420",
+      "type": "Local",
+      "depart": "16:20",
+      "arrive": "16:40"
+    },
+    {
+      "trainNum": "L422",
+      "type": "Local",
+      "depart": "17:20",
+      "arrive": "17:40"
+    },
+    {
+      "trainNum": "L424",
+      "type": "Local",
+      "depart": "18:20",
+      "arrive": "18:40"
+    }
+  ],
+  "cheonan_to_cheonan_asan": [
+    {
+      "trainNum": "L501",
+      "type": "Local",
+      "depart": "07:05",
+      "arrive": "07:15"
+    },
+    {
+      "trainNum": "L503",
+      "type": "Local",
+      "depart": "07:45",
+      "arrive": "07:55"
+    },
+    {
+      "trainNum": "L505",
+      "type": "Local",
+      "depart": "08:35",
+      "arrive": "08:45"
+    },
+    {
+      "trainNum": "L507",
+      "type": "Local",
+      "depart": "09:35",
+      "arrive": "09:45"
+    },
+    {
+      "trainNum": "L509",
+      "type": "Local",
+      "depart": "10:35",
+      "arrive": "10:45"
+    },
+    {
+      "trainNum": "L511",
+      "type": "Local",
+      "depart": "11:35",
+      "arrive": "11:45"
+    },
+    {
+      "trainNum": "L513",
+      "type": "Local",
+      "depart": "12:35",
+      "arrive": "12:45"
+    },
+    {
+      "trainNum": "L515",
+      "type": "Local",
+      "depart": "13:35",
+      "arrive": "13:45"
+    },
+    {
+      "trainNum": "L517",
+      "type": "Local",
+      "depart": "14:35",
+      "arrive": "14:45"
+    },
+    {
+      "trainNum": "L519",
+      "type": "Local",
+      "depart": "15:35",
+      "arrive": "15:45"
+    },
+    {
+      "trainNum": "L521",
+      "type": "Local",
+      "depart": "16:35",
+      "arrive": "16:45"
+    },
+    {
+      "trainNum": "L523",
+      "type": "Local",
+      "depart": "17:35",
+      "arrive": "17:45"
+    },
+    {
+      "trainNum": "L525",
+      "type": "Local",
+      "depart": "18:35",
+      "arrive": "18:45"
+    }
+  ],
+  "cheonan_asan_to_cheonan": [
+    {
+      "trainNum": "L502",
+      "type": "Local",
+      "depart": "07:10",
+      "arrive": "07:20"
+    },
+    {
+      "trainNum": "L504",
+      "type": "Local",
+      "depart": "07:50",
+      "arrive": "08:00"
+    },
+    {
+      "trainNum": "L506",
+      "type": "Local",
+      "depart": "08:50",
+      "arrive": "09:00"
+    },
+    {
+      "trainNum": "L508",
+      "type": "Local",
+      "depart": "09:50",
+      "arrive": "10:00"
+    },
+    {
+      "trainNum": "L510",
+      "type": "Local",
+      "depart": "10:50",
+      "arrive": "11:00"
+    },
+    {
+      "trainNum": "L512",
+      "type": "Local",
+      "depart": "11:50",
+      "arrive": "12:00"
+    },
+    {
+      "trainNum": "L514",
+      "type": "Local",
+      "depart": "12:50",
+      "arrive": "13:00"
+    },
+    {
+      "trainNum": "L516",
+      "type": "Local",
+      "depart": "13:50",
+      "arrive": "14:00"
+    },
+    {
+      "trainNum": "L518",
+      "type": "Local",
+      "depart": "14:50",
+      "arrive": "15:00"
+    },
+    {
+      "trainNum": "L520",
+      "type": "Local",
+      "depart": "15:50",
+      "arrive": "16:00"
+    },
+    {
+      "trainNum": "L522",
+      "type": "Local",
+      "depart": "16:50",
+      "arrive": "17:00"
+    },
+    {
+      "trainNum": "L524",
+      "type": "Local",
+      "depart": "17:50",
+      "arrive": "18:00"
+    },
+    {
+      "trainNum": "L526",
+      "type": "Local",
+      "depart": "18:40",
+      "arrive": "18:50"
+    }
+  ],
+  "cheonan_to_osong": [
+    {
+      "trainNum": "L601",
+      "type": "Local",
+      "depart": "07:10",
+      "arrive": "07:25"
+    },
+    {
+      "trainNum": "L603",
+      "type": "Local",
+      "depart": "08:10",
+      "arrive": "08:25"
+    },
+    {
+      "trainNum": "L605",
+      "type": "Local",
+      "depart": "09:10",
+      "arrive": "09:25"
+    },
+    {
+      "trainNum": "L607",
+      "type": "Local",
+      "depart": "10:10",
+      "arrive": "10:25"
+    },
+    {
+      "trainNum": "L609",
+      "type": "Local",
+      "depart": "11:10",
+      "arrive": "11:25"
+    },
+    {
+      "trainNum": "L611",
+      "type": "Local",
+      "depart": "12:10",
+      "arrive": "12:25"
+    },
+    {
+      "trainNum": "L613",
+      "type": "Local",
+      "depart": "13:10",
+      "arrive": "13:25"
+    },
+    {
+      "trainNum": "L615",
+      "type": "Local",
+      "depart": "14:10",
+      "arrive": "14:25"
+    },
+    {
+      "trainNum": "L617",
+      "type": "Local",
+      "depart": "15:10",
+      "arrive": "15:25"
+    },
+    {
+      "trainNum": "L619",
+      "type": "Local",
+      "depart": "16:10",
+      "arrive": "16:25"
+    },
+    {
+      "trainNum": "L621",
+      "type": "Local",
+      "depart": "17:10",
+      "arrive": "17:25"
+    },
+    {
+      "trainNum": "L623",
+      "type": "Local",
+      "depart": "18:10",
+      "arrive": "18:25"
+    }
+  ],
+  "osong_to_cheonan": [
+    {
+      "trainNum": "L602",
+      "type": "Local",
+      "depart": "07:20",
+      "arrive": "07:35"
+    },
+    {
+      "trainNum": "L604",
+      "type": "Local",
+      "depart": "08:20",
+      "arrive": "08:35"
+    },
+    {
+      "trainNum": "L606",
+      "type": "Local",
+      "depart": "09:20",
+      "arrive": "09:35"
+    },
+    {
+      "trainNum": "L608",
+      "type": "Local",
+      "depart": "10:20",
+      "arrive": "10:35"
+    },
+    {
+      "trainNum": "L610",
+      "type": "Local",
+      "depart": "11:20",
+      "arrive": "11:35"
+    },
+    {
+      "trainNum": "L612",
+      "type": "Local",
+      "depart": "12:20",
+      "arrive": "12:35"
+    },
+    {
+      "trainNum": "L614",
+      "type": "Local",
+      "depart": "13:20",
+      "arrive": "13:35"
+    },
+    {
+      "trainNum": "L616",
+      "type": "Local",
+      "depart": "14:20",
+      "arrive": "14:35"
+    },
+    {
+      "trainNum": "L618",
+      "type": "Local",
+      "depart": "15:20",
+      "arrive": "15:35"
+    },
+    {
+      "trainNum": "L620",
+      "type": "Local",
+      "depart": "16:20",
+      "arrive": "16:35"
+    },
+    {
+      "trainNum": "L622",
+      "type": "Local",
+      "depart": "17:20",
+      "arrive": "17:35"
+    },
+    {
+      "trainNum": "L624",
+      "type": "Local",
+      "depart": "18:20",
+      "arrive": "18:35"
+    }
+  ],
+  "cheonan_asan_to_osong": [
+    {
+      "trainNum": 473,
+      "type": "KTX",
+      "depart": "07:33",
+      "arrive": "07:46"
+    },
+    {
+      "trainNum": 9,
+      "type": "KTX",
+      "depart": "07:39",
+      "arrive": "07:52"
+    },
+    {
+      "trainNum": 503,
+      "type": "KTX",
+      "depart": "07:50",
+      "arrive": "08:02"
+    },
+    {
+      "trainNum": 409,
+      "type": "KTX",
+      "depart": "08:55",
+      "arrive": "09:07"
+    },
+    {
+      "trainNum": 101,
+      "type": "KTX",
+      "depart": "10:14",
+      "arrive": "10:27"
+    },
+    {
+      "trainNum": 507,
+      "type": "KTX-산천",
+      "depart": "10:33",
+      "arrive": "10:46"
+    },
+    {
+      "trainNum": 23,
+      "type": "KTX",
+      "depart": "11:09",
+      "arrive": "11:22"
+    },
+    {
+      "trainNum": 413,
+      "type": "KTX",
+      "depart": "11:15",
+      "arrive": "11:27"
+    },
+    {
+      "trainNum": 4021,
+      "type": "KTX-산천",
+      "depart": "11:24",
+      "arrive": "11:37"
+    },
+    {
+      "trainNum": 239,
+      "type": "KTX-산천",
+      "depart": "11:24",
+      "arrive": "11:37"
+    },
+    {
+      "trainNum": 509,
+      "type": "KTX",
+      "depart": "11:33",
+      "arrive": "11:45"
+    },
+    {
+      "trainNum": 31,
+      "type": "KTX-산천",
+      "depart": "13:39",
+      "arrive": "13:52"
+    },
+    {
+      "trainNum": 243,
+      "type": "KTX-산천",
+      "depart": "13:39",
+      "arrive": "13:52"
+    },
+    {
+      "trainNum": 33,
+      "type": "KTX",
+      "depart": "14:00",
+      "arrive": "14:12"
+    },
+    {
+      "trainNum": 35,
+      "type": "KTX",
+      "depart": "14:35",
+      "arrive": "14:48"
+    },
+    {
+      "trainNum": 421,
+      "type": "KTX",
+      "depart": "15:28",
+      "arrive": "15:40"
+    },
+    {
+      "trainNum": 41,
+      "type": "KTX",
+      "depart": "15:39",
+      "arrive": "15:52"
+    }
+  ],
+  "osong_to_cheonan_asan": [
+    {
+      "trainNum": 6,
+      "type": "KTX",
+      "depart": "07:27",
+      "arrive": "07:40"
+    },
+    {
+      "trainNum": 120,
+      "type": "KTX",
+      "depart": "07:46",
+      "arrive": "07:59"
+    },
+    {
+      "trainNum": 8,
+      "type": "KTX",
+      "depart": "08:08",
+      "arrive": "08:21"
+    },
+    {
+      "trainNum": 84,
+      "type": "KTX",
+      "depart": "08:23",
+      "arrive": "08:36"
+    },
+    {
+      "trainNum": 472,
+      "type": "KTX",
+      "depart": "08:30",
+      "arrive": "08:43"
+    },
+    {
+      "trainNum": 102,
+      "type": "KTX",
+      "depart": "08:39",
+      "arrive": "08:52"
+    },
+    {
+      "trainNum": 86,
+      "type": "KTX",
+      "depart": "09:42",
+      "arrive": "09:55"
+    },
+    {
+      "trainNum": 408,
+      "type": "KTX-산천",
+      "depart": "10:03",
+      "arrive": "10:17"
+    },
+    {
+      "trainNum": 542,
+      "type": "KTX-산천",
+      "depart": "10:03",
+      "arrive": "10:17"
+    },
+    {
+      "trainNum": 20,
+      "type": "KTX",
+      "depart": "10:53",
+      "arrive": "11:06"
+    },
+    {
+      "trainNum": 238,
+      "type": "KTX",
+      "depart": "11:51",
+      "arrive": "12:04"
+    },
+    {
+      "trainNum": 4128,
+      "type": "KTX-산천",
+      "depart": "12:36",
+      "arrive": "12:49"
+    },
+    {
+      "trainNum": 416,
+      "type": "KTX",
+      "depart": "12:43",
+      "arrive": "12:57"
+    },
+    {
+      "trainNum": 30,
+      "type": "KTX",
+      "depart": "13:55",
+      "arrive": "14:08"
+    },
+    {
+      "trainNum": 510,
+      "type": "KTX",
+      "depart": "14:12",
+      "arrive": "14:26"
+    },
+    {
+      "trainNum": 34,
+      "type": "KTX",
+      "depart": "14:57",
+      "arrive": "15:10"
+    },
+    {
+      "trainNum": 582,
+      "type": "KTX",
+      "depart": "15:02",
+      "arrive": "15:15"
+    },
+    {
+      "trainNum": 512,
+      "type": "KTX",
+      "depart": "15:05",
+      "arrive": "15:19"
+    },
+    {
+      "trainNum": 90,
+      "type": "KTX",
+      "depart": "15:10",
+      "arrive": "15:23"
+    },
+    {
+      "trainNum": 106,
+      "type": "KTX-산천",
+      "depart": "15:45",
+      "arrive": "15:58"
+    },
+    {
+      "trainNum": 244,
+      "type": "KTX-산천",
+      "depart": "15:45",
+      "arrive": "15:58"
+    },
+    {
+      "trainNum": 36,
+      "type": "KTX",
+      "depart": "15:54",
+      "arrive": "16:07"
+    },
+    {
+      "trainNum": 108,
+      "type": "KTX",
+      "depart": "17:49",
+      "arrive": "18:02"
+    },
+    {
+      "trainNum": 50,
+      "type": "KTX",
+      "depart": "18:48",
+      "arrive": "19:01"
+    }
+  ],
+  "osong_to_chungju": [
+    {
+      "trainNum": "L1201",
+      "type": "Local",
+      "depart": "07:20",
+      "arrive": "08:00"
+    },
+    {
+      "trainNum": "L1203",
+      "type": "Local",
+      "depart": "09:20",
+      "arrive": "10:00"
+    },
+    {
+      "trainNum": "L1205",
+      "type": "Local",
+      "depart": "11:20",
+      "arrive": "12:00"
+    },
+    {
+      "trainNum": "L1207",
+      "type": "Local",
+      "depart": "13:20",
+      "arrive": "14:00"
+    },
+    {
+      "trainNum": "L1209",
+      "type": "Local",
+      "depart": "15:20",
+      "arrive": "16:00"
+    },
+    {
+      "trainNum": "L1211",
+      "type": "Local",
+      "depart": "17:20",
+      "arrive": "18:00"
+    }
+  ],
+  "chungju_to_osong": [
+    {
+      "trainNum": "L1202",
+      "type": "Local",
+      "depart": "07:05",
+      "arrive": "07:45"
+    },
+    {
+      "trainNum": "L1204",
+      "type": "Local",
+      "depart": "09:05",
+      "arrive": "09:45"
+    },
+    {
+      "trainNum": "L1206",
+      "type": "Local",
+      "depart": "11:05",
+      "arrive": "11:45"
+    },
+    {
+      "trainNum": "L1208",
+      "type": "Local",
+      "depart": "13:05",
+      "arrive": "13:45"
+    },
+    {
+      "trainNum": "L1210",
+      "type": "Local",
+      "depart": "15:05",
+      "arrive": "15:45"
+    },
+    {
+      "trainNum": "L1212",
+      "type": "Local",
+      "depart": "17:05",
+      "arrive": "17:45"
+    }
+  ],
+  "osong_to_jochiwon": [
+    {
+      "trainNum": "L701",
+      "type": "Local",
+      "depart": "07:15",
+      "arrive": "07:35"
+    },
+    {
+      "trainNum": "L703",
+      "type": "Local",
+      "depart": "08:45",
+      "arrive": "09:05"
+    },
+    {
+      "trainNum": "L705",
+      "type": "Local",
+      "depart": "10:15",
+      "arrive": "10:35"
+    },
+    {
+      "trainNum": "L707",
+      "type": "Local",
+      "depart": "11:45",
+      "arrive": "12:05"
+    },
+    {
+      "trainNum": "L709",
+      "type": "Local",
+      "depart": "13:15",
+      "arrive": "13:35"
+    },
+    {
+      "trainNum": "L711",
+      "type": "Local",
+      "depart": "14:45",
+      "arrive": "15:05"
+    },
+    {
+      "trainNum": "L713",
+      "type": "Local",
+      "depart": "16:15",
+      "arrive": "16:35"
+    },
+    {
+      "trainNum": "L715",
+      "type": "Local",
+      "depart": "17:45",
+      "arrive": "18:05"
+    }
+  ],
+  "jochiwon_to_osong": [
+    {
+      "trainNum": "L702",
+      "type": "Local",
+      "depart": "07:50",
+      "arrive": "08:10"
+    },
+    {
+      "trainNum": "L704",
+      "type": "Local",
+      "depart": "09:20",
+      "arrive": "09:40"
+    },
+    {
+      "trainNum": "L706",
+      "type": "Local",
+      "depart": "10:50",
+      "arrive": "11:10"
+    },
+    {
+      "trainNum": "L708",
+      "type": "Local",
+      "depart": "12:20",
+      "arrive": "12:40"
+    },
+    {
+      "trainNum": "L710",
+      "type": "Local",
+      "depart": "13:50",
+      "arrive": "14:10"
+    },
+    {
+      "trainNum": "L712",
+      "type": "Local",
+      "depart": "15:20",
+      "arrive": "15:40"
+    },
+    {
+      "trainNum": "L714",
+      "type": "Local",
+      "depart": "16:50",
+      "arrive": "17:10"
+    },
+    {
+      "trainNum": "L716",
+      "type": "Local",
+      "depart": "18:20",
+      "arrive": "18:40"
+    }
+  ],
+  "chungju_to_jecheon": [
+    {
+      "trainNum": "L2801",
+      "type": "Local",
+      "depart": "07:20",
+      "arrive": "08:00"
+    },
+    {
+      "trainNum": "L2803",
+      "type": "Local",
+      "depart": "09:20",
+      "arrive": "10:00"
+    },
+    {
+      "trainNum": "L2805",
+      "type": "Local",
+      "depart": "11:20",
+      "arrive": "12:00"
+    },
+    {
+      "trainNum": "L2807",
+      "type": "Local",
+      "depart": "13:20",
+      "arrive": "14:00"
+    },
+    {
+      "trainNum": "L2809",
+      "type": "Local",
+      "depart": "15:20",
+      "arrive": "16:00"
+    },
+    {
+      "trainNum": "L2811",
+      "type": "Local",
+      "depart": "17:20",
+      "arrive": "18:00"
+    }
+  ],
+  "jecheon_to_chungju": [
+    {
+      "trainNum": "L2802",
+      "type": "Local",
+      "depart": "07:05",
+      "arrive": "07:45"
+    },
+    {
+      "trainNum": "L2804",
+      "type": "Local",
+      "depart": "09:05",
+      "arrive": "09:45"
+    },
+    {
+      "trainNum": "L2806",
+      "type": "Local",
+      "depart": "11:05",
+      "arrive": "11:45"
+    },
+    {
+      "trainNum": "L2808",
+      "type": "Local",
+      "depart": "13:05",
+      "arrive": "13:45"
+    },
+    {
+      "trainNum": "L2810",
+      "type": "Local",
+      "depart": "15:05",
+      "arrive": "15:45"
+    },
+    {
+      "trainNum": "L2812",
+      "type": "Local",
+      "depart": "17:05",
+      "arrive": "17:45"
+    }
+  ],
+  "bongyang_to_seowonju": [
+    {
+      "trainNum": "L201",
+      "type": "Local",
+      "depart": "07:05",
+      "arrive": "07:25"
+    },
+    {
+      "trainNum": "L203",
+      "type": "Local",
+      "depart": "08:05",
+      "arrive": "08:25"
+    },
+    {
+      "trainNum": "L205",
+      "type": "Local",
+      "depart": "09:05",
+      "arrive": "09:25"
+    },
+    {
+      "trainNum": "L207",
+      "type": "Local",
+      "depart": "10:05",
+      "arrive": "10:25"
+    },
+    {
+      "trainNum": "L209",
+      "type": "Local",
+      "depart": "11:05",
+      "arrive": "11:25"
+    },
+    {
+      "trainNum": "L211",
+      "type": "Local",
+      "depart": "12:05",
+      "arrive": "12:25"
+    },
+    {
+      "trainNum": "L213",
+      "type": "Local",
+      "depart": "13:05",
+      "arrive": "13:25"
+    },
+    {
+      "trainNum": "L215",
+      "type": "Local",
+      "depart": "14:05",
+      "arrive": "14:25"
+    },
+    {
+      "trainNum": "L217",
+      "type": "Local",
+      "depart": "15:05",
+      "arrive": "15:25"
+    },
+    {
+      "trainNum": "L219",
+      "type": "Local",
+      "depart": "16:05",
+      "arrive": "16:25"
+    },
+    {
+      "trainNum": "L221",
+      "type": "Local",
+      "depart": "17:05",
+      "arrive": "17:25"
+    },
+    {
+      "trainNum": "L223",
+      "type": "Local",
+      "depart": "18:05",
+      "arrive": "18:25"
+    }
+  ],
+  "seowonju_to_bongyang": [
+    {
+      "trainNum": "L202",
+      "type": "Local",
+      "depart": "07:30",
+      "arrive": "07:50"
+    },
+    {
+      "trainNum": "L204",
+      "type": "Local",
+      "depart": "08:30",
+      "arrive": "08:50"
+    },
+    {
+      "trainNum": "L206",
+      "type": "Local",
+      "depart": "09:30",
+      "arrive": "09:50"
+    },
+    {
+      "trainNum": "L208",
+      "type": "Local",
+      "depart": "10:30",
+      "arrive": "10:50"
+    },
+    {
+      "trainNum": "L210",
+      "type": "Local",
+      "depart": "11:30",
+      "arrive": "11:50"
+    },
+    {
+      "trainNum": "L212",
+      "type": "Local",
+      "depart": "12:30",
+      "arrive": "12:50"
+    },
+    {
+      "trainNum": "L214",
+      "type": "Local",
+      "depart": "13:30",
+      "arrive": "13:50"
+    },
+    {
+      "trainNum": "L216",
+      "type": "Local",
+      "depart": "14:30",
+      "arrive": "14:50"
+    },
+    {
+      "trainNum": "L218",
+      "type": "Local",
+      "depart": "15:30",
+      "arrive": "15:50"
+    },
+    {
+      "trainNum": "L220",
+      "type": "Local",
+      "depart": "16:30",
+      "arrive": "16:50"
+    },
+    {
+      "trainNum": "L222",
+      "type": "Local",
+      "depart": "17:30",
+      "arrive": "17:50"
+    },
+    {
+      "trainNum": "L224",
+      "type": "Local",
+      "depart": "18:30",
+      "arrive": "18:50"
+    }
+  ],
+  "seowonju_to_jecheon": [
+    {
+      "trainNum": 703,
+      "type": "KTX-이음",
+      "depart": "07:18",
+      "arrive": "07:40"
+    },
+    {
+      "trainNum": 705,
+      "type": "KTX-이음",
+      "depart": "10:05",
+      "arrive": "10:30"
+    },
+    {
+      "trainNum": 707,
+      "type": "KTX-이음",
+      "depart": "12:11",
+      "arrive": "12:36"
+    },
+    {
+      "trainNum": 709,
+      "type": "KTX-이음",
+      "depart": "14:03",
+      "arrive": "14:27"
+    },
+    {
+      "trainNum": 711,
+      "type": "KTX-이음",
+      "depart": "15:30",
+      "arrive": "15:56"
+    },
+    {
+      "trainNum": 713,
+      "type": "KTX-이음",
+      "depart": "17:22",
+      "arrive": "17:48"
+    }
+  ],
+  "jecheon_to_seowonju": [
+    {
+      "trainNum": 704,
+      "type": "KTX-이음",
+      "depart": "08:43",
+      "arrive": "09:12"
+    },
+    {
+      "trainNum": 706,
+      "type": "KTX-이음",
+      "depart": "10:44",
+      "arrive": "11:12"
+    },
+    {
+      "trainNum": 708,
+      "type": "KTX-이음",
+      "depart": "12:53",
+      "arrive": "13:23"
+    },
+    {
+      "trainNum": 712,
+      "type": "KTX-이음",
+      "depart": "16:03",
+      "arrive": "16:32"
+    },
+    {
+      "trainNum": 714,
+      "type": "KTX-이음",
+      "depart": "17:31",
+      "arrive": "18:01"
+    },
+    {
+      "trainNum": 716,
+      "type": "KTX-이음",
+      "depart": "18:57",
+      "arrive": "19:27"
+    }
+  ],
+  "seowonju_to_dongbaeksan": [
+    {
+      "trainNum": "L1301",
+      "type": "Local",
+      "depart": "07:30",
+      "arrive": "07:55"
+    },
+    {
+      "trainNum": "L1303",
+      "type": "Local",
+      "depart": "09:30",
+      "arrive": "09:55"
+    },
+    {
+      "trainNum": "L1305",
+      "type": "Local",
+      "depart": "11:30",
+      "arrive": "11:55"
+    },
+    {
+      "trainNum": "L1307",
+      "type": "Local",
+      "depart": "13:30",
+      "arrive": "13:55"
+    },
+    {
+      "trainNum": "L1309",
+      "type": "Local",
+      "depart": "15:30",
+      "arrive": "15:55"
+    },
+    {
+      "trainNum": "L1311",
+      "type": "Local",
+      "depart": "17:30",
+      "arrive": "17:55"
+    }
+  ],
+  "dongbaeksan_to_seowonju": [
+    {
+      "trainNum": "L1302",
+      "type": "Local",
+      "depart": "08:05",
+      "arrive": "08:30"
+    },
+    {
+      "trainNum": "L1304",
+      "type": "Local",
+      "depart": "10:05",
+      "arrive": "10:30"
+    },
+    {
+      "trainNum": "L1306",
+      "type": "Local",
+      "depart": "12:05",
+      "arrive": "12:30"
+    },
+    {
+      "trainNum": "L1308",
+      "type": "Local",
+      "depart": "14:05",
+      "arrive": "14:30"
+    },
+    {
+      "trainNum": "L1310",
+      "type": "Local",
+      "depart": "16:05",
+      "arrive": "16:30"
+    },
+    {
+      "trainNum": "L1312",
+      "type": "Local",
+      "depart": "18:05",
+      "arrive": "18:30"
+    }
+  ],
+  "jecheon_to_yeongju": [
+    {
+      "trainNum": 703,
+      "type": "KTX-이음",
+      "depart": "07:40",
+      "arrive": "08:16"
+    },
+    {
+      "trainNum": 705,
+      "type": "KTX-이음",
+      "depart": "10:30",
+      "arrive": "10:57"
+    },
+    {
+      "trainNum": 707,
+      "type": "KTX-이음",
+      "depart": "12:36",
+      "arrive": "13:11"
+    },
+    {
+      "trainNum": 709,
+      "type": "KTX-이음",
+      "depart": "14:27",
+      "arrive": "14:57"
+    },
+    {
+      "trainNum": 711,
+      "type": "KTX-이음",
+      "depart": "15:56",
+      "arrive": "16:22"
+    },
+    {
+      "trainNum": 713,
+      "type": "KTX-이음",
+      "depart": "17:48",
+      "arrive": "18:22"
+    }
+  ],
+  "yeongju_to_jecheon": [
+    {
+      "trainNum": 704,
+      "type": "KTX-이음",
+      "depart": "08:10",
+      "arrive": "08:43"
+    },
+    {
+      "trainNum": 706,
+      "type": "KTX-이음",
+      "depart": "10:17",
+      "arrive": "10:44"
+    },
+    {
+      "trainNum": 708,
+      "type": "KTX-이음",
+      "depart": "12:17",
+      "arrive": "12:53"
+    },
+    {
+      "trainNum": 710,
+      "type": "KTX-이음",
+      "depart": "14:19",
+      "arrive": "14:55"
+    },
+    {
+      "trainNum": 712,
+      "type": "KTX-이음",
+      "depart": "15:35",
+      "arrive": "16:03"
+    },
+    {
+      "trainNum": 714,
+      "type": "KTX-이음",
+      "depart": "16:59",
+      "arrive": "17:31"
+    },
+    {
+      "trainNum": 716,
+      "type": "KTX-이음",
+      "depart": "18:30",
+      "arrive": "18:57"
+    }
+  ],
+  "jinbu_to_dongbaeksan": [
+    {
+      "trainNum": "L1401",
+      "type": "Local",
+      "depart": "07:15",
+      "arrive": "07:45"
+    },
+    {
+      "trainNum": "L1403",
+      "type": "Local",
+      "depart": "09:15",
+      "arrive": "09:45"
+    },
+    {
+      "trainNum": "L1405",
+      "type": "Local",
+      "depart": "11:15",
+      "arrive": "11:45"
+    },
+    {
+      "trainNum": "L1407",
+      "type": "Local",
+      "depart": "13:15",
+      "arrive": "13:45"
+    },
+    {
+      "trainNum": "L1409",
+      "type": "Local",
+      "depart": "15:15",
+      "arrive": "15:45"
+    },
+    {
+      "trainNum": "L1411",
+      "type": "Local",
+      "depart": "17:15",
+      "arrive": "17:45"
+    }
+  ],
+  "dongbaeksan_to_jinbu": [
+    {
+      "trainNum": "L1402",
+      "type": "Local",
+      "depart": "07:50",
+      "arrive": "08:20"
+    },
+    {
+      "trainNum": "L1404",
+      "type": "Local",
+      "depart": "09:50",
+      "arrive": "10:20"
+    },
+    {
+      "trainNum": "L1406",
+      "type": "Local",
+      "depart": "11:50",
+      "arrive": "12:20"
+    },
+    {
+      "trainNum": "L1408",
+      "type": "Local",
+      "depart": "13:50",
+      "arrive": "14:20"
+    },
+    {
+      "trainNum": "L1410",
+      "type": "Local",
+      "depart": "15:50",
+      "arrive": "16:20"
+    },
+    {
+      "trainNum": "L1412",
+      "type": "Local",
+      "depart": "17:50",
+      "arrive": "18:20"
+    }
+  ],
+  "jinbu_to_jeongdongjin": [
+    {
+      "trainNum": 841,
+      "type": "KTX-이음",
+      "depart": "08:33",
+      "arrive": "09:00"
+    },
+    {
+      "trainNum": 843,
+      "type": "KTX-이음",
+      "depart": "12:41",
+      "arrive": "13:08"
+    },
+    {
+      "trainNum": 845,
+      "type": "KTX-이음",
+      "depart": "16:44",
+      "arrive": "17:11"
+    }
+  ],
+  "jeongdongjin_to_jinbu": [
+    {
+      "trainNum": 840,
+      "type": "KTX-이음",
+      "depart": "07:33",
+      "arrive": "08:03"
+    },
+    {
+      "trainNum": 844,
+      "type": "KTX-이음",
+      "depart": "14:30",
+      "arrive": "15:00"
+    }
+  ],
+  "dongbaeksan_to_donghae": [
+    {
+      "trainNum": "L1501",
+      "type": "Local",
+      "depart": "07:20",
+      "arrive": "07:40"
+    },
+    {
+      "trainNum": "L1503",
+      "type": "Local",
+      "depart": "09:20",
+      "arrive": "09:40"
+    },
+    {
+      "trainNum": "L1505",
+      "type": "Local",
+      "depart": "11:20",
+      "arrive": "11:40"
+    },
+    {
+      "trainNum": "L1507",
+      "type": "Local",
+      "depart": "13:20",
+      "arrive": "13:40"
+    },
+    {
+      "trainNum": "L1509",
+      "type": "Local",
+      "depart": "15:20",
+      "arrive": "15:40"
+    },
+    {
+      "trainNum": "L1511",
+      "type": "Local",
+      "depart": "17:20",
+      "arrive": "17:40"
+    }
+  ],
+  "donghae_to_dongbaeksan": [
+    {
+      "trainNum": "L1502",
+      "type": "Local",
+      "depart": "07:45",
+      "arrive": "08:05"
+    },
+    {
+      "trainNum": "L1504",
+      "type": "Local",
+      "depart": "09:45",
+      "arrive": "10:05"
+    },
+    {
+      "trainNum": "L1506",
+      "type": "Local",
+      "depart": "11:45",
+      "arrive": "12:05"
+    },
+    {
+      "trainNum": "L1508",
+      "type": "Local",
+      "depart": "13:45",
+      "arrive": "14:05"
+    },
+    {
+      "trainNum": "L1510",
+      "type": "Local",
+      "depart": "15:45",
+      "arrive": "16:05"
+    },
+    {
+      "trainNum": "L1512",
+      "type": "Local",
+      "depart": "17:45",
+      "arrive": "18:05"
+    }
+  ],
+  "jeongdongjin_to_donghae": [
+    {
+      "trainNum": 841,
+      "type": "KTX-이음",
+      "depart": "09:00",
+      "arrive": "09:28"
+    },
+    {
+      "trainNum": 752,
+      "type": "KTX-이음",
+      "depart": "09:53",
+      "arrive": "10:23"
+    },
+    {
+      "trainNum": 843,
+      "type": "KTX-이음",
+      "depart": "13:08",
+      "arrive": "13:36"
+    },
+    {
+      "trainNum": 754,
+      "type": "KTX-이음",
+      "depart": "15:12",
+      "arrive": "15:39"
+    },
+    {
+      "trainNum": 845,
+      "type": "KTX-이음",
+      "depart": "17:11",
+      "arrive": "17:43"
+    },
+    {
+      "trainNum": 756,
+      "type": "KTX-이음",
+      "depart": "18:51",
+      "arrive": "19:18"
+    }
+  ],
+  "donghae_to_jeongdongjin": [
+    {
+      "trainNum": 840,
+      "type": "KTX-이음",
+      "depart": "07:05",
+      "arrive": "07:33"
+    },
+    {
+      "trainNum": 842,
+      "type": "KTX-이음",
+      "depart": "10:04",
+      "arrive": "10:32"
+    },
+    {
+      "trainNum": 751,
+      "type": "KTX-이음",
+      "depart": "10:59",
+      "arrive": "11:26"
+    },
+    {
+      "trainNum": 844,
+      "type": "KTX-이음",
+      "depart": "14:02",
+      "arrive": "14:30"
+    },
+    {
+      "trainNum": 753,
+      "type": "KTX-이음",
+      "depart": "17:07",
+      "arrive": "17:36"
+    }
+  ],
+  "jochiwon_to_daejeon": [
+    {
+      "trainNum": "L801",
+      "type": "Local",
+      "depart": "07:10",
+      "arrive": "07:28"
+    },
+    {
+      "trainNum": "L803",
+      "type": "Local",
+      "depart": "08:40",
+      "arrive": "08:58"
+    },
+    {
+      "trainNum": "L805",
+      "type": "Local",
+      "depart": "10:10",
+      "arrive": "10:28"
+    },
+    {
+      "trainNum": "L807",
+      "type": "Local",
+      "depart": "11:40",
+      "arrive": "11:58"
+    },
+    {
+      "trainNum": "L809",
+      "type": "Local",
+      "depart": "13:10",
+      "arrive": "13:28"
+    },
+    {
+      "trainNum": "L811",
+      "type": "Local",
+      "depart": "14:40",
+      "arrive": "14:58"
+    },
+    {
+      "trainNum": "L813",
+      "type": "Local",
+      "depart": "16:10",
+      "arrive": "16:28"
+    },
+    {
+      "trainNum": "L815",
+      "type": "Local",
+      "depart": "17:40",
+      "arrive": "17:58"
+    }
+  ],
+  "daejeon_to_jochiwon": [
+    {
+      "trainNum": "L802",
+      "type": "Local",
+      "depart": "07:35",
+      "arrive": "07:53"
+    },
+    {
+      "trainNum": "L804",
+      "type": "Local",
+      "depart": "09:05",
+      "arrive": "09:23"
+    },
+    {
+      "trainNum": "L806",
+      "type": "Local",
+      "depart": "10:35",
+      "arrive": "10:53"
+    },
+    {
+      "trainNum": "L808",
+      "type": "Local",
+      "depart": "12:05",
+      "arrive": "12:23"
+    },
+    {
+      "trainNum": "L810",
+      "type": "Local",
+      "depart": "13:35",
+      "arrive": "13:53"
+    },
+    {
+      "trainNum": "L812",
+      "type": "Local",
+      "depart": "15:05",
+      "arrive": "15:23"
+    },
+    {
+      "trainNum": "L814",
+      "type": "Local",
+      "depart": "16:35",
+      "arrive": "16:53"
+    },
+    {
+      "trainNum": "L816",
+      "type": "Local",
+      "depart": "18:05",
+      "arrive": "18:23"
+    }
+  ],
+  "jochiwon_to_iksan": [
+    {
+      "trainNum": "L901",
+      "type": "Local",
+      "depart": "07:20",
+      "arrive": "07:50"
+    },
+    {
+      "trainNum": "L903",
+      "type": "Local",
+      "depart": "09:20",
+      "arrive": "09:50"
+    },
+    {
+      "trainNum": "L905",
+      "type": "Local",
+      "depart": "11:20",
+      "arrive": "11:50"
+    },
+    {
+      "trainNum": "L907",
+      "type": "Local",
+      "depart": "13:20",
+      "arrive": "13:50"
+    },
+    {
+      "trainNum": "L909",
+      "type": "Local",
+      "depart": "15:20",
+      "arrive": "15:50"
+    },
+    {
+      "trainNum": "L911",
+      "type": "Local",
+      "depart": "17:20",
+      "arrive": "17:50"
+    }
+  ],
+  "iksan_to_jochiwon": [
+    {
+      "trainNum": "L902",
+      "type": "Local",
+      "depart": "07:55",
+      "arrive": "08:25"
+    },
+    {
+      "trainNum": "L904",
+      "type": "Local",
+      "depart": "09:55",
+      "arrive": "10:25"
+    },
+    {
+      "trainNum": "L906",
+      "type": "Local",
+      "depart": "11:55",
+      "arrive": "12:25"
+    },
+    {
+      "trainNum": "L908",
+      "type": "Local",
+      "depart": "13:55",
+      "arrive": "14:25"
+    },
+    {
+      "trainNum": "L910",
+      "type": "Local",
+      "depart": "15:55",
+      "arrive": "16:25"
+    },
+    {
+      "trainNum": "L912",
+      "type": "Local",
+      "depart": "17:55",
+      "arrive": "18:25"
+    }
+  ],
+  "daejeon_to_seodaejeon": [
+    {
+      "trainNum": "L1001",
+      "type": "Local",
+      "depart": "07:05",
+      "arrive": "07:15"
+    },
+    {
+      "trainNum": "L1003",
+      "type": "Local",
+      "depart": "07:45",
+      "arrive": "07:55"
+    },
+    {
+      "trainNum": "L1005",
+      "type": "Local",
+      "depart": "08:45",
+      "arrive": "08:55"
+    },
+    {
+      "trainNum": "L1007",
+      "type": "Local",
+      "depart": "09:45",
+      "arrive": "09:55"
+    },
+    {
+      "trainNum": "L1009",
+      "type": "Local",
+      "depart": "10:45",
+      "arrive": "10:55"
+    },
+    {
+      "trainNum": "L1011",
+      "type": "Local",
+      "depart": "11:45",
+      "arrive": "11:55"
+    },
+    {
+      "trainNum": "L1013",
+      "type": "Local",
+      "depart": "12:45",
+      "arrive": "12:55"
+    },
+    {
+      "trainNum": "L1015",
+      "type": "Local",
+      "depart": "13:45",
+      "arrive": "13:55"
+    },
+    {
+      "trainNum": "L1017",
+      "type": "Local",
+      "depart": "14:45",
+      "arrive": "14:55"
+    },
+    {
+      "trainNum": "L1019",
+      "type": "Local",
+      "depart": "15:45",
+      "arrive": "15:55"
+    },
+    {
+      "trainNum": "L1021",
+      "type": "Local",
+      "depart": "16:45",
+      "arrive": "16:55"
+    },
+    {
+      "trainNum": "L1023",
+      "type": "Local",
+      "depart": "17:45",
+      "arrive": "17:55"
+    },
+    {
+      "trainNum": "L1025",
+      "type": "Local",
+      "depart": "18:40",
+      "arrive": "18:50"
+    }
+  ],
+  "seodaejeon_to_daejeon": [
+    {
+      "trainNum": "L1002",
+      "type": "Local",
+      "depart": "07:10",
+      "arrive": "07:20"
+    },
+    {
+      "trainNum": "L1004",
+      "type": "Local",
+      "depart": "07:50",
+      "arrive": "08:00"
+    },
+    {
+      "trainNum": "L1006",
+      "type": "Local",
+      "depart": "08:50",
+      "arrive": "09:00"
+    },
+    {
+      "trainNum": "L1008",
+      "type": "Local",
+      "depart": "09:50",
+      "arrive": "10:00"
+    },
+    {
+      "trainNum": "L1010",
+      "type": "Local",
+      "depart": "10:50",
+      "arrive": "11:00"
+    },
+    {
+      "trainNum": "L1012",
+      "type": "Local",
+      "depart": "11:50",
+      "arrive": "12:00"
+    },
+    {
+      "trainNum": "L1014",
+      "type": "Local",
+      "depart": "12:50",
+      "arrive": "13:00"
+    },
+    {
+      "trainNum": "L1016",
+      "type": "Local",
+      "depart": "13:50",
+      "arrive": "14:00"
+    },
+    {
+      "trainNum": "L1018",
+      "type": "Local",
+      "depart": "14:50",
+      "arrive": "15:00"
+    },
+    {
+      "trainNum": "L1020",
+      "type": "Local",
+      "depart": "15:50",
+      "arrive": "16:00"
+    },
+    {
+      "trainNum": "L1022",
+      "type": "Local",
+      "depart": "16:50",
+      "arrive": "17:00"
+    },
+    {
+      "trainNum": "L1024",
+      "type": "Local",
+      "depart": "17:50",
+      "arrive": "18:00"
+    },
+    {
+      "trainNum": "L1026",
+      "type": "Local",
+      "depart": "18:45",
+      "arrive": "18:55"
+    }
+  ],
+  "seodaejeon_to_iksan": [
+    {
+      "trainNum": 471,
+      "type": "KTX-산천",
+      "depart": "07:21",
+      "arrive": "08:18"
+    },
+    {
+      "trainNum": 581,
+      "type": "KTX",
+      "depart": "08:44",
+      "arrive": "09:42"
+    },
+    {
+      "trainNum": 475,
+      "type": "KTX-산천",
+      "depart": "10:52",
+      "arrive": "11:52"
+    },
+    {
+      "trainNum": 585,
+      "type": "KTX",
+      "depart": "11:11",
+      "arrive": "12:09"
+    },
+    {
+      "trainNum": 587,
+      "type": "KTX-산천",
+      "depart": "13:19",
+      "arrive": "14:16"
+    },
+    {
+      "trainNum": 481,
+      "type": "KTX",
+      "depart": "18:11",
+      "arrive": "19:10"
+    }
+  ],
+  "iksan_to_seodaejeon": [
+    {
+      "trainNum": 472,
+      "type": "KTX",
+      "depart": "07:12",
+      "arrive": "08:11"
+    },
+    {
+      "trainNum": 476,
+      "type": "KTX-산천",
+      "depart": "09:05",
+      "arrive": "10:04"
+    },
+    {
+      "trainNum": 586,
+      "type": "KTX",
+      "depart": "13:10",
+      "arrive": "14:09"
+    },
+    {
+      "trainNum": 582,
+      "type": "KTX",
+      "depart": "13:44",
+      "arrive": "14:43"
+    },
+    {
+      "trainNum": 588,
+      "type": "KTX-산천",
+      "depart": "15:14",
+      "arrive": "16:14"
+    }
+  ],
+  "iksan_to_hongseong": [
+    {
+      "trainNum": "L1101",
+      "type": "Local",
+      "depart": "07:10",
+      "arrive": "07:45"
+    },
+    {
+      "trainNum": "L1103",
+      "type": "Local",
+      "depart": "09:10",
+      "arrive": "09:45"
+    },
+    {
+      "trainNum": "L1105",
+      "type": "Local",
+      "depart": "11:10",
+      "arrive": "11:45"
+    },
+    {
+      "trainNum": "L1107",
+      "type": "Local",
+      "depart": "13:10",
+      "arrive": "13:45"
+    },
+    {
+      "trainNum": "L1109",
+      "type": "Local",
+      "depart": "15:10",
+      "arrive": "15:45"
+    },
+    {
+      "trainNum": "L1111",
+      "type": "Local",
+      "depart": "17:10",
+      "arrive": "17:45"
+    }
+  ],
+  "hongseong_to_iksan": [
+    {
+      "trainNum": "L1102",
+      "type": "Local",
+      "depart": "07:50",
+      "arrive": "08:25"
+    },
+    {
+      "trainNum": "L1104",
+      "type": "Local",
+      "depart": "09:50",
+      "arrive": "10:25"
+    },
+    {
+      "trainNum": "L1106",
+      "type": "Local",
+      "depart": "11:50",
+      "arrive": "12:25"
+    },
+    {
+      "trainNum": "L1108",
+      "type": "Local",
+      "depart": "13:50",
+      "arrive": "14:25"
+    },
+    {
+      "trainNum": "L1110",
+      "type": "Local",
+      "depart": "15:50",
+      "arrive": "16:25"
+    },
+    {
+      "trainNum": "L1112",
+      "type": "Local",
+      "depart": "17:50",
+      "arrive": "18:25"
+    }
+  ],
+  "iksan_to_jeongeup": [
+    {
+      "trainNum": 403,
+      "type": "KTX-산천",
+      "depart": "07:11",
+      "arrive": "07:28"
+    },
+    {
+      "trainNum": 405,
+      "type": "KTX",
+      "depart": "07:53",
+      "arrive": "08:10"
+    },
+    {
+      "trainNum": 407,
+      "type": "KTX-산천",
+      "depart": "09:07",
+      "arrive": "09:24"
+    },
+    {
+      "trainNum": 409,
+      "type": "KTX",
+      "depart": "09:38",
+      "arrive": "09:55"
+    },
+    {
+      "trainNum": 475,
+      "type": "KTX-산천",
+      "depart": "11:52",
+      "arrive": "12:20"
+    },
+    {
+      "trainNum": 413,
+      "type": "KTX",
+      "depart": "11:58",
+      "arrive": "12:15"
+    },
+    {
+      "trainNum": 417,
+      "type": "KTX-산천",
+      "depart": "14:04",
+      "arrive": "14:21"
+    },
+    {
+      "trainNum": 419,
+      "type": "KTX-산천",
+      "depart": "14:48",
+      "arrive": "15:05"
+    },
+    {
+      "trainNum": 421,
+      "type": "KTX",
+      "depart": "16:11",
+      "arrive": "16:28"
+    },
+    {
+      "trainNum": 423,
+      "type": "KTX",
+      "depart": "16:57",
+      "arrive": "17:15"
+    },
+    {
+      "trainNum": 427,
+      "type": "KTX-산천",
+      "depart": "18:07",
+      "arrive": "18:25"
+    }
+  ],
+  "jeongeup_to_iksan": [
+    {
+      "trainNum": 406,
+      "type": "KTX",
+      "depart": "08:00",
+      "arrive": "08:18"
+    },
+    {
+      "trainNum": 408,
+      "type": "KTX-산천",
+      "depart": "09:07",
+      "arrive": "09:32"
+    },
+    {
+      "trainNum": 412,
+      "type": "KTX",
+      "depart": "10:45",
+      "arrive": "11:04"
+    },
+    {
+      "trainNum": 416,
+      "type": "KTX",
+      "depart": "11:53",
+      "arrive": "12:12"
+    },
+    {
+      "trainNum": 418,
+      "type": "KTX",
+      "depart": "13:41",
+      "arrive": "13:59"
+    },
+    {
+      "trainNum": 420,
+      "type": "KTX",
+      "depart": "14:41",
+      "arrive": "15:00"
+    },
+    {
+      "trainNum": 422,
+      "type": "KTX-산천",
+      "depart": "15:16",
+      "arrive": "15:41"
+    },
+    {
+      "trainNum": 424,
+      "type": "KTX-산천",
+      "depart": "16:47",
+      "arrive": "17:11"
+    },
+    {
+      "trainNum": 426,
+      "type": "KTX-산천",
+      "depart": "17:51",
+      "arrive": "18:16"
+    },
+    {
+      "trainNum": 430,
+      "type": "KTX",
+      "depart": "19:00",
+      "arrive": "19:19"
+    }
+  ],
+  "jeongeup_to_gwangju_songjeong": [
+    {
+      "trainNum": 403,
+      "type": "KTX-산천",
+      "depart": "07:28",
+      "arrive": "07:48"
+    },
+    {
+      "trainNum": 405,
+      "type": "KTX",
+      "depart": "08:10",
+      "arrive": "08:30"
+    },
+    {
+      "trainNum": 407,
+      "type": "KTX-산천",
+      "depart": "09:24",
+      "arrive": "09:44"
+    },
+    {
+      "trainNum": 409,
+      "type": "KTX",
+      "depart": "09:55",
+      "arrive": "10:15"
+    },
+    {
+      "trainNum": 413,
+      "type": "KTX",
+      "depart": "12:15",
+      "arrive": "12:35"
+    },
+    {
+      "trainNum": 475,
+      "type": "KTX-산천",
+      "depart": "12:20",
+      "arrive": "12:52"
+    },
+    {
+      "trainNum": 417,
+      "type": "KTX-산천",
+      "depart": "14:21",
+      "arrive": "14:41"
+    },
+    {
+      "trainNum": 419,
+      "type": "KTX-산천",
+      "depart": "15:05",
+      "arrive": "15:25"
+    },
+    {
+      "trainNum": 421,
+      "type": "KTX",
+      "depart": "16:28",
+      "arrive": "16:48"
+    },
+    {
+      "trainNum": 423,
+      "type": "KTX",
+      "depart": "17:15",
+      "arrive": "17:35"
+    },
+    {
+      "trainNum": 427,
+      "type": "KTX-산천",
+      "depart": "18:25",
+      "arrive": "18:45"
+    }
+  ],
+  "gwangju_songjeong_to_jeongeup": [
+    {
+      "trainNum": 406,
+      "type": "KTX",
+      "depart": "07:41",
+      "arrive": "08:00"
+    },
+    {
+      "trainNum": 408,
+      "type": "KTX-산천",
+      "depart": "08:48",
+      "arrive": "09:07"
+    },
+    {
+      "trainNum": 412,
+      "type": "KTX",
+      "depart": "10:26",
+      "arrive": "10:45"
+    },
+    {
+      "trainNum": 416,
+      "type": "KTX",
+      "depart": "11:34",
+      "arrive": "11:53"
+    },
+    {
+      "trainNum": 418,
+      "type": "KTX",
+      "depart": "13:22",
+      "arrive": "13:41"
+    },
+    {
+      "trainNum": 420,
+      "type": "KTX",
+      "depart": "14:21",
+      "arrive": "14:41"
+    },
+    {
+      "trainNum": 422,
+      "type": "KTX-산천",
+      "depart": "14:57",
+      "arrive": "15:16"
+    },
+    {
+      "trainNum": 424,
+      "type": "KTX-산천",
+      "depart": "16:28",
+      "arrive": "16:47"
+    },
+    {
+      "trainNum": 426,
+      "type": "KTX-산천",
+      "depart": "17:32",
+      "arrive": "17:51"
+    },
+    {
+      "trainNum": 430,
+      "type": "KTX",
+      "depart": "18:41",
+      "arrive": "19:00"
+    }
+  ],
+  "gwangju_songjeong_to_suncheon": [
+    {
+      "trainNum": "L2901",
+      "type": "Local",
+      "depart": "07:10",
+      "arrive": "08:00"
+    },
+    {
+      "trainNum": "L2903",
+      "type": "Local",
+      "depart": "09:10",
+      "arrive": "10:00"
+    },
+    {
+      "trainNum": "L2905",
+      "type": "Local",
+      "depart": "11:10",
+      "arrive": "12:00"
+    },
+    {
+      "trainNum": "L2907",
+      "type": "Local",
+      "depart": "13:10",
+      "arrive": "14:00"
+    },
+    {
+      "trainNum": "L2909",
+      "type": "Local",
+      "depart": "15:10",
+      "arrive": "16:00"
+    },
+    {
+      "trainNum": "L2911",
+      "type": "Local",
+      "depart": "17:10",
+      "arrive": "18:00"
+    }
+  ],
+  "suncheon_to_gwangju_songjeong": [
+    {
+      "trainNum": "L2902",
+      "type": "Local",
+      "depart": "07:15",
+      "arrive": "08:05"
+    },
+    {
+      "trainNum": "L2904",
+      "type": "Local",
+      "depart": "09:15",
+      "arrive": "10:05"
+    },
+    {
+      "trainNum": "L2906",
+      "type": "Local",
+      "depart": "11:15",
+      "arrive": "12:05"
+    },
+    {
+      "trainNum": "L2908",
+      "type": "Local",
+      "depart": "13:15",
+      "arrive": "14:05"
+    },
+    {
+      "trainNum": "L2910",
+      "type": "Local",
+      "depart": "15:15",
+      "arrive": "16:05"
+    },
+    {
+      "trainNum": "L2912",
+      "type": "Local",
+      "depart": "17:15",
+      "arrive": "18:05"
+    }
+  ],
+  "suncheon_to_samnangjin": [
+    {
+      "trainNum": "L2001",
+      "type": "Local",
+      "depart": "07:10",
+      "arrive": "08:05"
+    },
+    {
+      "trainNum": "L2003",
+      "type": "Local",
+      "depart": "09:10",
+      "arrive": "10:05"
+    },
+    {
+      "trainNum": "L2005",
+      "type": "Local",
+      "depart": "11:10",
+      "arrive": "12:05"
+    },
+    {
+      "trainNum": "L2007",
+      "type": "Local",
+      "depart": "13:10",
+      "arrive": "14:05"
+    },
+    {
+      "trainNum": "L2009",
+      "type": "Local",
+      "depart": "15:10",
+      "arrive": "16:05"
+    },
+    {
+      "trainNum": "L2011",
+      "type": "Local",
+      "depart": "17:10",
+      "arrive": "18:05"
+    }
+  ],
+  "samnangjin_to_suncheon": [
+    {
+      "trainNum": "L2002",
+      "type": "Local",
+      "depart": "07:15",
+      "arrive": "08:10"
+    },
+    {
+      "trainNum": "L2004",
+      "type": "Local",
+      "depart": "09:15",
+      "arrive": "10:10"
+    },
+    {
+      "trainNum": "L2006",
+      "type": "Local",
+      "depart": "11:15",
+      "arrive": "12:10"
+    },
+    {
+      "trainNum": "L2008",
+      "type": "Local",
+      "depart": "13:15",
+      "arrive": "14:10"
+    },
+    {
+      "trainNum": "L2010",
+      "type": "Local",
+      "depart": "15:15",
+      "arrive": "16:10"
+    },
+    {
+      "trainNum": "L2012",
+      "type": "Local",
+      "depart": "17:15",
+      "arrive": "18:10"
+    }
+  ],
+  "yeongju_to_gimcheon": [
+    {
+      "trainNum": "L1601",
+      "type": "Local",
+      "depart": "07:10",
+      "arrive": "07:45"
+    },
+    {
+      "trainNum": "L1603",
+      "type": "Local",
+      "depart": "09:10",
+      "arrive": "09:45"
+    },
+    {
+      "trainNum": "L1605",
+      "type": "Local",
+      "depart": "11:10",
+      "arrive": "11:45"
+    },
+    {
+      "trainNum": "L1607",
+      "type": "Local",
+      "depart": "13:10",
+      "arrive": "13:45"
+    },
+    {
+      "trainNum": "L1609",
+      "type": "Local",
+      "depart": "15:10",
+      "arrive": "15:45"
+    },
+    {
+      "trainNum": "L1611",
+      "type": "Local",
+      "depart": "17:10",
+      "arrive": "17:45"
+    }
+  ],
+  "gimcheon_to_yeongju": [
+    {
+      "trainNum": "L1602",
+      "type": "Local",
+      "depart": "07:50",
+      "arrive": "08:25"
+    },
+    {
+      "trainNum": "L1604",
+      "type": "Local",
+      "depart": "09:50",
+      "arrive": "10:25"
+    },
+    {
+      "trainNum": "L1606",
+      "type": "Local",
+      "depart": "11:50",
+      "arrive": "12:25"
+    },
+    {
+      "trainNum": "L1608",
+      "type": "Local",
+      "depart": "13:50",
+      "arrive": "14:25"
+    },
+    {
+      "trainNum": "L1610",
+      "type": "Local",
+      "depart": "15:50",
+      "arrive": "16:25"
+    },
+    {
+      "trainNum": "L1612",
+      "type": "Local",
+      "depart": "17:50",
+      "arrive": "18:25"
+    }
+  ],
+  "yeongju_to_yeongcheon": [
+    {
+      "trainNum": 707,
+      "type": "KTX-이음",
+      "depart": "13:11",
+      "arrive": "13:57"
+    },
+    {
+      "trainNum": 711,
+      "type": "KTX-이음",
+      "depart": "16:22",
+      "arrive": "17:08"
+    }
+  ],
+  "yeongcheon_to_yeongju": [
+    {
+      "trainNum": 704,
+      "type": "KTX-이음",
+      "depart": "07:22",
+      "arrive": "08:10"
+    },
+    {
+      "trainNum": 708,
+      "type": "KTX-이음",
+      "depart": "11:30",
+      "arrive": "12:17"
+    },
+    {
+      "trainNum": 714,
+      "type": "KTX-이음",
+      "depart": "16:12",
+      "arrive": "16:59"
+    }
+  ],
+  "gimcheon_to_dongdaegu": [
+    {
+      "trainNum": 75,
+      "type": "KTX-산천",
+      "depart": "07:38",
+      "arrive": "08:03"
+    },
+    {
+      "trainNum": 7,
+      "type": "KTX",
+      "depart": "08:04",
+      "arrive": "08:29"
+    },
+    {
+      "trainNum": 11,
+      "type": "KTX",
+      "depart": "08:57",
+      "arrive": "09:22"
+    },
+    {
+      "trainNum": 15,
+      "type": "KTX",
+      "depart": "09:29",
+      "arrive": "09:54"
+    },
+    {
+      "trainNum": 207,
+      "type": "KTX",
+      "depart": "10:35",
+      "arrive": "11:01"
+    },
+    {
+      "trainNum": 21,
+      "type": "KTX",
+      "depart": "11:29",
+      "arrive": "11:54"
+    },
+    {
+      "trainNum": 209,
+      "type": "KTX",
+      "depart": "11:38",
+      "arrive": "12:03"
+    },
+    {
+      "trainNum": 23,
+      "type": "KTX",
+      "depart": "12:03",
+      "arrive": "12:28"
+    },
+    {
+      "trainNum": 29,
+      "type": "KTX",
+      "depart": "13:56",
+      "arrive": "14:21"
+    },
+    {
+      "trainNum": 103,
+      "type": "KTX",
+      "depart": "14:39",
+      "arrive": "15:12"
+    },
+    {
+      "trainNum": 245,
+      "type": "KTX",
+      "depart": "16:04",
+      "arrive": "16:29"
+    },
+    {
+      "trainNum": 45,
+      "type": "KTX",
+      "depart": "17:21",
+      "arrive": "17:54"
+    },
+    {
+      "trainNum": 49,
+      "type": "KTX",
+      "depart": "18:30",
+      "arrive": "18:55"
+    },
+    {
+      "trainNum": 51,
+      "type": "KTX",
+      "depart": "18:54",
+      "arrive": "19:19"
+    }
+  ],
+  "dongdaegu_to_gimcheon": [
+    {
+      "trainNum": 8,
+      "type": "KTX",
+      "depart": "07:02",
+      "arrive": "07:25"
+    },
+    {
+      "trainNum": 102,
+      "type": "KTX",
+      "depart": "07:33",
+      "arrive": "07:56"
+    },
+    {
+      "trainNum": 10,
+      "type": "KTX",
+      "depart": "07:46",
+      "arrive": "08:09"
+    },
+    {
+      "trainNum": 204,
+      "type": "KTX-산천",
+      "depart": "07:56",
+      "arrive": "08:19"
+    },
+    {
+      "trainNum": 234,
+      "type": "KTX-산천",
+      "depart": "07:56",
+      "arrive": "08:19"
+    },
+    {
+      "trainNum": 86,
+      "type": "KTX",
+      "depart": "08:36",
+      "arrive": "08:59"
+    },
+    {
+      "trainNum": 14,
+      "type": "KTX",
+      "depart": "08:58",
+      "arrive": "09:21"
+    },
+    {
+      "trainNum": 18,
+      "type": "KTX",
+      "depart": "09:38",
+      "arrive": "10:01"
+    },
+    {
+      "trainNum": 88,
+      "type": "KTX",
+      "depart": "10:25",
+      "arrive": "10:48"
+    },
+    {
+      "trainNum": 188,
+      "type": "KTX-산천",
+      "depart": "10:25",
+      "arrive": "10:48"
+    },
+    {
+      "trainNum": 172,
+      "type": "KTX",
+      "depart": "11:05",
+      "arrive": "11:28"
+    },
+    {
+      "trainNum": 326,
+      "type": "KTX",
+      "depart": "11:26",
+      "arrive": "11:49"
+    },
+    {
+      "trainNum": 30,
+      "type": "KTX",
+      "depart": "12:48",
+      "arrive": "13:11"
+    },
+    {
+      "trainNum": 36,
+      "type": "KTX",
+      "depart": "14:48",
+      "arrive": "15:11"
+    },
+    {
+      "trainNum": 40,
+      "type": "KTX",
+      "depart": "15:24",
+      "arrive": "15:47"
+    },
+    {
+      "trainNum": 42,
+      "type": "KTX",
+      "depart": "15:35",
+      "arrive": "16:07"
+    },
+    {
+      "trainNum": 248,
+      "type": "KTX-산천",
+      "depart": "17:02",
+      "arrive": "17:25"
+    },
+    {
+      "trainNum": 46,
+      "type": "KTX",
+      "depart": "17:09",
+      "arrive": "17:32"
+    },
+    {
+      "trainNum": 94,
+      "type": "KTX",
+      "depart": "17:16",
+      "arrive": "17:39"
+    },
+    {
+      "trainNum": 216,
+      "type": "KTX",
+      "depart": "17:54",
+      "arrive": "18:27"
+    },
+    {
+      "trainNum": 96,
+      "type": "KTX",
+      "depart": "17:57",
+      "arrive": "18:20"
+    },
+    {
+      "trainNum": 54,
+      "type": "KTX",
+      "depart": "18:49",
+      "arrive": "19:12"
+    }
+  ],
+  "yeongcheon_to_dongdaegu": [
+    {
+      "trainNum": "L2701",
+      "type": "Local",
+      "depart": "07:10",
+      "arrive": "07:40"
+    },
+    {
+      "trainNum": "L2703",
+      "type": "Local",
+      "depart": "09:10",
+      "arrive": "09:40"
+    },
+    {
+      "trainNum": "L2705",
+      "type": "Local",
+      "depart": "11:10",
+      "arrive": "11:40"
+    },
+    {
+      "trainNum": "L2707",
+      "type": "Local",
+      "depart": "13:10",
+      "arrive": "13:40"
+    },
+    {
+      "trainNum": "L2709",
+      "type": "Local",
+      "depart": "15:10",
+      "arrive": "15:40"
+    },
+    {
+      "trainNum": "L2711",
+      "type": "Local",
+      "depart": "17:10",
+      "arrive": "17:40"
+    }
+  ],
+  "dongdaegu_to_yeongcheon": [
+    {
+      "trainNum": "L2702",
+      "type": "Local",
+      "depart": "07:45",
+      "arrive": "08:15"
+    },
+    {
+      "trainNum": "L2704",
+      "type": "Local",
+      "depart": "09:45",
+      "arrive": "10:15"
+    },
+    {
+      "trainNum": "L2706",
+      "type": "Local",
+      "depart": "11:45",
+      "arrive": "12:15"
+    },
+    {
+      "trainNum": "L2708",
+      "type": "Local",
+      "depart": "13:45",
+      "arrive": "14:15"
+    },
+    {
+      "trainNum": "L2710",
+      "type": "Local",
+      "depart": "15:45",
+      "arrive": "16:15"
+    },
+    {
+      "trainNum": "L2712",
+      "type": "Local",
+      "depart": "17:45",
+      "arrive": "18:15"
+    }
+  ],
+  "yeongcheon_to_ahwa": [
+    {
+      "trainNum": "L2101",
+      "type": "Local",
+      "depart": "07:20",
+      "arrive": "07:50"
+    },
+    {
+      "trainNum": "L2103",
+      "type": "Local",
+      "depart": "09:20",
+      "arrive": "09:50"
+    },
+    {
+      "trainNum": "L2105",
+      "type": "Local",
+      "depart": "11:20",
+      "arrive": "11:50"
+    },
+    {
+      "trainNum": "L2107",
+      "type": "Local",
+      "depart": "13:20",
+      "arrive": "13:50"
+    },
+    {
+      "trainNum": "L2109",
+      "type": "Local",
+      "depart": "15:20",
+      "arrive": "15:50"
+    },
+    {
+      "trainNum": "L2111",
+      "type": "Local",
+      "depart": "17:20",
+      "arrive": "17:50"
+    }
+  ],
+  "ahwa_to_yeongcheon": [
+    {
+      "trainNum": "L2102",
+      "type": "Local",
+      "depart": "07:55",
+      "arrive": "08:25"
+    },
+    {
+      "trainNum": "L2104",
+      "type": "Local",
+      "depart": "09:55",
+      "arrive": "10:25"
+    },
+    {
+      "trainNum": "L2106",
+      "type": "Local",
+      "depart": "11:55",
+      "arrive": "12:25"
+    },
+    {
+      "trainNum": "L2108",
+      "type": "Local",
+      "depart": "13:55",
+      "arrive": "14:25"
+    },
+    {
+      "trainNum": "L2110",
+      "type": "Local",
+      "depart": "15:55",
+      "arrive": "16:25"
+    },
+    {
+      "trainNum": "L2112",
+      "type": "Local",
+      "depart": "17:55",
+      "arrive": "18:25"
+    }
+  ],
+  "dongdaegu_to_seogyeongju": [
+    {
+      "trainNum": "L1701",
+      "type": "Local",
+      "depart": "07:10",
+      "arrive": "07:35"
+    },
+    {
+      "trainNum": "L1703",
+      "type": "Local",
+      "depart": "08:40",
+      "arrive": "09:05"
+    },
+    {
+      "trainNum": "L1705",
+      "type": "Local",
+      "depart": "10:10",
+      "arrive": "10:35"
+    },
+    {
+      "trainNum": "L1707",
+      "type": "Local",
+      "depart": "11:40",
+      "arrive": "12:05"
+    },
+    {
+      "trainNum": "L1709",
+      "type": "Local",
+      "depart": "13:10",
+      "arrive": "13:35"
+    },
+    {
+      "trainNum": "L1711",
+      "type": "Local",
+      "depart": "14:40",
+      "arrive": "15:05"
+    },
+    {
+      "trainNum": "L1713",
+      "type": "Local",
+      "depart": "16:10",
+      "arrive": "16:35"
+    },
+    {
+      "trainNum": "L1715",
+      "type": "Local",
+      "depart": "17:40",
+      "arrive": "18:05"
+    }
+  ],
+  "seogyeongju_to_dongdaegu": [
+    {
+      "trainNum": "L1702",
+      "type": "Local",
+      "depart": "07:40",
+      "arrive": "08:05"
+    },
+    {
+      "trainNum": "L1704",
+      "type": "Local",
+      "depart": "09:10",
+      "arrive": "09:35"
+    },
+    {
+      "trainNum": "L1706",
+      "type": "Local",
+      "depart": "10:40",
+      "arrive": "11:05"
+    },
+    {
+      "trainNum": "L1708",
+      "type": "Local",
+      "depart": "12:10",
+      "arrive": "12:35"
+    },
+    {
+      "trainNum": "L1710",
+      "type": "Local",
+      "depart": "13:40",
+      "arrive": "14:05"
+    },
+    {
+      "trainNum": "L1712",
+      "type": "Local",
+      "depart": "15:10",
+      "arrive": "15:35"
+    },
+    {
+      "trainNum": "L1714",
+      "type": "Local",
+      "depart": "16:40",
+      "arrive": "17:05"
+    },
+    {
+      "trainNum": "L1716",
+      "type": "Local",
+      "depart": "18:10",
+      "arrive": "18:35"
+    }
+  ],
+  "seogyeongju_to_gyeongju": [
+    {
+      "trainNum": "L1801",
+      "type": "Local",
+      "depart": "07:05",
+      "arrive": "07:20"
+    },
+    {
+      "trainNum": "L1803",
+      "type": "Local",
+      "depart": "08:05",
+      "arrive": "08:20"
+    },
+    {
+      "trainNum": "L1805",
+      "type": "Local",
+      "depart": "09:05",
+      "arrive": "09:20"
+    },
+    {
+      "trainNum": "L1807",
+      "type": "Local",
+      "depart": "10:05",
+      "arrive": "10:20"
+    },
+    {
+      "trainNum": "L1809",
+      "type": "Local",
+      "depart": "11:05",
+      "arrive": "11:20"
+    },
+    {
+      "trainNum": "L1811",
+      "type": "Local",
+      "depart": "12:05",
+      "arrive": "12:20"
+    },
+    {
+      "trainNum": "L1813",
+      "type": "Local",
+      "depart": "13:05",
+      "arrive": "13:20"
+    },
+    {
+      "trainNum": "L1815",
+      "type": "Local",
+      "depart": "14:05",
+      "arrive": "14:20"
+    },
+    {
+      "trainNum": "L1817",
+      "type": "Local",
+      "depart": "15:05",
+      "arrive": "15:20"
+    },
+    {
+      "trainNum": "L1819",
+      "type": "Local",
+      "depart": "16:05",
+      "arrive": "16:20"
+    },
+    {
+      "trainNum": "L1821",
+      "type": "Local",
+      "depart": "17:05",
+      "arrive": "17:20"
+    },
+    {
+      "trainNum": "L1823",
+      "type": "Local",
+      "depart": "18:05",
+      "arrive": "18:20"
+    }
+  ],
+  "gyeongju_to_seogyeongju": [
+    {
+      "trainNum": "L1802",
+      "type": "Local",
+      "depart": "07:10",
+      "arrive": "07:25"
+    },
+    {
+      "trainNum": "L1804",
+      "type": "Local",
+      "depart": "08:10",
+      "arrive": "08:25"
+    },
+    {
+      "trainNum": "L1806",
+      "type": "Local",
+      "depart": "09:10",
+      "arrive": "09:25"
+    },
+    {
+      "trainNum": "L1808",
+      "type": "Local",
+      "depart": "10:10",
+      "arrive": "10:25"
+    },
+    {
+      "trainNum": "L1810",
+      "type": "Local",
+      "depart": "11:10",
+      "arrive": "11:25"
+    },
+    {
+      "trainNum": "L1812",
+      "type": "Local",
+      "depart": "12:10",
+      "arrive": "12:25"
+    },
+    {
+      "trainNum": "L1814",
+      "type": "Local",
+      "depart": "13:10",
+      "arrive": "13:25"
+    },
+    {
+      "trainNum": "L1816",
+      "type": "Local",
+      "depart": "14:10",
+      "arrive": "14:25"
+    },
+    {
+      "trainNum": "L1818",
+      "type": "Local",
+      "depart": "15:10",
+      "arrive": "15:25"
+    },
+    {
+      "trainNum": "L1820",
+      "type": "Local",
+      "depart": "16:10",
+      "arrive": "16:25"
+    },
+    {
+      "trainNum": "L1822",
+      "type": "Local",
+      "depart": "17:10",
+      "arrive": "17:25"
+    },
+    {
+      "trainNum": "L1824",
+      "type": "Local",
+      "depart": "18:10",
+      "arrive": "18:25"
+    }
+  ],
+  "dongdaegu_to_samnangjin": [
+    {
+      "trainNum": "L2501",
+      "type": "Local",
+      "depart": "07:10",
+      "arrive": "07:35"
+    },
+    {
+      "trainNum": "L2503",
+      "type": "Local",
+      "depart": "08:40",
+      "arrive": "09:05"
+    },
+    {
+      "trainNum": "L2505",
+      "type": "Local",
+      "depart": "10:10",
+      "arrive": "10:35"
+    },
+    {
+      "trainNum": "L2507",
+      "type": "Local",
+      "depart": "11:40",
+      "arrive": "12:05"
+    },
+    {
+      "trainNum": "L2509",
+      "type": "Local",
+      "depart": "13:10",
+      "arrive": "13:35"
+    },
+    {
+      "trainNum": "L2511",
+      "type": "Local",
+      "depart": "14:40",
+      "arrive": "15:05"
+    },
+    {
+      "trainNum": "L2513",
+      "type": "Local",
+      "depart": "16:10",
+      "arrive": "16:35"
+    },
+    {
+      "trainNum": "L2515",
+      "type": "Local",
+      "depart": "17:40",
+      "arrive": "18:05"
+    }
+  ],
+  "samnangjin_to_dongdaegu": [
+    {
+      "trainNum": "L2502",
+      "type": "Local",
+      "depart": "07:40",
+      "arrive": "08:05"
+    },
+    {
+      "trainNum": "L2504",
+      "type": "Local",
+      "depart": "09:10",
+      "arrive": "09:35"
+    },
+    {
+      "trainNum": "L2506",
+      "type": "Local",
+      "depart": "10:40",
+      "arrive": "11:05"
+    },
+    {
+      "trainNum": "L2508",
+      "type": "Local",
+      "depart": "12:10",
+      "arrive": "12:35"
+    },
+    {
+      "trainNum": "L2510",
+      "type": "Local",
+      "depart": "13:40",
+      "arrive": "14:05"
+    },
+    {
+      "trainNum": "L2512",
+      "type": "Local",
+      "depart": "15:10",
+      "arrive": "15:35"
+    },
+    {
+      "trainNum": "L2514",
+      "type": "Local",
+      "depart": "16:40",
+      "arrive": "17:05"
+    },
+    {
+      "trainNum": "L2516",
+      "type": "Local",
+      "depart": "18:10",
+      "arrive": "18:35"
+    }
+  ],
+  "samnangjin_to_bujeon": [
+    {
+      "trainNum": "L2601",
+      "type": "Local",
+      "depart": "07:05",
+      "arrive": "07:35"
+    },
+    {
+      "trainNum": "L2603",
+      "type": "Local",
+      "depart": "08:35",
+      "arrive": "09:05"
+    },
+    {
+      "trainNum": "L2605",
+      "type": "Local",
+      "depart": "10:05",
+      "arrive": "10:35"
+    },
+    {
+      "trainNum": "L2607",
+      "type": "Local",
+      "depart": "11:35",
+      "arrive": "12:05"
+    },
+    {
+      "trainNum": "L2609",
+      "type": "Local",
+      "depart": "13:05",
+      "arrive": "13:35"
+    },
+    {
+      "trainNum": "L2611",
+      "type": "Local",
+      "depart": "14:35",
+      "arrive": "15:05"
+    },
+    {
+      "trainNum": "L2613",
+      "type": "Local",
+      "depart": "16:05",
+      "arrive": "16:35"
+    },
+    {
+      "trainNum": "L2615",
+      "type": "Local",
+      "depart": "17:35",
+      "arrive": "18:05"
+    }
+  ],
+  "bujeon_to_samnangjin": [
+    {
+      "trainNum": "L2602",
+      "type": "Local",
+      "depart": "07:40",
+      "arrive": "08:10"
+    },
+    {
+      "trainNum": "L2604",
+      "type": "Local",
+      "depart": "09:10",
+      "arrive": "09:40"
+    },
+    {
+      "trainNum": "L2606",
+      "type": "Local",
+      "depart": "10:40",
+      "arrive": "11:10"
+    },
+    {
+      "trainNum": "L2608",
+      "type": "Local",
+      "depart": "12:10",
+      "arrive": "12:40"
+    },
+    {
+      "trainNum": "L2610",
+      "type": "Local",
+      "depart": "13:40",
+      "arrive": "14:10"
+    },
+    {
+      "trainNum": "L2612",
+      "type": "Local",
+      "depart": "15:10",
+      "arrive": "15:40"
+    },
+    {
+      "trainNum": "L2614",
+      "type": "Local",
+      "depart": "16:40",
+      "arrive": "17:10"
+    },
+    {
+      "trainNum": "L2616",
+      "type": "Local",
+      "depart": "18:10",
+      "arrive": "18:40"
+    }
+  ],
+  "bujeon_to_sasang": [
+    {
+      "trainNum": "L1901",
+      "type": "Local",
+      "depart": "07:05",
+      "arrive": "07:17"
+    },
+    {
+      "trainNum": "L1903",
+      "type": "Local",
+      "depart": "08:05",
+      "arrive": "08:17"
+    },
+    {
+      "trainNum": "L1905",
+      "type": "Local",
+      "depart": "09:05",
+      "arrive": "09:17"
+    },
+    {
+      "trainNum": "L1907",
+      "type": "Local",
+      "depart": "10:05",
+      "arrive": "10:17"
+    },
+    {
+      "trainNum": "L1909",
+      "type": "Local",
+      "depart": "11:05",
+      "arrive": "11:17"
+    },
+    {
+      "trainNum": "L1911",
+      "type": "Local",
+      "depart": "12:05",
+      "arrive": "12:17"
+    },
+    {
+      "trainNum": "L1913",
+      "type": "Local",
+      "depart": "13:05",
+      "arrive": "13:17"
+    },
+    {
+      "trainNum": "L1915",
+      "type": "Local",
+      "depart": "14:05",
+      "arrive": "14:17"
+    },
+    {
+      "trainNum": "L1917",
+      "type": "Local",
+      "depart": "15:05",
+      "arrive": "15:17"
+    },
+    {
+      "trainNum": "L1919",
+      "type": "Local",
+      "depart": "16:05",
+      "arrive": "16:17"
+    },
+    {
+      "trainNum": "L1921",
+      "type": "Local",
+      "depart": "17:05",
+      "arrive": "17:17"
+    },
+    {
+      "trainNum": "L1923",
+      "type": "Local",
+      "depart": "18:05",
+      "arrive": "18:17"
+    }
+  ],
+  "sasang_to_bujeon": [
+    {
+      "trainNum": "L1902",
+      "type": "Local",
+      "depart": "07:10",
+      "arrive": "07:22"
+    },
+    {
+      "trainNum": "L1904",
+      "type": "Local",
+      "depart": "08:10",
+      "arrive": "08:22"
+    },
+    {
+      "trainNum": "L1906",
+      "type": "Local",
+      "depart": "09:10",
+      "arrive": "09:22"
+    },
+    {
+      "trainNum": "L1908",
+      "type": "Local",
+      "depart": "10:10",
+      "arrive": "10:22"
+    },
+    {
+      "trainNum": "L1910",
+      "type": "Local",
+      "depart": "11:10",
+      "arrive": "11:22"
+    },
+    {
+      "trainNum": "L1912",
+      "type": "Local",
+      "depart": "12:10",
+      "arrive": "12:22"
+    },
+    {
+      "trainNum": "L1914",
+      "type": "Local",
+      "depart": "13:10",
+      "arrive": "13:22"
+    },
+    {
+      "trainNum": "L1916",
+      "type": "Local",
+      "depart": "14:10",
+      "arrive": "14:22"
+    },
+    {
+      "trainNum": "L1918",
+      "type": "Local",
+      "depart": "15:10",
+      "arrive": "15:22"
+    },
+    {
+      "trainNum": "L1920",
+      "type": "Local",
+      "depart": "16:10",
+      "arrive": "16:22"
+    },
+    {
+      "trainNum": "L1922",
+      "type": "Local",
+      "depart": "17:10",
+      "arrive": "17:22"
+    },
+    {
+      "trainNum": "L1924",
+      "type": "Local",
+      "depart": "18:10",
+      "arrive": "18:22"
+    }
+  ],
+  "bujeon_to_gyeongju": [
+    {
+      "trainNum": 751,
+      "type": "KTX-이음",
+      "depart": "07:50",
+      "arrive": "08:56"
+    },
+    {
+      "trainNum": 706,
+      "type": "KTX-이음",
+      "depart": "08:00",
+      "arrive": "09:17"
+    },
+    {
+      "trainNum": 708,
+      "type": "KTX-이음",
+      "depart": "10:02",
+      "arrive": "11:12"
+    },
+    {
+      "trainNum": 710,
+      "type": "KTX-이음",
+      "depart": "12:07",
+      "arrive": "13:16"
+    },
+    {
+      "trainNum": 712,
+      "type": "KTX-이음",
+      "depart": "13:29",
+      "arrive": "14:35"
+    },
+    {
+      "trainNum": 753,
+      "type": "KTX-이음",
+      "depart": "13:58",
+      "arrive": "15:04"
+    },
+    {
+      "trainNum": 714,
+      "type": "KTX-이음",
+      "depart": "14:43",
+      "arrive": "15:56"
+    },
+    {
+      "trainNum": 716,
+      "type": "KTX-이음",
+      "depart": "16:23",
+      "arrive": "17:29"
+    }
+  ],
+  "gyeongju_to_bujeon": [
+    {
+      "trainNum": 701,
+      "type": "KTX-이음",
+      "depart": "08:19",
+      "arrive": "09:24"
+    },
+    {
+      "trainNum": 703,
+      "type": "KTX-이음",
+      "depart": "09:22",
+      "arrive": "10:34"
+    },
+    {
+      "trainNum": 705,
+      "type": "KTX-이음",
+      "depart": "11:57",
+      "arrive": "13:01"
+    },
+    {
+      "trainNum": 752,
+      "type": "KTX-이음",
+      "depart": "12:32",
+      "arrive": "13:36"
+    },
+    {
+      "trainNum": 707,
+      "type": "KTX-이음",
+      "depart": "14:16",
+      "arrive": "15:27"
+    },
+    {
+      "trainNum": 709,
+      "type": "KTX-이음",
+      "depart": "15:57",
+      "arrive": "17:00"
+    },
+    {
+      "trainNum": 711,
+      "type": "KTX-이음",
+      "depart": "17:27",
+      "arrive": "18:41"
+    },
+    {
+      "trainNum": 754,
+      "type": "KTX-이음",
+      "depart": "17:46",
+      "arrive": "18:50"
+    }
+  ],
+  "gyeongju_to_donghae": [
+    {
+      "trainNum": 751,
+      "type": "KTX-이음",
+      "depart": "08:56",
+      "arrive": "10:59"
+    },
+    {
+      "trainNum": 753,
+      "type": "KTX-이음",
+      "depart": "15:04",
+      "arrive": "17:07"
+    }
+  ],
+  "donghae_to_gyeongju": [
+    {
+      "trainNum": 752,
+      "type": "KTX-이음",
+      "depart": "10:23",
+      "arrive": "12:32"
+    },
+    {
+      "trainNum": 754,
+      "type": "KTX-이음",
+      "depart": "15:39",
+      "arrive": "17:46"
+    }
+  ]
+}

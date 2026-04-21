@@ -27,7 +27,15 @@
       "Bash(npx --version)",
       "PowerShell(node --version)",
       "PowerShell(npm --version)",
-      "PowerShell(& \"C:/Users/droha/anaconda3/envs/env_jetlagsnake/python.exe\" -c \"import openpyxl; print\\('openpyxl', openpyxl.__version__\\)\")"
+      "PowerShell(& \"C:/Users/droha/anaconda3/envs/env_jetlagsnake/python.exe\" -c \"import openpyxl; print\\('openpyxl', openpyxl.__version__\\)\")",
+      "PowerShell(& \"C:/Users/droha/anaconda3/envs/env_jetlagsnake/python.exe\" \"d:/VSCode_Workspace/jetlag_snake/scripts/process_timetable.py\" 2>&1)",
+      "Bash(\"C:/Users/droha/anaconda3/envs/env_jetlagsnake/python.exe\" scripts/process_timetable.py)",
+      "Bash(\"C:/Program Files/nodejs/npx.cmd\" tsc --noEmit)",
+      "Bash(\"C:/Program Files/nodejs/npm.cmd\" run dev)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(pkill -f \"node.*next\")",
+      "Bash(\"C:/Program Files/nodejs/npx.cmd\" next build)"
     ]
   }
 }

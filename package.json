@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"next dev\" \"partykit dev\"",
+    "dev": "next dev",
+    "dev:full": "concurrently \"next dev\" \"partykit dev\"",
     "build": "next build",
     "start": "next start",
     "party:dev": "partykit dev",
