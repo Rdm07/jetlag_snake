@@ -1,0 +1,21 @@
+services:
+  nextjs:
+    build:
+      context: .
+      target: nextjs
+      args:
+        # Browser connects to PartyKit on your machine's localhost
+        NEXT_PUBLIC_PARTYKIT_HOST: localhost:1999
+    ports:
+      - "3000:3000"
+    depends_on:
+      - partykit
+    restart: unless-stopped
+
+  partykit:
+    build:
+      context: .
+      target: partykit
+    ports:
+      - "1999:1999"
+    restart: unless-stopped

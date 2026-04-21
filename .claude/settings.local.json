@@ -41,7 +41,8 @@
       "Bash(wsl -- node --version)",
       "Bash(python3 -)",
       "Bash(\"C:/Users/droha/anaconda3/envs/env_jetlagsnake/python.exe\" -)",
-      "Bash(\"C:/Program Files/nodejs/npm.cmd\" run party:deploy)"
+      "Bash(\"C:/Program Files/nodejs/npm.cmd\" run party:deploy)",
+      "Bash(\"C:/Program Files/nodejs/npm.cmd\" run build)"
     ]
   }
 }
