@@ -35,7 +35,13 @@
       "Bash(curl -s http://localhost:3000)",
       "Bash(pkill -f \"next dev\")",
       "Bash(pkill -f \"node.*next\")",
-      "Bash(\"C:/Program Files/nodejs/npx.cmd\" next build)"
+      "Bash(\"C:/Program Files/nodejs/npx.cmd\" next build)",
+      "Bash(wsl --list --quiet)",
+      "Bash(echo \"exit:$?\")",
+      "Bash(wsl -- node --version)",
+      "Bash(python3 -)",
+      "Bash(\"C:/Users/droha/anaconda3/envs/env_jetlagsnake/python.exe\" -)",
+      "Bash(\"C:/Program Files/nodejs/npm.cmd\" run party:deploy)"
     ]
   }
 }
