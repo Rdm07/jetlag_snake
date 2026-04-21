@@ -1,0 +1,69 @@
+# ─── Node / Next.js ───────────────────────────────────────────────────────────
+node_modules/
+.next/
+out/
+dist/
+build/
+.vercel/
+.turbo/
+*.tsbuildinfo
+next-env.d.ts
+
+# ─── Environment & secrets ────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+.env.production
+
+# ─── PartyKit ─────────────────────────────────────────────────────────────────
+.partykit/
+
+# ─── Python ───────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+var/
+sdist/
+wheels/
+pip-wheel-metadata/
+
+# ─── Jupyter ──────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ─── Conda ────────────────────────────────────────────────────────────────────
+.conda/
+
+# ─── Dev tooling ──────────────────────────────────────────────────────────────
+.eslintcache
+.cache/
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ─── Scripts / generated data ─────────────────────────────────────────────────
+scripts/__pycache__/
+scripts/*.json          # generated output files (timetable_preview, sheet_summary, etc.)
+public/data/timetable.json   # generated — rebuild from process_timetable.py
+
+# ─── IDE ──────────────────────────────────────────────────────────────────────
+.vscode/settings.json
+.idea/
+*.suo
+*.user
+*.swp
+*.swo
