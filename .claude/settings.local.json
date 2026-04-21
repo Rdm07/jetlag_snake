@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /d/VSCode_Workspace/jetlag_snake log --oneline)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:docs.partykit.io)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:turfjs.org)",
+      "WebFetch(domain:developers.cloudflare.com)",
+      "WebFetch(domain:jetlag.fandom.com)",
+      "WebFetch(domain:www.data.go.kr)",
+      "WebFetch(domain:namu.wiki)",
+      "WebFetch(domain:openapis.korail.com)",
+      "Bash(python3 -c ' *)",
+      "Bash(python -c ' *)",
+      "Bash(conda run -n env_jetlagsnake python -c ' *)",
+      "Bash(conda run *)",
+      "Bash(C:/Users/droha/anaconda3/envs/env_jetlagsnake/python.exe -c \"import sys; print\\(sys.version\\)\")",
+      "Bash(C:/Users/droha/anaconda3/envs/env_jetlagsnake/python.exe -m pip install openpyxl pandas -q)",
+      "Bash(C:/Users/droha/anaconda3/envs/env_jetlagsnake/python.exe d:/VSCode_Workspace/jetlag_snake/scripts/read_timetable.py)",
+      "Bash(code \"C:\\\\Users\\\\droha\\\\.claude\\\\plans\\\\do-you-what-jet-peppy-hollerith.md\")",
+      "Bash(start \"\" \"C:\\\\Users\\\\droha\\\\AppData\\\\Local\\\\Programs\\\\Microsoft VS Code\\\\Code.exe\" \"C:\\\\Users\\\\droha\\\\.claude\\\\plans\\\\do-you-what-jet-peppy-hollerith.md\")"
+    ]
+  }
+}
