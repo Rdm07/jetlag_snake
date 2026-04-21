@@ -20,7 +20,14 @@
       "Bash(C:/Users/droha/anaconda3/envs/env_jetlagsnake/python.exe -m pip install openpyxl pandas -q)",
       "Bash(C:/Users/droha/anaconda3/envs/env_jetlagsnake/python.exe d:/VSCode_Workspace/jetlag_snake/scripts/read_timetable.py)",
       "Bash(code \"C:\\\\Users\\\\droha\\\\.claude\\\\plans\\\\do-you-what-jet-peppy-hollerith.md\")",
-      "Bash(start \"\" \"C:\\\\Users\\\\droha\\\\AppData\\\\Local\\\\Programs\\\\Microsoft VS Code\\\\Code.exe\" \"C:\\\\Users\\\\droha\\\\.claude\\\\plans\\\\do-you-what-jet-peppy-hollerith.md\")"
+      "Bash(start \"\" \"C:\\\\Users\\\\droha\\\\AppData\\\\Local\\\\Programs\\\\Microsoft VS Code\\\\Code.exe\" \"C:\\\\Users\\\\droha\\\\.claude\\\\plans\\\\do-you-what-jet-peppy-hollerith.md\")",
+      "Bash(C:/Users/droha/anaconda3/envs/env_jetlagsnake/python.exe -c ' *)",
+      "Bash(npx create-next-app@14 . --typescript --tailwind --app --src-dir --eslint --import-alias \"@/*\" --no-git)",
+      "Bash(npm --version)",
+      "Bash(npx --version)",
+      "PowerShell(node --version)",
+      "PowerShell(npm --version)",
+      "PowerShell(& \"C:/Users/droha/anaconda3/envs/env_jetlagsnake/python.exe\" -c \"import openpyxl; print\\('openpyxl', openpyxl.__version__\\)\")"
     ]
   }
 }
