@@ -1,13 +1,13 @@
 "use client";
 
 import { STATIONS, NODE_IDS } from "@/data/network";
-import type { StationId, PlayerId } from "@/shared/types";
+import type { StationId } from "@/shared/types";
 
 interface StationNodeProps {
   stationId: StationId;
   isSnakeHead: boolean;
   isSnakeBody: boolean;
-  blockerColors: Array<"red" | "blue" | "green">; // colors of blockers present here
+  blockerColors: Array<"red" | "blue" | "green">;
   hasRoadblock: boolean;
   hasBattle: boolean;
   snakeColor: "red" | "blue" | "green";
@@ -35,22 +35,20 @@ export default function StationNode({
 
   const { x, y, name } = station;
   const isNode = NODE_IDS.has(stationId);
-  const baseRadius = isNode ? 9 : 6;
+  const baseRadius = isNode ? 8 : 5;
 
-  let fillColor = "#1f2937"; // dark gray default
-  let strokeColor = "#6b7280"; // gray-500
+  // Transit-map style: white fill, colored ring for state
+  let fillColor = "#ffffff";
+  let strokeColor = "#6b7280";
   let strokeWidth = 1.5;
 
   if (isSnakeHead) {
     fillColor = PLAYER_COLORS[snakeColor];
     strokeColor = "#ffffff";
-    strokeWidth = 2.5;
+    strokeWidth = 3;
   } else if (isSnakeBody) {
-    fillColor = PLAYER_COLORS[snakeColor] + "66"; // semi-transparent
+    fillColor = PLAYER_COLORS[snakeColor] + "99";
     strokeColor = PLAYER_COLORS[snakeColor];
-    strokeWidth = 1.5;
-  } else if (isNode) {
-    strokeColor = "#d1d5db"; // gold-ish for nodes
     strokeWidth = 2;
   }
 
@@ -59,9 +57,28 @@ export default function StationNode({
       onClick={() => onClick?.(stationId)}
       style={{ cursor: onClick ? "pointer" : "default" }}
     >
-      {/* Gold ring for node stations */}
-      {isNode && (
-        <circle cx={x} cy={y} r={baseRadius + 4} fill="none" stroke="#fbbf24" strokeWidth={1.5} opacity={0.6} />
+      {/* Interchange ring for multi-line node stations */}
+      {isNode && !isSnakeHead && (
+        <circle
+          cx={x} cy={y}
+          r={baseRadius + 5}
+          fill="none"
+          stroke="#fbbf24"
+          strokeWidth={2}
+          opacity={0.8}
+        />
+      )}
+
+      {/* Outer glow ring for snake head */}
+      {isSnakeHead && (
+        <circle
+          cx={x} cy={y}
+          r={baseRadius + 6}
+          fill="none"
+          stroke={PLAYER_COLORS[snakeColor]}
+          strokeWidth={2}
+          opacity={0.5}
+        />
       )}
 
       {/* Main circle */}
@@ -74,20 +91,20 @@ export default function StationNode({
         strokeWidth={strokeWidth}
       />
 
-      {/* Blocker position dots (small colored dots around the station) */}
+      {/* Blocker position dots */}
       {blockerColors.map((color, i) => {
-        const angle = (i * Math.PI) / 2 - Math.PI / 4;
-        const dx = Math.cos(angle) * (baseRadius + 6);
-        const dy = Math.sin(angle) * (baseRadius + 6);
+        const angle = (i * Math.PI * 2) / Math.max(blockerColors.length, 1) - Math.PI / 2;
+        const dx = Math.cos(angle) * (baseRadius + 7);
+        const dy = Math.sin(angle) * (baseRadius + 7);
         return (
           <circle
-            key={color}
+            key={`${color}-${i}`}
             cx={x + dx}
             cy={y + dy}
             r={4}
             fill={PLAYER_COLORS[color]}
             stroke="#000"
-            strokeWidth={0.5}
+            strokeWidth={1}
           />
         );
       })}
@@ -95,7 +112,7 @@ export default function StationNode({
       {/* Card icons */}
       {(hasRoadblock || hasBattle) && (
         <text
-          x={x + baseRadius + 2}
+          x={x + baseRadius + 3}
           y={y - baseRadius}
           fontSize={10}
           style={{ pointerEvents: "none", userSelect: "none" }}
@@ -107,10 +124,11 @@ export default function StationNode({
       {/* Station label */}
       <text
         x={x}
-        y={y + baseRadius + 10}
+        y={y + baseRadius + 11}
         textAnchor="middle"
-        fill="#d1d5db"
-        fontSize={8}
+        fill="#e5e7eb"
+        fontSize={7.5}
+        fontWeight={isNode ? "600" : "400"}
         style={{ pointerEvents: "none", userSelect: "none" }}
       >
         {name}

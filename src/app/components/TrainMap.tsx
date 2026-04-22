@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
-import { STATIONS, EDGES } from "@/data/network";
+import { useRef, useState, useCallback, useEffect } from "react";
+import { STATIONS, EDGES, getEdgeLine } from "@/data/network";
 import type { SerializableGameState, StationId, PlayerId } from "@/shared/types";
 import RailEdge from "./RailEdge";
 import StationNode from "./StationNode";
@@ -12,15 +12,36 @@ interface TrainMapProps {
   localPlayerId: PlayerId;
 }
 
-// SVG viewBox dimensions (matches coordinate space in network.ts)
-const VIEW_W = 650;
-const VIEW_H = 620;
+const VIEW_W = 700;
+const VIEW_H = 750;
+
+// Rough South Korea silhouette polygon (700×750 coordinate space)
+const KOREA_SILHOUETTE =
+  "M 175,45 L 230,30 L 320,25 L 420,35 L 520,55 L 570,90 L 600,145 " +
+  "L 600,195 L 618,280 L 625,360 L 618,430 L 600,480 L 565,520 " +
+  "L 540,555 L 510,590 L 475,615 L 440,625 L 395,615 L 355,610 " +
+  "L 305,605 L 260,600 L 215,585 L 175,555 L 145,510 L 125,465 " +
+  "L 115,415 L 108,365 L 115,315 L 110,260 L 120,205 " +
+  "L 135,155 L 150,100 L 175,65 Z";
 
 export default function TrainMap({ state, onStationClick, localPlayerId }: TrainMapProps) {
-  // Pan & zoom state
   const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
   const dragging = useRef(false);
   const lastPos = useRef({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Native (non-passive) wheel handler to prevent page scroll while zooming map
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const handler = (e: WheelEvent) => {
+      e.preventDefault();
+      const factor = e.deltaY < 0 ? 1.12 : 0.88;
+      setTransform((t) => ({ ...t, scale: Math.min(4, Math.max(0.4, t.scale * factor)) }));
+    };
+    el.addEventListener("wheel", handler, { passive: false });
+    return () => el.removeEventListener("wheel", handler);
+  }, []);
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     dragging.current = true;
@@ -39,13 +60,6 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
     dragging.current = false;
   }, []);
 
-  const handleWheel = useCallback((e: React.WheelEvent) => {
-    e.preventDefault();
-    const factor = e.deltaY < 0 ? 1.12 : 0.88;
-    setTransform((t) => ({ ...t, scale: Math.min(4, Math.max(0.4, t.scale * factor)) }));
-  }, []);
-
-  // Touch handling for mobile
   const lastTouchDist = useRef<number | null>(null);
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     if (e.touches.length === 1) {
@@ -80,18 +94,14 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
     lastTouchDist.current = null;
   }, []);
 
-  // Derive display data from game state
   const snakeSet = new Set<StationId>(state?.snake ?? []);
   const visitedSegments = new Set<string>(state?.visitedSegments ?? []);
   const snakeHead = state?.snake?.[state.snake.length - 1] ?? null;
   const snakerId = state?.snakerId ?? null;
   const placements = state?.placements ?? {};
 
-  // Snaker color
-  const snakeColor =
-    (snakerId && state?.players?.[snakerId]?.color) ?? "green";
+  const snakeColor = (snakerId && state?.players?.[snakerId]?.color) ?? "green";
 
-  // Blocker positions: stationId → list of colors
   const blockerAtStation: Record<StationId, Array<"red" | "blue" | "green">> = {};
   for (const blockerId of state?.blockers ?? []) {
     const pos = state?.blockerPositions?.[blockerId];
@@ -102,25 +112,23 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
     }
   }
 
-  // Which segments are visited (both directions stored)
   function isSegmentVisited(a: StationId, b: StationId) {
     return visitedSegments.has(`${a}_to_${b}`) || visitedSegments.has(`${b}_to_${a}`);
   }
 
-  // Card placements
   function getPlacement(key: string) {
     return placements[key];
   }
 
   return (
     <div
+      ref={containerRef}
       className="relative w-full h-full bg-gray-950 rounded-lg overflow-hidden select-none"
       style={{ touchAction: "none" }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
-      onWheel={handleWheel}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -136,7 +144,16 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
           transition: dragging.current ? "none" : "transform 0.05s ease-out",
         }}
       >
-        {/* Edges */}
+        {/* Korea silhouette background */}
+        <path
+          d={KOREA_SILHOUETTE}
+          fill="#1a2a1a"
+          stroke="#2d3d2d"
+          strokeWidth={1.5}
+          opacity={0.7}
+        />
+
+        {/* Rail edges */}
         {EDGES.map(([a, b]) => {
           const segAB = `${a}_to_${b}`;
           const segBA = `${b}_to_${a}`;
@@ -147,12 +164,14 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
             placementAB?.card?.type === "curse" || placementBA?.card?.type === "curse";
           const hasRoadblock =
             placementAB?.card?.type === "roadblock" || placementBA?.card?.type === "roadblock";
+          const lineName = getEdgeLine(a, b);
 
           return (
             <RailEdge
               key={segAB}
               from={a}
               to={b}
+              lineName={lineName}
               isVisited={visited}
               isCursed={isCursed}
               hasRoadblock={hasRoadblock}
@@ -184,7 +203,6 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
         })}
       </svg>
 
-      {/* Reset zoom button */}
       <button
         className="absolute bottom-3 right-3 bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded"
         onClick={(e) => {

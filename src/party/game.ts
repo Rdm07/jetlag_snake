@@ -7,6 +7,8 @@ import type {
   PlayerId,
   Card,
   StationId,
+  ActiveTrain,
+  TrainStop,
 } from "../shared/types";
 import { ADJACENCY, NODE_IDS } from "../data/network";
 import triviaData from "../data/challenges/trivia.json";
@@ -37,13 +39,18 @@ const CARD_DECK_TEMPLATE: Omit<Card, "id">[] = [
   { type: "powerup", powerupEffect: "extra_move" },
 ];
 
-function drawCards(hand: Card[], count: number, hands: Record<PlayerId, Card[]>): Card[] {
+function drawCards(hand: Card[], count: number): Card[] {
   const drawn: Card[] = [];
   for (let i = 0; i < count; i++) {
     const tmpl = CARD_DECK_TEMPLATE[Math.floor(Math.random() * CARD_DECK_TEMPLATE.length)];
     drawn.push({ ...tmpl, id: makeId(6) });
   }
-  return [...hand, ...drawn].slice(0, 5); // max hand size 5
+  return [...hand, ...drawn].slice(0, 5);
+}
+
+function timeToGameMin(hhmm: string): number {
+  const [h, m] = hhmm.split(":").map(Number);
+  return h * 60 + m - 7 * 60; // minutes from 07:00
 }
 
 function toSerializable(state: GameState): SerializableGameState {
@@ -73,12 +80,16 @@ function makeInitialState(roomCode: string): GameState {
     clockAcceleration: 60,
     lastRealTimestamp: Date.now(),
     headstartEndsAt: 60,
+    strategyEndsAt: undefined,
+    pausesRemaining: 2,
+    pausedUntil: undefined,
     snake: [],
     visitedSegments: new Set(),
     activeTrain: undefined,
     blockerPositions: {},
     blockerHands: {},
     blockerActionsRemaining: 0,
+    blockerActiveTrains: {},
     placements: {},
     activeChallenge: undefined,
     completedRuns: [],
@@ -98,15 +109,20 @@ export default class GameServer implements Party.Server {
     this.state = makeInitialState(room.id);
   }
 
-  // Persist + restore state across hibernation
   async onStart() {
     const stored = await this.room.storage.get<string>("state");
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
         parsed.visitedSegments = new Set(parsed.visitedSegments ?? []);
+        // Ensure new fields exist after deserialization
+        parsed.blockerActiveTrains = parsed.blockerActiveTrains ?? {};
+        parsed.pausesRemaining = parsed.pausesRemaining ?? 2;
+        parsed.pausedUntil = parsed.pausedUntil ?? undefined;
+        parsed.strategyEndsAt = parsed.strategyEndsAt ?? undefined;
         this.state = parsed;
-        if (this.state.phase !== "lobby" && this.state.phase !== "finished") {
+        const activePhases = ["strategy", "blocker_headstart", "playing", "in_transit", "challenge"];
+        if (activePhases.includes(this.state.phase)) {
           this.startClock();
         }
       } catch {
@@ -119,19 +135,13 @@ export default class GameServer implements Party.Server {
     await this.room.storage.put("state", JSON.stringify(toSerializable(this.state)));
   }
 
-  // ----------------------------------------------------------
-  // Connection lifecycle
-  // ----------------------------------------------------------
-
-  async onConnect(conn: Party.Connection, ctx: Party.ConnectionContext) {
-    // Send current state to new connection
+  async onConnect(conn: Party.Connection) {
     const msg: ServerMessage = { type: "state_update", state: toSerializable(this.state) };
     conn.send(JSON.stringify(msg));
   }
 
-  async onClose(conn: Party.Connection) {
-    // Players are identified by their connection id; we don't remove them on
-    // disconnect so they can reconnect within the same session.
+  async onClose(_conn: Party.Connection) {
+    // Players persist on disconnect for reconnection
   }
 
   // ----------------------------------------------------------
@@ -174,40 +184,78 @@ export default class GameServer implements Party.Server {
         const playerIds = Object.keys(s.players);
         if (playerIds.length < 3) break;
 
-        // First 3 players: randomly pick snaker
         const shuffled = [...playerIds].sort(() => Math.random() - 0.5);
         s.snakerId = shuffled[0];
         s.blockers = [shuffled[1], shuffled[2]];
-
-        // Assign roles
         s.players[s.snakerId].role = "snaker";
-        for (const bid of s.blockers) {
-          s.players[bid].role = "blocker";
-        }
+        for (const bid of s.blockers) s.players[bid].role = "blocker";
 
         this.startRun();
         break;
       }
 
-      case "blocker_move": {
-        if (s.phase !== "blocker_headstart" && s.phase !== "in_transit") break;
-        const { playerId, toStation } = msg;
-        if (!s.blockers.includes(playerId)) break;
-        const currentPos = s.blockerPositions[playerId];
+      // ── Board a train (snaker OR blocker) ──────────────────────────────────
+      case "board_train": {
+        const { playerId, service, toStation, allStops } = msg;
+        const isSnaker = playerId === s.snakerId;
+        const isBlocker = s.blockers.includes(playerId);
+        if (!isSnaker && !isBlocker) break;
 
-        // Validate adjacency (or allow any station during headstart for simplicity)
-        if (currentPos && !ADJACENCY[currentPos]?.includes(toStation)) break;
+        const travelMin = timeToGameMin(service.arrive) - timeToGameMin(service.depart);
 
-        s.blockerPositions[playerId] = toStation;
+        const train: ActiveTrain = {
+          service,
+          fromStation: isSnaker ? s.snake[s.snake.length - 1] : s.blockerPositions[playerId] ?? toStation,
+          toStation,
+          boardedAtGameMinute: s.gameTimeMinutes,
+          arrivalGameMinute: s.gameTimeMinutes + travelMin,
+          allStops,
+          currentStopIdx: 0,
+          deboardWindowOpen: false,
+        };
 
-        // If it's a node station, draw a card
-        if (NODE_IDS.has(toStation) && s.blockerHands[playerId]?.length < 5) {
-          s.blockerHands[playerId] = drawCards(s.blockerHands[playerId] ?? [], 1, s.blockerHands);
+        if (isSnaker) {
+          if (s.phase !== "playing") break;
+          const head = s.snake[s.snake.length - 1];
+          if (!ADJACENCY[head]?.includes(toStation)) break;
+          if (s.snake.includes(toStation)) break;
+          s.activeTrain = train;
+          s.blockerActionsRemaining = Math.floor(travelMin / 15) + 1;
+          s.phase = "in_transit";
+        } else {
+          // Blocker boards a train in headstart or in_transit
+          if (s.phase !== "blocker_headstart" && s.phase !== "in_transit" && s.phase !== "playing") break;
+          const currentPos = s.blockerPositions[playerId];
+          if (currentPos !== train.fromStation) break;
+          s.blockerActiveTrains[playerId] = train;
         }
+        break;
+      }
 
-        // Consume an action during in_transit
-        if (s.phase === "in_transit") {
-          s.blockerActionsRemaining = Math.max(0, s.blockerActionsRemaining - 1);
+      // ── Deboard a train ────────────────────────────────────────────────────
+      case "deboard_train": {
+        const { playerId } = msg;
+        const isSnaker = playerId === s.snakerId;
+        const isBlocker = s.blockers.includes(playerId);
+
+        if (isSnaker) {
+          if (!s.activeTrain?.deboardWindowOpen) break;
+          const currentStop = s.activeTrain.allStops[s.activeTrain.currentStopIdx];
+          if (!currentStop) break;
+          // Snap snake head to deboard station (new leg starts here)
+          s.snake = [...s.snake, currentStop.stationId];
+          s.visitedSegments.add(`${s.activeTrain.fromStation}_to_${currentStop.stationId}`);
+          s.visitedSegments.add(`${currentStop.stationId}_to_${s.activeTrain.fromStation}`);
+          s.activeTrain = undefined;
+          s.blockerActionsRemaining = 0;
+          s.phase = "playing";
+        } else if (isBlocker) {
+          const train = s.blockerActiveTrains[playerId];
+          if (!train?.deboardWindowOpen) break;
+          const currentStop = train.allStops[train.currentStopIdx];
+          if (!currentStop) break;
+          s.blockerPositions[playerId] = currentStop.stationId;
+          delete s.blockerActiveTrains[playerId];
         }
         break;
       }
@@ -217,7 +265,7 @@ export default class GameServer implements Party.Server {
         const { playerId } = msg;
         if (!s.blockers.includes(playerId)) break;
         if (s.blockerActionsRemaining <= 0) break;
-        s.blockerHands[playerId] = drawCards(s.blockerHands[playerId] ?? [], 1, s.blockerHands);
+        s.blockerHands[playerId] = drawCards(s.blockerHands[playerId] ?? [], 1);
         s.blockerActionsRemaining = Math.max(0, s.blockerActionsRemaining - 1);
         break;
       }
@@ -228,51 +276,50 @@ export default class GameServer implements Party.Server {
         if (!s.blockers.includes(playerId)) break;
         if (s.blockerActionsRemaining <= 0) break;
 
-        // Remove card from hand
+        // ── Card placement rule enforcement ─────────────────────────────────
+        const blockerTrain = s.blockerActiveTrains[playerId];
+        const isInTransit = !!blockerTrain;
+        const deboardWindowOpen = blockerTrain?.deboardWindowOpen ?? false;
+
+        if (card.type === "curse") {
+          // Curse: allowed if blocker not in transit OR in deboard window
+          if (isInTransit && !deboardWindowOpen) break;
+        } else if (card.type === "roadblock") {
+          // Roadblock: only when fully deboarded
+          if (isInTransit) break;
+        } else if (card.type === "battle") {
+          // Battle: only when deboarded AND snaker not at target station
+          if (isInTransit) break;
+          const snakerHead = s.snake[s.snake.length - 1];
+          if (target.stationId && target.stationId === snakerHead) break;
+        }
+
         const hand = s.blockerHands[playerId] ?? [];
         const idx = hand.findIndex((c) => c.id === card.id);
         if (idx === -1) break;
         s.blockerHands[playerId] = [...hand.slice(0, idx), ...hand.slice(idx + 1)];
 
-        // Place card
         const key = target.stationId ?? target.segmentId ?? "";
         if (key) {
           s.placements[key] = { card, placedBy: playerId, ...target };
         }
-
         s.blockerActionsRemaining = Math.max(0, s.blockerActionsRemaining - 1);
         break;
       }
 
       case "blocker_pass": {
         if (s.phase !== "in_transit") break;
-        // Pass ends this blocker's turn — if both blockers have passed, resolve arrival
         s.blockerActionsRemaining = 0;
         break;
       }
 
-      case "snaker_board_train": {
-        if (s.phase !== "playing") break;
-        const { service, toStation } = msg;
-
-        // Validate: toStation must be adjacent to snake head and not visited
-        const head = s.snake[s.snake.length - 1];
-        if (!ADJACENCY[head]?.includes(toStation)) break;
-        if (s.snake.includes(toStation)) break;
-
-        const travelMin =
-          this.timeToMinutes(service.arrive) - this.timeToMinutes(service.depart);
-
-        s.activeTrain = {
-          service,
-          fromStation: head,
-          toStation,
-          boardedAtGameMinute: s.gameTimeMinutes,
-          arrivalGameMinute: s.gameTimeMinutes + travelMin,
-        };
-
-        s.blockerActionsRemaining = Math.floor(travelMin / 15) + 1;
-        s.phase = "in_transit";
+      case "request_pause": {
+        const activePhases = ["blocker_headstart", "playing", "in_transit", "challenge"];
+        if (!activePhases.includes(s.phase)) break;
+        if (s.pausesRemaining <= 0) break;
+        if (s.pausedUntil && Date.now() < s.pausedUntil) break; // already paused
+        s.pausedUntil = Date.now() + 60_000; // 1 real minute
+        s.pausesRemaining -= 1;
         break;
       }
 
@@ -280,8 +327,6 @@ export default class GameServer implements Party.Server {
         if (s.phase !== "challenge" || !s.activeChallenge) break;
         const { playerId, answer } = msg;
         s.activeChallenge.submissions[playerId] = answer;
-
-        // Resolve once all relevant players have submitted
         this.tryResolveChallenge();
         break;
       }
@@ -302,47 +347,44 @@ export default class GameServer implements Party.Server {
   // Game logic helpers
   // ----------------------------------------------------------
 
-  timeToMinutes(hhmm: string): number {
-    const [h, m] = hhmm.split(":").map(Number);
-    return h * 60 + m;
-  }
-
   startRun() {
     const s = this.state;
-    // Pick a random starting station for each blocker
     const allStations = Object.keys(ADJACENCY) as StationId[];
 
-    s.snake = ["yongsan"]; // Snaker always starts at Yongsan
+    s.snake = ["yongsan"];
     s.visitedSegments = new Set();
     s.activeTrain = undefined;
     s.placements = {};
     s.activeChallenge = undefined;
-    s.gameTimeMinutes = 0; // represents 07:00
+    s.gameTimeMinutes = 0;
     s.lastRealTimestamp = Date.now();
     s.headstartEndsAt = 60;
     s.blockerActionsRemaining = 0;
+    s.blockerActiveTrains = {};
+    s.pausesRemaining = 2;
+    s.pausedUntil = undefined;
 
-    // Give each blocker starting position + 3 cards
+    // Strategy phase: 5 real minutes before clock starts
+    s.phase = "strategy";
+    s.strategyEndsAt = Date.now() + 5 * 60 * 1000;
+
     for (const bid of s.blockers) {
       const randomIdx = Math.floor(Math.random() * allStations.length);
       s.blockerPositions[bid] = allStations[randomIdx];
-      s.blockerHands[bid] = drawCards([], 3, s.blockerHands);
+      s.blockerHands[bid] = drawCards([], 3);
     }
 
-    s.phase = "blocker_headstart";
     this.startClock();
   }
 
   rotateRoles() {
     const s = this.state;
-    // Find the 2 players who aren't the current best-score snaker
     const allIds = [s.snakerId, ...s.blockers];
     const bestRun = s.completedRuns.reduce(
       (best, r) => (r.length > (best?.length ?? -1) ? r : best),
       null as (typeof s.completedRuns)[0] | null
     );
 
-    // Next snaker = random from the 2 non-winners
     const nonWinners = allIds.filter((id) => id !== bestRun?.snakerId);
     const nextSnaker = nonWinners[Math.floor(Math.random() * nonWinners.length)];
     const nextBlockers = allIds.filter((id) => id !== nextSnaker) as [PlayerId, PlayerId];
@@ -356,40 +398,130 @@ export default class GameServer implements Party.Server {
 
   startClock() {
     if (this.clockInterval) return;
-    // Broadcast clock update every 5 real seconds
     this.clockInterval = setInterval(() => {
-      const s = this.state;
-      if (s.phase === "lobby" || s.phase === "run_end" || s.phase === "finished") {
-        return;
+      this.tick();
+    }, 5000);
+  }
+
+  tick() {
+    const s = this.state;
+    const terminalPhases = ["lobby", "run_end", "finished"];
+    if (terminalPhases.includes(s.phase)) return;
+
+    const now = Date.now();
+
+    // ── Strategy phase: wait for real timer to expire ──────────────────────
+    if (s.phase === "strategy") {
+      if (now >= (s.strategyEndsAt ?? 0)) {
+        s.phase = "blocker_headstart";
+        s.lastRealTimestamp = now;
       }
-
-      const now = Date.now();
-      const realElapsed = (now - s.lastRealTimestamp) / 1000 / 60; // real minutes elapsed
-      const gameMinsElapsed = realElapsed * s.clockAcceleration;
-      s.gameTimeMinutes += gameMinsElapsed;
-      s.lastRealTimestamp = now;
-
-      // Check headstart end
-      if (s.phase === "blocker_headstart" && s.gameTimeMinutes >= s.headstartEndsAt) {
-        s.phase = "playing";
-      }
-
-      // Check in_transit arrival
-      if (s.phase === "in_transit" && s.activeTrain) {
-        if (s.gameTimeMinutes >= s.activeTrain.arrivalGameMinute) {
-          this.handleArrival();
-        }
-      }
-
-      // Check 19:00 (720 min from 07:00) cutoff
-      const terminalPhases = ["run_end", "finished", "lobby"] as string[];
-      if (s.gameTimeMinutes >= 720 && !terminalPhases.includes(s.phase)) {
-        this.endRun(false);
-      }
-
       this.saveState();
       broadcast(this.room, s);
-    }, 5000);
+      return;
+    }
+
+    // ── Pause: skip time advancement while paused ──────────────────────────
+    if (s.pausedUntil && now < s.pausedUntil) {
+      s.lastRealTimestamp = now; // keep timestamp fresh so no time debt accrues
+      broadcast(this.room, s);
+      return;
+    }
+
+    // ── Advance game clock ────────────────────────────────────────────────
+    const realElapsed = (now - s.lastRealTimestamp) / 1000 / 60;
+    const gameMinsElapsed = realElapsed * s.clockAcceleration;
+    s.gameTimeMinutes += gameMinsElapsed;
+    s.lastRealTimestamp = now;
+
+    // ── Headstart end ─────────────────────────────────────────────────────
+    if (s.phase === "blocker_headstart" && s.gameTimeMinutes >= s.headstartEndsAt) {
+      s.phase = "playing";
+    }
+
+    // ── Advance blocker trains ────────────────────────────────────────────
+    for (const bid of s.blockers) {
+      const train = s.blockerActiveTrains[bid];
+      if (!train) continue;
+      this.advanceTrain(train, s.gameTimeMinutes, (stationId) => {
+        s.blockerPositions[bid] = stationId;
+      }, () => {
+        // Auto-deboard at final stop
+        const finalStop = train.allStops[train.allStops.length - 1];
+        if (finalStop) s.blockerPositions[bid] = finalStop.stationId;
+        delete s.blockerActiveTrains[bid];
+        // Node reward
+        if (s.blockerPositions[bid] && NODE_IDS.has(s.blockerPositions[bid]!)) {
+          s.blockerHands[bid] = drawCards(s.blockerHands[bid] ?? [], 1);
+        }
+      });
+    }
+
+    // ── Snaker train: intermediate stops + final arrival ──────────────────
+    if (s.phase === "in_transit" && s.activeTrain) {
+      this.advanceTrain(s.activeTrain, s.gameTimeMinutes, () => {
+        // intermediate stop: snaker stays on train, no position update
+      }, () => {
+        this.handleArrival();
+      });
+    }
+
+    // ── 19:00 cutoff ──────────────────────────────────────────────────────
+    if (s.gameTimeMinutes >= 720 && !terminalPhases.includes(s.phase)) {
+      this.endRun(false);
+    }
+
+    this.saveState();
+    broadcast(this.room, s);
+  }
+
+  /**
+   * Advance a train's position through its stops based on current game time.
+   * Calls onIntermediateStop when the train arrives at an intermediate stop.
+   * Calls onFinalStop when the train reaches its final destination.
+   * Returns true if the final stop was reached this tick.
+   */
+  advanceTrain(
+    train: ActiveTrain,
+    gameTimeMinutes: number,
+    onIntermediateStop: (stationId: StationId) => void,
+    onFinalStop: () => void
+  ): boolean {
+    const stops = train.allStops;
+
+    // Walk through stops beyond currentStopIdx
+    let changed = false;
+    while (train.currentStopIdx < stops.length - 1) {
+      const nextStop = stops[train.currentStopIdx + 1];
+      if (!nextStop.arrive) break;
+      const nextArriveMin = timeToGameMin(nextStop.arrive);
+      if (gameTimeMinutes < nextArriveMin) break;
+
+      // Arrived at next stop
+      train.currentStopIdx++;
+      train.deboardWindowOpen = true;
+      onIntermediateStop(nextStop.stationId);
+      changed = true;
+
+      // Check if this is the final stop (depart === null)
+      if (nextStop.depart === null) {
+        onFinalStop();
+        return true;
+      }
+    }
+
+    // Close deboard window once train has departed the current intermediate stop
+    if (train.deboardWindowOpen && train.currentStopIdx < stops.length - 1) {
+      const currentStop = stops[train.currentStopIdx];
+      if (currentStop.depart) {
+        const departMin = timeToGameMin(currentStop.depart);
+        if (gameTimeMinutes >= departMin) {
+          train.deboardWindowOpen = false;
+        }
+      }
+    }
+
+    return false;
   }
 
   handleArrival() {
@@ -402,7 +534,7 @@ export default class GameServer implements Party.Server {
     const segKey = `${fromStation}_to_${toStation}`;
     const cursePlacement = s.placements[segKey];
     if (cursePlacement?.card?.type === "curse") {
-      s.gameTimeMinutes += 30; // +30 min penalty
+      s.gameTimeMinutes += 30;
       delete s.placements[segKey];
     }
 
@@ -425,7 +557,7 @@ export default class GameServer implements Party.Server {
       return;
     }
 
-    // Normal arrival — extend snake
+    // Normal arrival
     s.snake = [...s.snake, toStation];
     s.visitedSegments.add(`${fromStation}_to_${toStation}`);
     s.visitedSegments.add(`${toStation}_to_${fromStation}`);
@@ -433,9 +565,7 @@ export default class GameServer implements Party.Server {
     s.blockerActionsRemaining = 0;
     s.phase = "playing";
 
-    // Check if no onward moves exist or time up
-    const head = toStation;
-    const neighbors = ADJACENCY[head] ?? [];
+    const neighbors = ADJACENCY[toStation] ?? [];
     const hasOnwardMove = neighbors.some((n) => !s.snake.includes(n));
     if (!hasOnwardMove) {
       this.endRun(false);
@@ -454,7 +584,7 @@ export default class GameServer implements Party.Server {
     }
     if (type === "memory") {
       const colors = ["red", "blue", "green", "yellow"];
-      const len = 4 + Math.floor(Math.random() * 3); // 4-6 colors
+      const len = 4 + Math.floor(Math.random() * 3);
       const sequence = Array.from({ length: len }, () =>
         colors[Math.floor(Math.random() * colors.length)]
       );
@@ -477,15 +607,11 @@ export default class GameServer implements Party.Server {
     const s = this.state;
     if (!s.activeChallenge) return;
 
-    const challenge = s.activeChallenge;
-    const { triggeredBy, involvedStation, submissions } = challenge;
-
-    // Determine who must submit
+    const { triggeredBy, involvedStation, submissions } = s.activeChallenge;
     const snakerSubmission = submissions[s.snakerId];
 
     if (triggeredBy === "roadblock") {
-      // Snaker must answer correctly to pass
-      if (snakerSubmission === undefined) return; // wait
+      if (snakerSubmission === undefined) return;
       const passed =
         typeof snakerSubmission === "boolean"
           ? snakerSubmission
@@ -497,11 +623,9 @@ export default class GameServer implements Party.Server {
       if (passed) {
         this.completeArrival(involvedStation);
       } else {
-        this.endRun(true); // crash
+        this.endRun(true);
       }
     } else if (triggeredBy === "battle") {
-      // Snaker must beat at least one physically-present blocker
-      // Collect all submissions, resolve when snaker + at least one blocker submitted
       const presentBlockers = s.blockers.filter(
         (bid) => s.blockerPositions[bid] === involvedStation
       );
@@ -511,7 +635,6 @@ export default class GameServer implements Party.Server {
 
       if (!allSubmitted) return;
 
-      // Compare: reaction = lowest ms wins; boolean = true wins
       const snakerVal = snakerSubmission as number;
       const snakerWon = presentBlockers.some((bid) => {
         const bVal = submissions[bid] as number;
@@ -532,9 +655,7 @@ export default class GameServer implements Party.Server {
     if (!s.activeTrain) return;
     const { fromStation } = s.activeTrain;
 
-    // Remove card at station
     delete s.placements[toStation];
-
     s.snake = [...s.snake, toStation];
     s.visitedSegments.add(`${fromStation}_to_${toStation}`);
     s.visitedSegments.add(`${toStation}_to_${fromStation}`);
@@ -562,10 +683,8 @@ export default class GameServer implements Party.Server {
     s.activeTrain = undefined;
     s.phase = "run_end";
 
-    // Check if all 3 players have had a snaker run
     const uniqueSnakerIds = new Set(s.completedRuns.map((r) => r.snakerId));
     if (uniqueSnakerIds.size >= 3) {
-      // All done — declare winner (longest snake)
       const best = s.completedRuns.reduce((a, b) => (a.length >= b.length ? a : b));
       s.winner = best.snakerId;
       s.phase = "finished";

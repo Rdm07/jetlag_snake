@@ -1,23 +1,29 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { useParams } from "next/navigation";
 import PartySocket from "partysocket";
 import type {
   SerializableGameState,
   ClientMessage,
   PlayerId,
-  TrainService,
   StationId,
+  SegmentId,
+  TrainService,
+  TrainStop,
 } from "@/shared/types";
 import TrainMap from "@/app/components/TrainMap";
 import GameClock from "@/app/components/GameClock";
 import Lobby from "@/app/components/Lobby";
-import DeparturesBoard from "@/app/components/DeparturesBoard";
 import InTransitOverlay from "@/app/components/InTransitOverlay";
 import BlockerPanel from "@/app/components/BlockerPanel";
 import ChallengeHost from "@/app/components/challenges/ChallengeHost";
+import StationDeparturesModal from "@/app/components/StationDeparturesModal";
+import PauseButton from "@/app/components/PauseButton";
+import StrategyTimer from "@/app/components/StrategyTimer";
 import { useToast } from "@/app/components/Toast";
+import type { Timetable } from "@/lib/trainRoutes";
+import { buildTrainIndex } from "@/lib/trainRoutes";
 
 const PARTYKIT_HOST =
   process.env.NEXT_PUBLIC_PARTYKIT_HOST ?? "localhost:1999";
@@ -41,10 +47,33 @@ export default function RoomPage() {
   const socketRef = useRef<PartySocket | null>(null);
   const { addToast, ToastContainer } = useToast();
 
+  // Timetable + train index (loaded once)
+  const [timetable, setTimetable] = useState<Timetable>({});
+  const trainIndex = useMemo(() => buildTrainIndex(timetable), [timetable]);
+
+  // Station click → departures modal
+  const [clickedStation, setClickedStation] = useState<StationId | null>(null);
+
+  // Blocker card placement target (set by clicking a station on the map)
+  const [selectedTarget, setSelectedTarget] = useState<{
+    stationId?: StationId;
+    segmentId?: SegmentId;
+  } | null>(null);
+  const [pendingCardPlacement, setPendingCardPlacement] = useState(false);
+
   const send = useCallback((msg: ClientMessage) => {
     socketRef.current?.send(JSON.stringify(msg));
   }, []);
 
+  // Load timetable
+  useEffect(() => {
+    fetch("/data/timetable.json")
+      .then((r) => r.json())
+      .then((data) => setTimetable(data))
+      .catch(() => {});
+  }, []);
+
+  // WebSocket connection
   useEffect(() => {
     if (!roomCode) return;
 
@@ -53,7 +82,6 @@ export default function RoomPage() {
       room: roomCode,
       id: localPlayerId,
     });
-
     socketRef.current = socket;
 
     socket.addEventListener("message", (evt) => {
@@ -81,6 +109,24 @@ export default function RoomPage() {
     return () => socket.close();
   }, [roomCode, localPlayerId]);
 
+  const handleStationClick = useCallback((stationId: StationId) => {
+    if (pendingCardPlacement) {
+      // Set as card placement target instead of opening departures
+      setSelectedTarget({ stationId });
+      setPendingCardPlacement(false);
+      return;
+    }
+    setClickedStation(stationId);
+  }, [pendingCardPlacement]);
+
+  const handleBoardTrain = useCallback((service: TrainService, toStation: StationId, allStops: TrainStop[]) => {
+    send({ type: "board_train", playerId: localPlayerId, service, toStation, allStops });
+  }, [send, localPlayerId]);
+
+  const handleDeboard = useCallback(() => {
+    send({ type: "deboard_train", playerId: localPlayerId });
+  }, [send, localPlayerId]);
+
   if (!state) {
     return (
       <div className="flex items-center justify-center min-h-screen text-gray-400">
@@ -90,10 +136,17 @@ export default function RoomPage() {
   }
 
   const phase = state.phase;
+  const role = state.players[localPlayerId]?.role;
+
+  // Current player position (for departures modal)
+  const playerPosition: StationId | null =
+    role === "snaker"
+      ? state.snake?.[state.snake.length - 1] ?? null
+      : state.blockerPositions?.[localPlayerId] ?? null;
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-950 text-white">
-      {/* Header bar */}
+      {/* Header */}
       <header className="flex items-center justify-between px-4 py-2 border-b border-gray-800 flex-wrap gap-2">
         <div className="flex items-center gap-2">
           <span className="font-bold text-gray-300">
@@ -110,12 +163,33 @@ export default function RoomPage() {
           </button>
         </div>
         {phase !== "lobby" && <GameClock state={state} />}
-        <span className="text-gray-400 text-sm">
-          {state.players[localPlayerId]?.name ?? "…"} —{" "}
-          {state.players[localPlayerId]?.role ?? "joining"}
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-gray-400 text-sm">
+            {state.players[localPlayerId]?.name ?? "…"} —{" "}
+            {state.players[localPlayerId]?.role ?? "joining"}
+          </span>
+          <PauseButton state={state} localPlayerId={localPlayerId} send={send} />
+        </div>
       </header>
       <ToastContainer />
+
+      {/* Strategy phase overlay (shown over the map) */}
+      {phase === "strategy" && <StrategyTimer state={state} />}
+
+      {/* Departures modal */}
+      {clickedStation && (
+        <StationDeparturesModal
+          stationId={clickedStation}
+          timetable={timetable}
+          trainIndex={trainIndex}
+          gameTimeMinutes={state.gameTimeMinutes}
+          playerPosition={playerPosition}
+          playerRole={role ?? "blocker"}
+          snakeStations={state.snake ?? []}
+          onBoard={handleBoardTrain}
+          onClose={() => setClickedStation(null)}
+        />
+      )}
 
       {/* Main content */}
       <div className="flex flex-1 overflow-hidden">
@@ -129,20 +203,24 @@ export default function RoomPage() {
           />
         ) : (
           <div className="flex flex-1 gap-0 overflow-hidden">
-            {/* Map — takes most space */}
+            {/* Map */}
             <div className="flex-1 overflow-hidden">
               <TrainMap
                 state={state}
                 localPlayerId={localPlayerId}
+                onStationClick={handleStationClick}
               />
             </div>
 
-            {/* Side panel placeholder — filled in later sections */}
+            {/* Side panel */}
             <aside className="w-72 border-l border-gray-800 flex flex-col overflow-y-auto p-3 gap-3 text-sm">
               <PhasePanel
                 state={state}
                 localPlayerId={localPlayerId}
                 send={send}
+                selectedTarget={selectedTarget}
+                onClearTarget={() => setSelectedTarget(null)}
+                onDeboard={handleDeboard}
               />
             </aside>
           </div>
@@ -153,28 +231,54 @@ export default function RoomPage() {
 }
 
 // ---------------------------------------------------------------------------
-// Phase-specific side panel (simplified for now — fleshed out in later sections)
+// Phase-specific side panel
 // ---------------------------------------------------------------------------
 
 function PhasePanel({
   state,
   localPlayerId,
   send,
+  selectedTarget,
+  onClearTarget,
+  onDeboard,
 }: {
   state: SerializableGameState;
   localPlayerId: PlayerId;
   send: (msg: ClientMessage) => void;
+  selectedTarget: { stationId?: StationId; segmentId?: SegmentId } | null;
+  onClearTarget: () => void;
+  onDeboard: () => void;
 }) {
   const role = state.players[localPlayerId]?.role;
   const phase = state.phase;
+
+  if (phase === "strategy") {
+    return (
+      <div className="space-y-2">
+        <p className="font-semibold text-purple-400">Strategy Phase</p>
+        <p className="text-gray-400 text-xs">
+          Review the map and plan your route. Click any station to see its timetable.
+        </p>
+      </div>
+    );
+  }
 
   if (phase === "blocker_headstart") {
     if (role !== "snaker") {
       return (
         <div className="space-y-3">
           <p className="font-semibold text-yellow-400">Head Start Phase</p>
-          <p className="text-gray-400 text-xs">Move to strategic positions before the Snaker boards.</p>
-          <BlockerPanel state={state} localPlayerId={localPlayerId} send={send} />
+          <p className="text-gray-400 text-xs">
+            Click stations on the map to board trains and position yourself.
+          </p>
+          <InTransitOverlay state={state} localPlayerId={localPlayerId} onDeboard={onDeboard} />
+          <BlockerPanel
+            state={state}
+            localPlayerId={localPlayerId}
+            selectedTarget={selectedTarget}
+            onClearTarget={onClearTarget}
+            send={send}
+          />
         </div>
       );
     }
@@ -182,7 +286,7 @@ function PhasePanel({
       <div className="space-y-2">
         <p className="font-semibold text-yellow-400">Head Start Phase</p>
         <p className="text-gray-400 text-sm">
-          Blockers are positioning. You may board trains at 08:00 in-game.
+          Blockers are positioning. Your turn begins at 08:00 in-game.
         </p>
       </div>
     );
@@ -192,18 +296,28 @@ function PhasePanel({
     const snaker = state.players[state.snakerId];
     if (role === "snaker") {
       return (
-        <DeparturesBoard
-          state={state}
-          onBoardTrain={(service, toStation) =>
-            send({ type: "snaker_board_train", service, toStation })
-          }
-        />
+        <div className="space-y-3">
+          <p className="font-semibold text-green-400">Your Turn</p>
+          <p className="text-gray-400 text-xs">
+            Click a station on the map to view departures and board a train.
+          </p>
+          <div className="text-xs text-gray-500">
+            Current head:{" "}
+            <span className="text-white">
+              {state.snake?.[state.snake.length - 1]?.replace(/_/g, " ") ?? "?"}
+            </span>
+          </div>
+          <div className="text-xs text-gray-500">
+            Snake length: <span className="text-white">{state.snake?.length ?? 0}</span>
+          </div>
+        </div>
       );
     }
     return (
-      <div className="space-y-2">
+      <div className="space-y-3">
         <p className="font-semibold text-green-400">{snaker?.name} is choosing a train</p>
-        <p className="text-gray-500 text-xs">Snake length: {state.snake.length} station(s)</p>
+        <p className="text-gray-500 text-xs">Snake length: {state.snake?.length ?? 0} station(s)</p>
+        <InTransitOverlay state={state} localPlayerId={localPlayerId} onDeboard={onDeboard} />
       </div>
     );
   }
@@ -211,9 +325,15 @@ function PhasePanel({
   if (phase === "in_transit") {
     return (
       <div className="space-y-4">
-        <InTransitOverlay state={state} />
+        <InTransitOverlay state={state} localPlayerId={localPlayerId} onDeboard={onDeboard} />
         {role !== "snaker" && (
-          <BlockerPanel state={state} localPlayerId={localPlayerId} send={send} />
+          <BlockerPanel
+            state={state}
+            localPlayerId={localPlayerId}
+            selectedTarget={selectedTarget}
+            onClearTarget={onClearTarget}
+            send={send}
+          />
         )}
       </div>
     );
@@ -224,7 +344,7 @@ function PhasePanel({
   }
 
   if (phase === "run_end") {
-    const lastRun = state.completedRuns[state.completedRuns.length - 1];
+    const lastRun = state.completedRuns?.[state.completedRuns.length - 1];
     return (
       <div className="space-y-2">
         <p className="font-semibold text-orange-400">Run Over</p>
@@ -254,7 +374,7 @@ function PhasePanel({
           </p>
         )}
         <div className="space-y-1">
-          {state.completedRuns.map((r, i) => (
+          {state.completedRuns?.map((r, i) => (
             <div key={i} className="text-xs text-gray-400">
               {state.players[r.snakerId]?.name}: {r.length} stations
             </div>

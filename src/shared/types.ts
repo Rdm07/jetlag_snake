@@ -12,6 +12,12 @@ export interface TrainService {
   arrive: string; // "HH:MM"
 }
 
+export interface TrainStop {
+  stationId: StationId;
+  arrive: string | null;  // null for boarding station
+  depart: string | null;  // null for final stop
+}
+
 export interface Card {
   id: string;
   type: CardType;
@@ -31,6 +37,9 @@ export interface ActiveTrain {
   toStation: StationId;
   boardedAtGameMinute: number;
   arrivalGameMinute: number;
+  allStops: TrainStop[];        // full stop sequence from boarding onward
+  currentStopIdx: number;       // index of current/last reached stop
+  deboardWindowOpen: boolean;   // true during dwell time at an intermediate stop
 }
 
 export type ChallengeType =
@@ -60,12 +69,13 @@ export interface RunRecord {
 
 export type GamePhase =
   | "lobby"
-  | "blocker_headstart" // Blockers move freely; Snaker waits (first 60 in-game min)
-  | "playing"           // Snaker picks a train
-  | "in_transit"        // Snaker on a train; Blockers take actions
-  | "challenge"         // Mini-game active
-  | "run_end"           // Run over; show results
-  | "finished";         // All runs done; show winner
+  | "strategy"             // 5-min real-time planning phase before clock starts
+  | "blocker_headstart"    // Blockers move freely; Snaker waits (first 60 in-game min)
+  | "playing"              // Snaker picks a train
+  | "in_transit"           // Snaker on a train; Blockers take actions
+  | "challenge"            // Mini-game active
+  | "run_end"              // Run over; show results
+  | "finished";            // All runs done; show winner
 
 export interface PlayerInfo {
   name: string;
@@ -90,6 +100,13 @@ export interface GameState {
   // Head start
   headstartEndsAt: number;       // game minute when head start ends (always 60)
 
+  // Strategy phase
+  strategyEndsAt?: number;       // epoch ms when strategy phase expires
+
+  // Pause
+  pausesRemaining: number;       // pauses left this run (2 at start)
+  pausedUntil?: number;          // epoch ms when current pause expires
+
   // Snaker state
   snake: StationId[];            // [start, ..., current_head]
   visitedSegments: Set<SegmentId>;
@@ -99,6 +116,7 @@ export interface GameState {
   blockerPositions: Record<PlayerId, StationId | null>;
   blockerHands: Record<PlayerId, Card[]>; // max 5 cards each
   blockerActionsRemaining: number;        // shared pool during in_transit
+  blockerActiveTrains: Record<PlayerId, ActiveTrain | undefined>;
 
   // Card placements on map
   placements: Record<string, Placement>; // key: stationId or segmentId
@@ -117,12 +135,13 @@ export type ClientMessage =
   | { type: "set_name"; name: string }
   | { type: "set_acceleration"; value: 30 | 60 | 120 }
   | { type: "start_game" }
-  | { type: "snaker_board_train"; service: TrainService; toStation: StationId }
-  | { type: "blocker_move"; playerId: PlayerId; toStation: StationId }
+  | { type: "board_train"; playerId: PlayerId; service: TrainService; toStation: StationId; allStops: TrainStop[] }
+  | { type: "deboard_train"; playerId: PlayerId }
   | { type: "blocker_play_card"; playerId: PlayerId; card: Card; target: { stationId?: StationId; segmentId?: SegmentId } }
   | { type: "blocker_draw_card"; playerId: PlayerId }
   | { type: "blocker_pass"; playerId: PlayerId }
   | { type: "challenge_submit"; playerId: PlayerId; answer: unknown }
+  | { type: "request_pause"; playerId: PlayerId }
   | { type: "start_next_run" };
 
 export type ServerMessage =
