@@ -186,6 +186,7 @@ export default function RoomPage() {
           playerPosition={playerPosition}
           playerRole={role ?? "blocker"}
           snakeStations={state.snake ?? []}
+          disableBoarding={state.phase === "strategy"}
           onBoard={handleBoardTrain}
           onClose={() => setClickedStation(null)}
         />

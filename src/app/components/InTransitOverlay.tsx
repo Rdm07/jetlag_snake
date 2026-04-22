@@ -110,14 +110,25 @@ function TrainCard({
     <div className="bg-gray-800 rounded-lg p-3 text-sm space-y-2">
       <div className="flex items-center justify-between">
         <span className="text-blue-400 font-semibold text-xs">{label}</span>
-        {canDeboard && train.deboardWindowOpen && (
-          <button
-            onClick={onDeboard}
-            className="bg-yellow-500 hover:bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full animate-pulse"
-          >
-            Deboard!
-          </button>
-        )}
+        <div className="flex gap-2">
+          {canDeboard && train.currentStopIdx === 0 && !train.deboardWindowOpen && (
+            <button
+              onClick={onDeboard}
+              className="bg-gray-600 hover:bg-gray-500 text-white text-xs font-medium px-2 py-0.5 rounded"
+              title="Cancel and return to boarding station"
+            >
+              Cancel trip
+            </button>
+          )}
+          {canDeboard && train.deboardWindowOpen && (
+            <button
+              onClick={onDeboard}
+              className="bg-yellow-500 hover:bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full animate-pulse"
+            >
+              Deboard!
+            </button>
+          )}
+        </div>
       </div>
       <p className="text-white font-medium">
         {fromName} → {toName}

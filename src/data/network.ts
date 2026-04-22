@@ -176,6 +176,75 @@ export const NODE_IDS = new Set<StationId>([
   "jeongdongjin",   // 강릉선 + 동해선B
 ]);
 
+// Line speed class — controls rendered stroke width
+export const LINE_SPEEDS: Record<RailLine, "ktx" | "regional" | "local"> = {
+  gyeongbu:   "ktx",
+  honam:      "ktx",
+  gangneung:  "ktx",
+  jungang:    "regional",
+  gyeongjeon: "local",
+  donghae:    "local",
+};
+
+// Optional waypoints for edges that need orthogonal/bent routing.
+// Key = canonical (alphabetically sorted) station pair joined by "_".
+// Values = intermediate [x, y] points the edge passes through.
+const EDGE_WAYPOINTS_RAW: Record<string, [number, number][]> = {
+  // Gangneung line: Sangbong→Jinbu goes east then south
+  "jinbu_sangbong":          [[445, 65]],
+  // Gangneung line: Seowonju→Dongbaeksan goes east then north
+  "dongbaeksan_seowonju":    [[505, 260]],
+  // Jungang line: Yongsan→Bongyang goes east then south
+  "bongyang_yongsan":        [[365, 130]],
+  // Honam: Jochiwon→Iksan goes west then south
+  "iksan_jochiwon":          [[185, 345]],
+  // Honam: Iksan→Hongseong goes west then north
+  "hongseong_iksan":         [[148, 415]],
+  // Donghae coast: Gyeongju→Donghae goes east then north
+  "donghae_gyeongju":        [[575, 468]],
+  // Gyeongjeon: Suncheon→Samnangjin goes east then north
+  "samnangjin_suncheon":     [[440, 580]],
+  // Donghae: Bujeon→Gyeongju goes east then north
+  "bujeon_gyeongju":         [[545, 548]],
+  // Chungbuk: Osong→Chungju goes east
+  "chungju_osong":           [[330, 315]],
+  // Pyeongtaek branch: west elbow
+  "anjung_pyeongtaek":       [[205, 215]],
+  // Honam: Daejeon→Seodaejeon west elbow
+  "daejeon_seodaejeon":      [[225, 375]],
+  // Honam: Seodaejeon→Iksan goes west then south
+  "iksan_seodaejeon":        [[185, 385]],
+  // Jungang: Yeongju→Gimcheon goes west then south
+  "gimcheon_yeongju":        [[400, 308]],
+  // Jungang: Yeongju→Yeongcheon goes east then south
+  "yeongcheon_yeongju":      [[470, 308]],
+  // Gyeongbu: Gimcheon→Dongdaegu goes east then south
+  "dongdaegu_gimcheon":      [[450, 395]],
+  // Gyeongjeon: Samnangjin→Bujeon goes east then south
+  "bujeon_samnangjin":       [[488, 508]],
+};
+
+/**
+ * Returns the full ordered point list [from, ...waypoints, to] for drawing an edge.
+ * Use this for both rendering (RailEdge) and player position interpolation (TrainMap).
+ */
+export function getEdgePoints(a: StationId, b: StationId): [number, number][] {
+  const stA = STATIONS[a];
+  const stB = STATIONS[b];
+  if (!stA || !stB) return [];
+  const key = canonicalKey(a, b);
+  const wps = EDGE_WAYPOINTS_RAW[key] ?? [];
+  const start: [number, number] = [stA.x, stA.y];
+  const end: [number, number] = [stB.x, stB.y];
+  // Waypoints are defined relative to the canonical (alphabetical) order.
+  // If a > b alphabetically, the actual drawing goes b→a, so reverse the waypoints.
+  const sorted = [a, b].sort();
+  const reversed = sorted[0] !== a;
+  return reversed
+    ? [start, ...[...wps].reverse(), end]
+    : [start, ...wps, end];
+}
+
 // Build adjacency map for quick neighbor lookups
 export const ADJACENCY: Record<StationId, StationId[]> = {};
 for (const [a, b] of EDGES) {

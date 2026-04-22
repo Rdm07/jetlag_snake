@@ -1,6 +1,6 @@
 "use client";
 
-import { STATIONS, LINE_COLORS } from "@/data/network";
+import { STATIONS, LINE_COLORS, LINE_SPEEDS, getEdgePoints } from "@/data/network";
 import type { RailLine } from "@/data/network";
 import type { StationId } from "@/shared/types";
 
@@ -20,6 +20,47 @@ const SNAKE_COLORS: Record<string, string> = {
   green: "#22c55e",
 };
 
+const SPEED_WIDTHS: Record<string, { base: number; visited: number; glow: number }> = {
+  ktx:      { base: 4.5, visited: 7,   glow: 14 },
+  regional: { base: 3,   visited: 5,   glow: 10 },
+  local:    { base: 2,   visited: 3.5, glow: 7  },
+};
+
+const SPEED_OPACITY: Record<string, number> = {
+  ktx:      0.85,
+  regional: 0.70,
+  local:    0.60,
+};
+
+/**
+ * Build an SVG path string through the given points, with smooth rounded corners
+ * at each intermediate waypoint using quadratic bezier curves.
+ */
+function pathThroughPoints(pts: [number, number][], cornerRadius = 12): string {
+  if (pts.length < 2) return "";
+  if (pts.length === 2) {
+    return `M ${pts[0][0]},${pts[0][1]} L ${pts[1][0]},${pts[1][1]}`;
+  }
+
+  let d = `M ${pts[0][0]},${pts[0][1]}`;
+  for (let i = 1; i < pts.length - 1; i++) {
+    const [px, py] = pts[i - 1];
+    const [cx, cy] = pts[i];
+    const [nx, ny] = pts[i + 1];
+    const d1 = Math.hypot(cx - px, cy - py);
+    const d2 = Math.hypot(nx - cx, ny - cy);
+    const t1 = d1 > 0 ? Math.min(cornerRadius, d1 / 2) / d1 : 0;
+    const t2 = d2 > 0 ? Math.min(cornerRadius, d2 / 2) / d2 : 0;
+    const p1x = cx + (px - cx) * t1;
+    const p1y = cy + (py - cy) * t1;
+    const p2x = cx + (nx - cx) * t2;
+    const p2y = cy + (ny - cy) * t2;
+    d += ` L ${p1x.toFixed(1)},${p1y.toFixed(1)} Q ${cx},${cy} ${p2x.toFixed(1)},${p2y.toFixed(1)}`;
+  }
+  d += ` L ${pts[pts.length - 1][0]},${pts[pts.length - 1][1]}`;
+  return d;
+}
+
 export default function RailEdge({
   from,
   to,
@@ -33,44 +74,56 @@ export default function RailEdge({
   const b = STATIONS[to];
   if (!a || !b) return null;
 
+  const points = getEdgePoints(from, to);
+  const pathData = pathThroughPoints(points);
+
+  const speed = LINE_SPEEDS[lineName] ?? "local";
+  const widths = SPEED_WIDTHS[speed];
+  const baseOpacity = SPEED_OPACITY[speed];
   const lineColor = LINE_COLORS[lineName] ?? "#4b5563";
 
   const stroke = isVisited
     ? (SNAKE_COLORS[snakeColor] ?? "#22c55e")
     : isCursed
-    ? "#c084fc" // purple-400
+    ? "#c084fc"
     : lineColor;
 
-  const strokeWidth = isVisited ? 5 : 2.5;
-  const strokeOpacity = isVisited ? 1 : 0.75;
-  const dashArray = isCursed && !isVisited ? "6 4" : undefined;
+  const strokeWidth = isVisited ? widths.visited : widths.base;
+  const strokeOpacity = isVisited ? 1 : isCursed ? 0.9 : baseOpacity;
+  const dashArray = isCursed && !isVisited ? "7 5" : undefined;
 
+  // Midpoint for icon overlay
   const mx = (a.x + b.x) / 2;
   const my = (a.y + b.y) / 2;
 
   return (
     <g>
-      {/* Shadow/glow for visited segments */}
+      {/* Glow layer for visited segments */}
       {isVisited && (
-        <line
-          x1={a.x} y1={a.y} x2={b.x} y2={b.y}
+        <path
+          d={pathData}
+          fill="none"
           stroke={SNAKE_COLORS[snakeColor]}
-          strokeWidth={9}
-          strokeOpacity={0.25}
+          strokeWidth={widths.glow}
+          strokeOpacity={0.2}
           strokeLinecap="round"
+          strokeLinejoin="round"
         />
       )}
-      <line
-        x1={a.x}
-        y1={a.y}
-        x2={b.x}
-        y2={b.y}
+
+      {/* Main edge */}
+      <path
+        d={pathData}
+        fill="none"
         stroke={stroke}
         strokeWidth={strokeWidth}
         strokeOpacity={strokeOpacity}
         strokeDasharray={dashArray}
         strokeLinecap="round"
+        strokeLinejoin="round"
       />
+
+      {/* Roadblock icon at segment midpoint */}
       {hasRoadblock && !isVisited && (
         <text
           x={mx}

@@ -8,7 +8,7 @@ interface StrategyTimerProps {
 }
 
 export default function StrategyTimer({ state }: StrategyTimerProps) {
-  const [timeLeft, setTimeLeft] = useState(300);
+  const [timeLeft, setTimeLeft] = useState(300_000);
 
   useEffect(() => {
     if (!state.strategyEndsAt) return;
@@ -39,52 +39,35 @@ export default function StrategyTimer({ state }: StrategyTimerProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="bg-gray-900 border border-gray-700 rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl space-y-6 text-center">
-        <div className="text-5xl">🗺️</div>
-        <div>
-          <h2 className="text-white text-2xl font-bold mb-1">Strategy Phase</h2>
-          <p className="text-gray-400 text-sm">
-            Plan your moves — game clock starts after this phase.
-          </p>
-        </div>
-
-        {/* Countdown */}
-        <div>
-          <p className="text-gray-500 text-xs uppercase tracking-wider mb-1">Time remaining</p>
-          <p className="text-yellow-400 text-5xl font-mono font-bold">
-            {String(mins).padStart(1, "0")}:{String(secs).padStart(2, "0")}
-          </p>
-        </div>
-
-        {/* Role summary */}
-        <div className="bg-gray-800 rounded-xl p-4 space-y-2 text-left">
-          <p className="text-gray-400 text-xs font-semibold uppercase tracking-wide mb-2">
-            This run
-          </p>
-          <div className="flex items-center gap-2">
-            <span className={`font-bold ${colorClasses[snakerColor] ?? "text-green-400"}`}>
-              🐍 Snaker
-            </span>
-            <span className="text-white">{snakerName}</span>
-          </div>
+    // pointer-events: none on wrapper so the map beneath is fully clickable
+    <div
+      className="fixed top-14 left-1/2 z-40 flex flex-col items-center gap-1"
+      style={{ transform: "translateX(-50%)", pointerEvents: "none" }}
+    >
+      {/* Compact banner */}
+      <div
+        className="bg-gray-900/95 border border-purple-700 rounded-xl px-4 py-2 shadow-xl flex items-center gap-4"
+        style={{ pointerEvents: "auto" }}
+      >
+        <span className="text-purple-300 text-sm font-semibold">🗺️ Strategy Phase</span>
+        <span className="text-yellow-400 text-lg font-mono font-bold tabular-nums">
+          {String(mins).padStart(1, "0")}:{String(secs).padStart(2, "0")}
+        </span>
+        <div className="text-xs text-gray-400 flex items-center gap-2">
+          <span className={`font-bold ${colorClasses[snakerColor]}`}>🐍 {snakerName}</span>
           {state.blockers?.map((bid) => {
             const p = state.players?.[bid];
             return (
-              <div key={bid} className="flex items-center gap-2">
-                <span className={`font-bold ${colorClasses[p?.color ?? "red"] ?? "text-red-400"}`}>
-                  🛡 Blocker
-                </span>
-                <span className="text-white">{p?.name ?? bid}</span>
-              </div>
+              <span key={bid} className={`font-bold ${colorClasses[p?.color ?? "red"]}`}>
+                🛡 {p?.name ?? "?"}
+              </span>
             );
           })}
         </div>
-
-        <p className="text-gray-600 text-xs">
-          The map is live — explore stations and check timetables.
-        </p>
       </div>
+      <p className="text-gray-500 text-xs" style={{ pointerEvents: "none" }}>
+        Click stations to view timetables · Game clock starts when timer ends
+      </p>
     </div>
   );
 }

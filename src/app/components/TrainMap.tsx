@@ -1,8 +1,9 @@
 "use client";
 
 import { useRef, useState, useCallback, useEffect } from "react";
-import { STATIONS, EDGES, getEdgeLine } from "@/data/network";
-import type { SerializableGameState, StationId, PlayerId } from "@/shared/types";
+import { STATIONS, EDGES, getEdgeLine, getEdgePoints } from "@/data/network";
+import type { SerializableGameState, StationId, PlayerId, ActiveTrain } from "@/shared/types";
+import { hhmmToGameMin, positionAlongPolyline } from "@/lib/trainRoutes";
 import RailEdge from "./RailEdge";
 import StationNode from "./StationNode";
 
@@ -15,22 +16,162 @@ interface TrainMapProps {
 const VIEW_W = 700;
 const VIEW_H = 750;
 
-// Rough South Korea silhouette polygon (700×750 coordinate space)
+// Improved South Korea silhouette (700×750 coordinate space)
 const KOREA_SILHOUETTE =
-  "M 175,45 L 230,30 L 320,25 L 420,35 L 520,55 L 570,90 L 600,145 " +
-  "L 600,195 L 618,280 L 625,360 L 618,430 L 600,480 L 565,520 " +
-  "L 540,555 L 510,590 L 475,615 L 440,625 L 395,615 L 355,610 " +
-  "L 305,605 L 260,600 L 215,585 L 175,555 L 145,510 L 125,465 " +
-  "L 115,415 L 108,365 L 115,315 L 110,260 L 120,205 " +
-  "L 135,155 L 150,100 L 175,65 Z";
+  "M 165,30 L 230,22 L 320,20 L 400,26 L 480,42 L 548,68 L 590,108 " +
+  "L 608,158 L 618,210 L 622,270 L 618,340 L 610,400 L 600,450 " +
+  "L 588,490 L 562,528 L 530,560 L 502,590 L 472,618 L 440,632 " +
+  "L 400,628 L 358,622 L 312,618 L 268,610 L 228,598 L 192,578 " +
+  "L 158,550 L 130,512 L 112,470 L 104,428 L 105,385 L 108,340 " +
+  "L 108,292 L 114,248 L 122,202 L 132,158 L 146,114 L 158,72 L 165,42 Z";
 
+const PLAYER_HEX_COLORS: Record<string, string> = {
+  red:   "#ef4444",
+  blue:  "#3b82f6",
+  green: "#22c55e",
+};
+
+// ── Player dot component ────────────────────────────────────────────────────
+function PlayerDot({
+  x,
+  y,
+  color,
+  label,
+}: {
+  x: number;
+  y: number;
+  color: string;
+  label: string;
+}) {
+  return (
+    <g>
+      {/* Pulsing ring — pure SVG animation */}
+      <circle cx={x} cy={y} r={6} fill="none" stroke={color} strokeWidth={1.5}>
+        <animate attributeName="r" from="6" to="20" dur="1.8s" repeatCount="indefinite" />
+        <animate attributeName="opacity" from="0.75" to="0" dur="1.8s" repeatCount="indefinite" />
+      </circle>
+      {/* Shadow */}
+      <circle cx={x} cy={y} r={8} fill="#000" fillOpacity={0.4} />
+      {/* Main dot */}
+      <circle cx={x} cy={y} r={7} fill={color} stroke="#fff" strokeWidth={1.5} />
+      {/* Initial label */}
+      <text
+        x={x}
+        y={y + 0.5}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fill="#fff"
+        fontSize={8}
+        fontWeight="bold"
+        style={{ pointerEvents: "none", userSelect: "none" }}
+      >
+        {label}
+      </text>
+    </g>
+  );
+}
+
+// ── Interpolate position along a train's route ──────────────────────────────
+function usePlayerDots(state: SerializableGameState | null) {
+  const [dots, setDots] = useState<
+    Array<{ id: string; x: number; y: number; color: string; label: string }>
+  >([]);
+  const rafRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (!state) return;
+
+    function computeDots() {
+      if (!state) return;
+      const now = Date.now();
+      const realElapsedMin = (now - state.lastRealTimestamp) / 1000 / 60;
+      const gameNow = state.gameTimeMinutes + realElapsedMin * state.clockAcceleration;
+
+      const result: typeof dots = [];
+
+      function addDot(
+        train: ActiveTrain,
+        playerId: string,
+        color: string,
+        label: string
+      ) {
+        const stops = train.allStops;
+        if (!stops || stops.length < 2) return;
+
+        const fromStop = stops[train.currentStopIdx];
+        const toStop = stops[train.currentStopIdx + 1];
+        if (!toStop) return; // at final stop, no movement
+
+        const departTimeStr = fromStop.depart;
+        const arriveTimeStr = toStop.arrive;
+        if (!departTimeStr || !arriveTimeStr) return;
+
+        const departMin = hhmmToGameMin(departTimeStr);
+        const arriveMin = hhmmToGameMin(arriveTimeStr);
+        const segDuration = arriveMin - departMin;
+
+        let t = segDuration > 0 ? (gameNow - departMin) / segDuration : 0;
+        t = Math.max(0, Math.min(1, t));
+
+        // Get edge point path (with waypoints)
+        const points = getEdgePoints(fromStop.stationId, toStop.stationId);
+        if (points.length < 2) {
+          // Fallback: use station coordinates directly
+          const a = STATIONS[fromStop.stationId];
+          const b = STATIONS[toStop.stationId];
+          if (!a || !b) return;
+          result.push({
+            id: playerId,
+            x: a.x + (b.x - a.x) * t,
+            y: a.y + (b.y - a.y) * t,
+            color,
+            label,
+          });
+          return;
+        }
+
+        const [x, y] = positionAlongPolyline(points, t);
+        result.push({ id: playerId, x, y, color, label });
+      }
+
+      // Snaker
+      if (state.activeTrain && state.snakerId) {
+        const color = PLAYER_HEX_COLORS[state.players[state.snakerId]?.color ?? "green"];
+        const label = (state.players[state.snakerId]?.name ?? "S")[0].toUpperCase();
+        addDot(state.activeTrain, state.snakerId, color, label);
+      }
+
+      // Blockers
+      for (const bid of state.blockers ?? []) {
+        const train = state.blockerActiveTrains?.[bid];
+        if (!train) continue;
+        const color = PLAYER_HEX_COLORS[state.players[bid]?.color ?? "red"];
+        const label = (state.players[bid]?.name ?? "B")[0].toUpperCase();
+        addDot(train, bid, color, label);
+      }
+
+      setDots(result);
+      rafRef.current = requestAnimationFrame(computeDots);
+    }
+
+    rafRef.current = requestAnimationFrame(computeDots);
+    return () => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
+  }, [state]);
+
+  return dots;
+}
+
+// ── Main component ──────────────────────────────────────────────────────────
 export default function TrainMap({ state, onStationClick, localPlayerId }: TrainMapProps) {
   const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
   const dragging = useRef(false);
   const lastPos = useRef({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const playerDots = usePlayerDots(state);
 
-  // Native (non-passive) wheel handler to prevent page scroll while zooming map
+  // Native (non-passive) wheel handler
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -56,9 +197,7 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
     setTransform((t) => ({ ...t, x: t.x + dx, y: t.y + dy }));
   }, []);
 
-  const handleMouseUp = useCallback(() => {
-    dragging.current = false;
-  }, []);
+  const handleMouseUp = useCallback(() => { dragging.current = false; }, []);
 
   const lastTouchDist = useRef<number | null>(null);
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
@@ -99,7 +238,6 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
   const snakeHead = state?.snake?.[state.snake.length - 1] ?? null;
   const snakerId = state?.snakerId ?? null;
   const placements = state?.placements ?? {};
-
   const snakeColor = (snakerId && state?.players?.[snakerId]?.color) ?? "green";
 
   const blockerAtStation: Record<StationId, Array<"red" | "blue" | "green">> = {};
@@ -116,9 +254,7 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
     return visitedSegments.has(`${a}_to_${b}`) || visitedSegments.has(`${b}_to_${a}`);
   }
 
-  function getPlacement(key: string) {
-    return placements[key];
-  }
+  function getPlacement(key: string) { return placements[key]; }
 
   return (
     <div
@@ -144,13 +280,13 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
           transition: dragging.current ? "none" : "transform 0.05s ease-out",
         }}
       >
-        {/* Korea silhouette background */}
+        {/* Korea silhouette */}
         <path
           d={KOREA_SILHOUETTE}
-          fill="#1a2a1a"
-          stroke="#2d3d2d"
+          fill="#162418"
+          stroke="#263c2a"
           strokeWidth={1.5}
-          opacity={0.7}
+          opacity={0.85}
         />
 
         {/* Rail edges */}
@@ -158,20 +294,19 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
           const segAB = `${a}_to_${b}`;
           const segBA = `${b}_to_${a}`;
           const visited = isSegmentVisited(a, b);
-          const placementAB = getPlacement(segAB);
-          const placementBA = getPlacement(segBA);
           const isCursed =
-            placementAB?.card?.type === "curse" || placementBA?.card?.type === "curse";
+            getPlacement(segAB)?.card?.type === "curse" ||
+            getPlacement(segBA)?.card?.type === "curse";
           const hasRoadblock =
-            placementAB?.card?.type === "roadblock" || placementBA?.card?.type === "roadblock";
-          const lineName = getEdgeLine(a, b);
+            getPlacement(segAB)?.card?.type === "roadblock" ||
+            getPlacement(segBA)?.card?.type === "roadblock";
 
           return (
             <RailEdge
               key={segAB}
               from={a}
               to={b}
-              lineName={lineName}
+              lineName={getEdgeLine(a, b)}
               isVisited={visited}
               isCursed={isCursed}
               hasRoadblock={hasRoadblock}
@@ -184,9 +319,6 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
         {Object.keys(STATIONS).map((sid) => {
           const stationId = sid as StationId;
           const stPlacement = getPlacement(stationId);
-          const hasRoadblock = stPlacement?.card?.type === "roadblock";
-          const hasBattle = stPlacement?.card?.type === "battle";
-
           return (
             <StationNode
               key={stationId}
@@ -194,13 +326,24 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
               isSnakeHead={stationId === snakeHead}
               isSnakeBody={snakeSet.has(stationId) && stationId !== snakeHead}
               blockerColors={blockerAtStation[stationId] ?? []}
-              hasRoadblock={hasRoadblock}
-              hasBattle={hasBattle}
+              hasRoadblock={stPlacement?.card?.type === "roadblock"}
+              hasBattle={stPlacement?.card?.type === "battle"}
               snakeColor={snakeColor as "red" | "blue" | "green"}
               onClick={onStationClick}
             />
           );
         })}
+
+        {/* Animated player dots for in-transit players */}
+        {playerDots.map((dot) => (
+          <PlayerDot
+            key={dot.id}
+            x={dot.x}
+            y={dot.y}
+            color={dot.color}
+            label={dot.label}
+          />
+        ))}
       </svg>
 
       <button

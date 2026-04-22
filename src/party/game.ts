@@ -239,19 +239,33 @@ export default class GameServer implements Party.Server {
         const isBlocker = s.blockers.includes(playerId);
 
         if (isSnaker) {
-          if (!s.activeTrain?.deboardWindowOpen) break;
-          const currentStop = s.activeTrain.allStops[s.activeTrain.currentStopIdx];
+          const train = s.activeTrain;
+          if (!train) break;
+          // Allow deboard: at deboard window (intermediate stop) OR at idx 0 (cancel before departure)
+          const canDeboard = train.deboardWindowOpen || train.currentStopIdx === 0;
+          if (!canDeboard) break;
+          const currentStop = train.allStops[train.currentStopIdx];
           if (!currentStop) break;
-          // Snap snake head to deboard station (new leg starts here)
-          s.snake = [...s.snake, currentStop.stationId];
-          s.visitedSegments.add(`${s.activeTrain.fromStation}_to_${currentStop.stationId}`);
-          s.visitedSegments.add(`${currentStop.stationId}_to_${s.activeTrain.fromStation}`);
-          s.activeTrain = undefined;
-          s.blockerActionsRemaining = 0;
-          s.phase = "playing";
+
+          if (train.currentStopIdx === 0) {
+            // Cancel: return to boarding station without extending snake
+            s.activeTrain = undefined;
+            s.blockerActionsRemaining = 0;
+            s.phase = "playing";
+          } else {
+            // Deboard at intermediate stop — extend snake to that stop
+            s.snake = [...s.snake, currentStop.stationId];
+            s.visitedSegments.add(`${train.fromStation}_to_${currentStop.stationId}`);
+            s.visitedSegments.add(`${currentStop.stationId}_to_${train.fromStation}`);
+            s.activeTrain = undefined;
+            s.blockerActionsRemaining = 0;
+            s.phase = "playing";
+          }
         } else if (isBlocker) {
           const train = s.blockerActiveTrains[playerId];
-          if (!train?.deboardWindowOpen) break;
+          if (!train) break;
+          const canDeboard = train.deboardWindowOpen || train.currentStopIdx === 0;
+          if (!canDeboard) break;
           const currentStop = train.allStops[train.currentStopIdx];
           if (!currentStop) break;
           s.blockerPositions[playerId] = currentStop.stationId;

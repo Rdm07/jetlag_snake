@@ -6,7 +6,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const binPath = path.join(__dirname, "../node_modules/partykit/dist/bin.mjs");
+const binPath = path.join(__dirname, "node_modules/partykit/dist/bin.mjs");
 
 if (!fs.existsSync(binPath)) {
   console.log("patch-partykit: bin.mjs not found, skipping");
