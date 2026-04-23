@@ -2,7 +2,6 @@
 
 import { useRef, useState, useCallback, useEffect } from "react";
 import { STATIONS, EDGES, getEdgeLine, getEdgePoints } from "@/data/network";
-import { KOREA_PATH } from "@/data/koreaPath";
 import type { SerializableGameState, StationId, PlayerId, ActiveTrain } from "@/shared/types";
 import { hhmmToGameMin, positionAlongPolyline } from "@/lib/trainRoutes";
 import RailEdge from "./RailEdge";
@@ -14,8 +13,9 @@ interface TrainMapProps {
   localPlayerId: PlayerId;
 }
 
-const VIEW_W = 1000;
-const VIEW_H = 925;
+// SVG coordinate space matches south_korea.svg (800×1200).
+// viewBox is cropped to the area that contains all KTX stations.
+const VIEWBOX = "0 140 800 820";
 
 const PLAYER_HEX_COLORS: Record<string, string> = {
   red:   "#ef4444",
@@ -264,7 +264,7 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
       <svg
         width="100%"
         height="100%"
-        viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+        viewBox={VIEWBOX}
         preserveAspectRatio="xMidYMid meet"
         style={{
           transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`,
@@ -272,13 +272,11 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
           transition: dragging.current ? "none" : "transform 0.05s ease-out",
         }}
       >
-        {/* Korea map */}
-        <path
-          d={KOREA_PATH}
-          fill="#162418"
-          stroke="#263c2a"
-          strokeWidth={0.5}
-          opacity={0.9}
+        {/* Korea map — SVG polyline map, tinted dark green via CSS filter */}
+        <image
+          href="/maps/south_korea.svg"
+          x={0} y={0} width={800} height={1200}
+          style={{ filter: "brightness(0.18) sepia(1) hue-rotate(85deg) saturate(6)" }}
         />
 
         {/* Rail edges */}

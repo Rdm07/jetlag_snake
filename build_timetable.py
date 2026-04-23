@@ -3,22 +3,20 @@ Reads 18 KTX timetable CSVs from components/korea/ktx_timetables/,
 generates:
   public/data/timetable.json
   src/data/network.ts
-  src/data/koreaPath.ts   (SVG path string for the map background)
   public/maps/south_korea.svg  (static asset copy)
 """
 import csv
 import json
-import os
 import re
 import shutil
+from collections import Counter
 from pathlib import Path
 
-CSV_DIR    = Path("components/korea/ktx_timetables")
+CSV_DIR       = Path("components/korea/ktx_timetables")
 TIMETABLE_OUT = Path("public/data/timetable.json")
 NETWORK_OUT   = Path("src/data/network.ts")
-KOREA_PATH_OUT = Path("src/data/koreaPath.ts")
-SVG_SRC    = Path("components/korea/maps/south_korea.svg")
-SVG_DST    = Path("public/maps/south_korea.svg")
+SVG_SRC       = Path("components/korea/maps/south_korea.svg")
+SVG_DST       = Path("public/maps/south_korea.svg")
 
 # ── Station ID normalization ───────────────────────────────────────────────
 
@@ -236,109 +234,106 @@ LAT_LON: dict[str, tuple[float, float]] = {
 }
 
 # ── Coordinate transform ──────────────────────────────────────────────────
-# Derived from 3 georeferencing circles in south_korea.svg (viewBox 1000×925)
+# Calibrated from administrative region centroids in south_korea.svg (800×1200).
+# Reference: Seoul centroid=(149.3,230) at (37.566°N,126.978°E),
+#            Busan centroid=(511.4,730) at (35.18°N,129.076°E).
 
 def to_svg(lat: float, lon: float) -> tuple[float, float]:
-    x = 125.41 * lon - 15574.8
-    y = -155.03 * lat + 6034.7
+    x = 172.6 * lon - 21767.0
+    y = -209.6 * lat + 8103.8
     return round(x, 1), round(y, 1)
 
-# ── Line name extraction from CSV filename ───────────────────────────────
+# ── Organisation normalisation ────────────────────────────────────────────
+# The Organisation column drives edge colouring.
 
-FILE_LINE_MAP: dict[str, str] = {
-    "Gyeongbu_Line":      "gyeongbu",
-    "Honam_Line":         "honam",
-    "Gangneung_Line":     "gangneung",
-    "Central_Line":       "jungang",
-    "Central_Inland_Line":"jungang_inland",
-    "Donghae_Line":       "donghae",
-    "Gyeongjeon_Line":    "gyeongjeon",
-    "Jeollaseon_Line":    "jeolla",
+ORG_NORMALIZE: dict[str, str] = {
+    "KTX":      "ktx",
+    "KTX-산천": "ktx_sancheon",
+    "KTX_산천": "ktx_sancheon",
+    "KTX-이음": "ktx_eum",
+    "KTX-청룡": "ktx_cheongryong",
 }
 
-# Lower number = higher priority (KTX > regional > local)
-LINE_PRIORITY: dict[str, int] = {
-    "gyeongbu":     1,
-    "honam":        1,
-    "gangneung":    1,
-    "jungang":      2,
-    "jungang_inland": 2,
-    "donghae":      2,
-    "jeolla":       2,
-    "gyeongjeon":   3,
+# Lower number = higher priority when a segment is served by multiple orgs.
+ORG_PRIORITY: dict[str, int] = {
+    "ktx_cheongryong": 1,
+    "ktx":             2,
+    "ktx_sancheon":    3,
+    "ktx_eum":         4,
 }
 
-def line_from_filename(name: str) -> str:
-    for prefix, line in FILE_LINE_MAP.items():
-        if name.startswith(prefix):
-            return line
-    return "gyeongbu"
+def normalize_org(raw: str) -> str:
+    return ORG_NORMALIZE.get(raw.strip(), "ktx")
 
 # ── CSV parsing ───────────────────────────────────────────────────────────
 
 def hhmm(s: str) -> str:
     return s.strip()[:5]
 
-def parse_csv(filepath: Path) -> tuple[list[str], list[tuple[str, dict]]]:
+def parse_csv(filepath: Path) -> tuple[list[str], list[tuple[str, str, dict]]]:
+    """Returns (station_ids, rows) where each row is (train_num, org, stops)."""
     with open(filepath, newline="", encoding="utf-8-sig") as f:
         reader = csv.reader(f)
         header = next(reader)
-        station_cols = header[1:-1]  # strip Train_Number + Frequency
+        # Col 0: Train_Number, Col 1: Organisation, Col 2…-1: stations, last: Frequency
+        station_cols = header[2:-1]
         station_ids  = [normalize_id(c) for c in station_cols]
-        rows: list[tuple[str, dict]] = []
+        rows: list[tuple[str, str, dict]] = []
         for row in reader:
             if not row or not row[0].strip():
                 continue
             train_num = row[0].strip()
+            org       = row[1].strip() if len(row) > 1 else ""
             stops: dict[str, str | None] = {}
             for i, sid in enumerate(station_ids):
-                idx = i + 1
+                idx = i + 2
                 val = row[idx].strip() if idx < len(row) else ""
                 stops[sid] = val if val else None
-            rows.append((train_num, stops))
+            rows.append((train_num, org, stops))
     return station_ids, rows
 
-# ── SVG path extraction ───────────────────────────────────────────────────
-
-def extract_korea_path(svg_path: Path) -> str:
-    text = svg_path.read_text(encoding="utf-8")
-    # Extract the d attribute of the <path id="KR"> element
-    match = re.search(r'<path\s[^>]*id="KR"[^>]*d="([^"]+)"', text, re.DOTALL)
-    if not match:
-        # Try alternate attribute order: d comes before id
-        match = re.search(r'<path\s[^>]*d="([^"]+)"[^>]*id="KR"', text, re.DOTALL)
-    if not match:
-        raise ValueError("Could not find <path id=\"KR\"> in SVG")
-    return match.group(1).strip()
 
 # ── Main ──────────────────────────────────────────────────────────────────
 
 def main() -> None:
     timetable: dict[str, list[dict]] = {}
     edges_pairs: set[frozenset] = set()
-    edge_lines: dict[tuple, str] = {}  # canonical tuple(sorted([a,b])) → line name
+    edge_lines: dict[tuple, str] = {}  # canonical tuple(sorted([a,b])) → org name
 
     for csv_path in sorted(CSV_DIR.glob("*.csv")):
-        line_name = line_from_filename(csv_path.stem)
-        line_pri  = LINE_PRIORITY.get(line_name, 9)
         station_ids, rows = parse_csv(csv_path)
 
+        # File-level fallback org: most common organisation in this CSV
+        file_orgs = [normalize_org(org) for _, org, _ in rows if org.strip()]
+        file_org  = Counter(file_orgs).most_common(1)[0][0] if file_orgs else "ktx"
+
         # ── Physical track edges from HEADER column order ─────────────────
-        # Adjacent columns = adjacent stations on the real line.
-        # This avoids "skip chords" from trains that stop at non-consecutive stations.
+        # Colour each segment by the organisation whose trains actually stop
+        # at BOTH endpoints. Falls back to the file's dominant org if no train
+        # stops at both (train passes through but doesn't stop at one end).
         for i in range(len(station_ids) - 1):
             a, b = station_ids[i], station_ids[i + 1]
             if a not in LAT_LON or b not in LAT_LON:
                 continue
+
+            seg_orgs = [normalize_org(org) for _, org, stops in rows
+                        if stops.get(a) and stops.get(b)]
+            org = Counter(seg_orgs).most_common(1)[0][0] if seg_orgs else file_org
+
             fs = frozenset([a, b])
             edges_pairs.add(fs)
             canonical = tuple(sorted([a, b]))
-            existing = edge_lines.get(canonical)
-            if existing is None or line_pri < LINE_PRIORITY.get(existing, 9):
-                edge_lines[canonical] = line_name
+            existing  = edge_lines.get(canonical)
+            if existing is None or ORG_PRIORITY.get(org, 9) < ORG_PRIORITY.get(existing, 9):
+                edge_lines[canonical] = org
 
         # ── Timetable entries from each train's actual stops ───────────────
-        for train_num, stops in rows:
+        for train_num, org, stops in rows:
+            train_type = ORG_NORMALIZE.get(org.strip(), org.strip()) \
+                             .replace("_", "-").replace("ktx-", "KTX-") \
+                             .replace("ktx", "KTX") if not org.startswith("KTX") else org
+            # Keep the original CSV org string as the type (already clean Korean text)
+            train_type = org if org else "KTX"
             timed = [(sid, stops[sid]) for sid in station_ids if stops.get(sid)]
             for i in range(len(timed) - 1):
                 from_sid, depart_t = timed[i]
@@ -346,7 +341,7 @@ def main() -> None:
                 key = f"{from_sid}_to_{to_sid}"
                 entry = {
                     "trainNum": train_num,
-                    "type":     "KTX",
+                    "type":     train_type,
                     "depart":   hhmm(depart_t),
                     "arrive":   hhmm(arrive_t),
                 }
@@ -401,29 +396,21 @@ def main() -> None:
     lines.append("}")
     lines.append("")
 
-    # RailLine + colors + speeds
-    lines.append('export type RailLine = "gyeongbu" | "honam" | "gangneung" | "jungang" | "jungang_inland" | "donghae" | "gyeongjeon" | "jeolla";')
+    # RailLine + colors + speeds — keyed by Organisation type
+    lines.append('export type RailLine = "ktx" | "ktx_sancheon" | "ktx_eum" | "ktx_cheongryong";')
     lines.append("")
     lines.append("export const LINE_COLORS: Record<RailLine, string> = {")
-    lines.append('  gyeongbu:      "#3b82f6",')   # blue
-    lines.append('  honam:         "#22c55e",')   # green
-    lines.append('  gangneung:     "#a855f7",')   # purple
-    lines.append('  jungang:       "#f97316",')   # orange
-    lines.append('  jungang_inland:"#f59e0b",')   # amber
-    lines.append('  donghae:       "#06b6d4",')   # cyan
-    lines.append('  gyeongjeon:    "#ef4444",')   # red
-    lines.append('  jeolla:        "#ec4899",')   # pink
+    lines.append('  ktx:            "#0068b7",')  # KTX blue
+    lines.append('  ktx_sancheon:   "#e60012",')  # KTX-산천 red
+    lines.append('  ktx_eum:        "#f08300",')  # KTX-이음 orange
+    lines.append('  ktx_cheongryong:"#920783",')  # KTX-청룡 purple
     lines.append("};")
     lines.append("")
     lines.append('export const LINE_SPEEDS: Record<RailLine, "ktx" | "regional" | "local"> = {')
-    lines.append('  gyeongbu:      "ktx",')
-    lines.append('  honam:         "ktx",')
-    lines.append('  gangneung:     "ktx",')
-    lines.append('  jungang:       "regional",')
-    lines.append('  jungang_inland:"regional",')
-    lines.append('  donghae:       "regional",')
-    lines.append('  gyeongjeon:    "local",')
-    lines.append('  jeolla:        "regional",')
+    lines.append('  ktx:            "ktx",')
+    lines.append('  ktx_sancheon:   "ktx",')
+    lines.append('  ktx_eum:        "regional",')
+    lines.append('  ktx_cheongryong:"ktx",')
     lines.append("};")
     lines.append("")
 
@@ -441,7 +428,7 @@ def main() -> None:
     lines.append("}")
     lines.append("")
     lines.append("export function getEdgeLine(a: StationId, b: StationId): RailLine {")
-    lines.append('  return EDGE_LINES_RAW[canonicalKey(a, b)] ?? "gyeongbu";')
+    lines.append('  return EDGE_LINES_RAW[canonicalKey(a, b)] ?? "ktx";')
     lines.append("}")
     lines.append("")
     lines.append("export function getEdgePoints(a: StationId, b: StationId): [number, number][] {")
@@ -464,12 +451,6 @@ def main() -> None:
     with open(NETWORK_OUT, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
 
-    # ── Write koreaPath.ts ────────────────────────────────────────────────
-    korea_d = extract_korea_path(SVG_SRC)
-    korea_ts = f'// AUTO-GENERATED by build_timetable.py\nexport const KOREA_PATH = "{korea_d}";\n'
-    KOREA_PATH_OUT.parent.mkdir(parents=True, exist_ok=True)
-    KOREA_PATH_OUT.write_text(korea_ts, encoding="utf-8")
-
     # ── Copy SVG to public ────────────────────────────────────────────────
     SVG_DST.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(SVG_SRC, SVG_DST)
@@ -481,7 +462,6 @@ def main() -> None:
     print(f"OK {total_entries} timetable entries across {len(timetable)} segments")
     print(f"OK {TIMETABLE_OUT}")
     print(f"OK {NETWORK_OUT}")
-    print(f"OK {KOREA_PATH_OUT}")
     print(f"OK {SVG_DST}")
 
     # Warn about any station IDs found in timetable but missing from LAT_LON
