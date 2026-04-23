@@ -2,6 +2,7 @@
 
 import { useRef, useState, useCallback, useEffect } from "react";
 import { STATIONS, EDGES, getEdgeLine, getEdgePoints } from "@/data/network";
+import { KOREA_PATH } from "@/data/koreaPath";
 import type { SerializableGameState, StationId, PlayerId, ActiveTrain } from "@/shared/types";
 import { hhmmToGameMin, positionAlongPolyline } from "@/lib/trainRoutes";
 import RailEdge from "./RailEdge";
@@ -13,17 +14,8 @@ interface TrainMapProps {
   localPlayerId: PlayerId;
 }
 
-const VIEW_W = 700;
-const VIEW_H = 750;
-
-// Improved South Korea silhouette (700×750 coordinate space)
-const KOREA_SILHOUETTE =
-  "M 165,30 L 230,22 L 320,20 L 400,26 L 480,42 L 548,68 L 590,108 " +
-  "L 608,158 L 618,210 L 622,270 L 618,340 L 610,400 L 600,450 " +
-  "L 588,490 L 562,528 L 530,560 L 502,590 L 472,618 L 440,632 " +
-  "L 400,628 L 358,622 L 312,618 L 268,610 L 228,598 L 192,578 " +
-  "L 158,550 L 130,512 L 112,470 L 104,428 L 105,385 L 108,340 " +
-  "L 108,292 L 114,248 L 122,202 L 132,158 L 146,114 L 158,72 L 165,42 Z";
+const VIEW_W = 1000;
+const VIEW_H = 925;
 
 const PLAYER_HEX_COLORS: Record<string, string> = {
   red:   "#ef4444",
@@ -280,13 +272,13 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
           transition: dragging.current ? "none" : "transform 0.05s ease-out",
         }}
       >
-        {/* Korea silhouette */}
+        {/* Korea map */}
         <path
-          d={KOREA_SILHOUETTE}
+          d={KOREA_PATH}
           fill="#162418"
           stroke="#263c2a"
-          strokeWidth={1.5}
-          opacity={0.85}
+          strokeWidth={0.5}
+          opacity={0.9}
         />
 
         {/* Rail edges */}

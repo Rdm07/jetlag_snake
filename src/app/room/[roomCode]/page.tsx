@@ -43,7 +43,7 @@ export default function RoomPage() {
   const roomCode = (params?.roomCode as string) ?? "";
 
   const [state, setState] = useState<SerializableGameState | null>(null);
-  const [localPlayerId] = useState<PlayerId>(getOrCreatePlayerId);
+  const [localPlayerId, setLocalPlayerId] = useState<PlayerId>(getOrCreatePlayerId);
   const socketRef = useRef<PartySocket | null>(null);
   const { addToast, ToastContainer } = useToast();
 
@@ -127,6 +127,10 @@ export default function RoomPage() {
     send({ type: "deboard_train", playerId: localPlayerId });
   }, [send, localPlayerId]);
 
+  const handleSoloTest = useCallback(() => {
+    send({ type: "solo_test" });
+  }, [send]);
+
   if (!state) {
     return (
       <div className="flex items-center justify-center min-h-screen text-gray-400">
@@ -137,6 +141,7 @@ export default function RoomPage() {
 
   const phase = state.phase;
   const role = state.players[localPlayerId]?.role;
+  const isTestMode = Object.keys(state.players).some((id) => id.startsWith("__bot"));
 
   // Current player position (for departures modal)
   const playerPosition: StationId | null =
@@ -164,10 +169,28 @@ export default function RoomPage() {
         </div>
         {phase !== "lobby" && <GameClock state={state} />}
         <div className="flex items-center gap-2">
-          <span className="text-gray-400 text-sm">
-            {state.players[localPlayerId]?.name ?? "…"} —{" "}
-            {state.players[localPlayerId]?.role ?? "joining"}
-          </span>
+          {isTestMode ? (
+            <div className="flex gap-1">
+              {Object.entries(state.players).map(([id, p]) => (
+                <button
+                  key={id}
+                  onClick={() => setLocalPlayerId(id)}
+                  className={`text-xs px-2 py-1 rounded transition-colors ${
+                    id === localPlayerId
+                      ? "bg-yellow-500 text-black font-bold"
+                      : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                  }`}
+                >
+                  {p.name}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <span className="text-gray-400 text-sm">
+              {state.players[localPlayerId]?.name ?? "…"} —{" "}
+              {state.players[localPlayerId]?.role ?? "joining"}
+            </span>
+          )}
           <PauseButton state={state} localPlayerId={localPlayerId} send={send} />
         </div>
       </header>
@@ -201,6 +224,7 @@ export default function RoomPage() {
             onSetName={(name) => send({ type: "set_name", name })}
             onSetAcceleration={(value) => send({ type: "set_acceleration", value })}
             onStartGame={() => send({ type: "start_game" })}
+            onSoloTest={handleSoloTest}
           />
         ) : (
           <div className="flex flex-1 gap-0 overflow-hidden">

@@ -35,7 +35,7 @@ export default function StationNode({
 
   const { x, y, name } = station;
   const isNode = NODE_IDS.has(stationId);
-  const baseRadius = isNode ? 8 : 5;
+  const baseRadius = isNode ? 5 : 3;
 
   // Transit-map style: white fill, colored ring for state
   let fillColor = "#ffffff";
@@ -124,10 +124,10 @@ export default function StationNode({
       {/* Station label */}
       <text
         x={x}
-        y={y + baseRadius + 11}
+        y={y + baseRadius + 7}
         textAnchor="middle"
         fill="#e5e7eb"
-        fontSize={7.5}
+        fontSize={5.5}
         fontWeight={isNode ? "600" : "400"}
         style={{ pointerEvents: "none", userSelect: "none" }}
       >

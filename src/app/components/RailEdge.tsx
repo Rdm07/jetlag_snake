@@ -21,9 +21,9 @@ const SNAKE_COLORS: Record<string, string> = {
 };
 
 const SPEED_WIDTHS: Record<string, { base: number; visited: number; glow: number }> = {
-  ktx:      { base: 4.5, visited: 7,   glow: 14 },
-  regional: { base: 3,   visited: 5,   glow: 10 },
-  local:    { base: 2,   visited: 3.5, glow: 7  },
+  ktx:      { base: 2,   visited: 4,   glow: 8  },
+  regional: { base: 1.5, visited: 3,   glow: 6  },
+  local:    { base: 1,   visited: 2.5, glow: 5  },
 };
 
 const SPEED_OPACITY: Record<string, number> = {

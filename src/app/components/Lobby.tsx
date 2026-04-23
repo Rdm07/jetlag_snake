@@ -8,6 +8,7 @@ interface LobbyProps {
   onSetName: (name: string) => void;
   onSetAcceleration: (val: 30 | 60 | 120) => void;
   onStartGame: () => void;
+  onSoloTest?: () => void;
 }
 
 export default function Lobby({
@@ -16,6 +17,7 @@ export default function Lobby({
   onSetName,
   onSetAcceleration,
   onStartGame,
+  onSoloTest,
 }: LobbyProps) {
   const playerList = Object.entries(state.players);
   const localPlayer = state.players[localPlayerId];
@@ -109,6 +111,16 @@ export default function Lobby({
       >
         {canStart ? "Start Game" : `Need ${3 - playerList.length} more player(s)`}
       </button>
+
+      {/* Solo test */}
+      {onSoloTest && (
+        <button
+          onClick={onSoloTest}
+          className="w-full py-2 rounded-lg text-sm text-gray-400 hover:text-white bg-gray-800 hover:bg-gray-700 transition-colors"
+        >
+          Solo Test (3-player sim, 120×)
+        </button>
+      )}
     </div>
   );
 }

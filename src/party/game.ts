@@ -194,6 +194,40 @@ export default class GameServer implements Party.Server {
         break;
       }
 
+      case "solo_test": {
+        if (s.phase !== "lobby") break;
+
+        // Ensure the real player is registered
+        if (!s.players[sender.id]) {
+          s.players[sender.id] = { name: "You", color: "green", role: "blocker" };
+        }
+
+        // Add two bot players with deterministic IDs
+        const ALL_COLORS: Array<"red" | "blue" | "green"> = ["red", "blue", "green"];
+        const usedColors = new Set(Object.values(s.players).map((p) => p.color));
+        const freeColors = ALL_COLORS.filter((c) => !usedColors.has(c));
+
+        if (!s.players["__bot1__"]) {
+          s.players["__bot1__"] = { name: "Bot 1", color: freeColors[0] ?? "red", role: "blocker" };
+        }
+        if (!s.players["__bot2__"]) {
+          s.players["__bot2__"] = { name: "Bot 2", color: freeColors[1] ?? "blue", role: "blocker" };
+        }
+
+        // Use 120× speed for test runs so trains arrive quickly
+        s.clockAcceleration = 120;
+
+        const ids = Object.keys(s.players);
+        const shuffled2 = [...ids].sort(() => Math.random() - 0.5);
+        s.snakerId = shuffled2[0];
+        s.blockers = [shuffled2[1], shuffled2[2]];
+        s.players[s.snakerId].role = "snaker";
+        for (const bid of s.blockers) s.players[bid].role = "blocker";
+
+        this.startRun();
+        break;
+      }
+
       // ── Board a train (snaker OR blocker) ──────────────────────────────────
       case "board_train": {
         const { playerId, service, toStation, allStops } = msg;

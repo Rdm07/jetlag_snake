@@ -142,7 +142,8 @@ export type ClientMessage =
   | { type: "blocker_pass"; playerId: PlayerId }
   | { type: "challenge_submit"; playerId: PlayerId; answer: unknown }
   | { type: "request_pause"; playerId: PlayerId }
-  | { type: "start_next_run" };
+  | { type: "start_next_run" }
+  | { type: "solo_test" };
 
 export type ServerMessage =
   | { type: "state_update"; state: SerializableGameState }
