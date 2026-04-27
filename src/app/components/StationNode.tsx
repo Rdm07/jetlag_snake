@@ -1,6 +1,7 @@
 "use client";
 
-import { STATIONS, NODE_IDS } from "@/data/network";
+import { STATIONS } from "@/data/network";
+import { NODE_IDS } from "@/data/network_edges";
 import type { StationId } from "@/shared/types";
 
 interface StationNodeProps {

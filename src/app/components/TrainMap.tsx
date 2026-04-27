@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef, useState, useCallback, useEffect } from "react";
-import { STATIONS, EDGES, getEdgeLine, getEdgePoints } from "@/data/network";
+import { STATIONS, LINE_COLORS, LINE_SPEEDS } from "@/data/network";
+import { EDGES, getEdgeLine, getEdgePoints } from "@/data/network_edges";
 import type { SerializableGameState, StationId, PlayerId, ActiveTrain } from "@/shared/types";
 import { hhmmToGameMin, positionAlongPolyline } from "@/lib/trainRoutes";
 import RailEdge from "./RailEdge";

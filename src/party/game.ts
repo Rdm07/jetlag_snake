@@ -10,7 +10,7 @@ import type {
   ActiveTrain,
   TrainStop,
 } from "../shared/types";
-import { ADJACENCY, NODE_IDS } from "../data/network";
+import { ADJACENCY, NODE_IDS } from "../data/network_edges";
 import triviaData from "../data/challenges/trivia.json";
 
 // ---------------------------------------------------------------------------

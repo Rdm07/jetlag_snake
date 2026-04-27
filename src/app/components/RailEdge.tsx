@@ -1,6 +1,7 @@
 "use client";
 
-import { STATIONS, LINE_COLORS, LINE_SPEEDS, getEdgePoints } from "@/data/network";
+import { STATIONS, LINE_COLORS, LINE_SPEEDS } from "@/data/network";
+import { getEdgePoints } from "@/data/network_edges";
 import type { RailLine } from "@/data/network";
 import type { StationId } from "@/shared/types";
 

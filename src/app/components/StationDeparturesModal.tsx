@@ -2,7 +2,8 @@
 
 import { useMemo } from "react";
 import type { StationId, TrainService, TrainStop } from "@/shared/types";
-import { STATIONS, ADJACENCY } from "@/data/network";
+import { STATIONS } from "@/data/network";
+import { ADJACENCY } from "@/data/network_edges";
 import type { Timetable, Leg } from "@/lib/trainRoutes";
 import { buildTrainStops, hhmmToGameMin } from "@/lib/trainRoutes";
 

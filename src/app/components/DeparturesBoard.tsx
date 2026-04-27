@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { SerializableGameState, TrainService, StationId } from "@/shared/types";
-import { ADJACENCY } from "@/data/network";
+import { ADJACENCY } from "@/data/network_edges";
 
 interface DeparturesBoardProps {
   state: SerializableGameState;

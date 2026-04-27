@@ -379,72 +379,25 @@ def main() -> None:
     lines.append("};")
     lines.append("")
 
-    # EDGES
-    lines.append("export const EDGES: [StationId, StationId][] = [")
-    for a, b in edges:
-        lines.append(f'  ["{a}", "{b}"],')
-    lines.append("];")
-    lines.append("")
-
-    # ADJACENCY
-    lines.append("export const ADJACENCY: Record<StationId, StationId[]> = {};")
-    lines.append("for (const [a, b] of EDGES) {")
-    lines.append("  if (!ADJACENCY[a]) ADJACENCY[a] = [];")
-    lines.append("  if (!ADJACENCY[b]) ADJACENCY[b] = [];")
-    lines.append("  ADJACENCY[a].push(b);")
-    lines.append("  ADJACENCY[b].push(a);")
-    lines.append("}")
-    lines.append("")
-
-    # RailLine + colors + speeds — keyed by Organisation type
+    # RailLine type + colors + speeds (referenced by network_edges.ts)
     lines.append('export type RailLine = "ktx" | "ktx_sancheon" | "ktx_eum" | "ktx_cheongryong";')
     lines.append("")
     lines.append("export const LINE_COLORS: Record<RailLine, string> = {")
-    lines.append('  ktx:            "#0068b7",')  # KTX blue
-    lines.append('  ktx_sancheon:   "#e60012",')  # KTX-산천 red
-    lines.append('  ktx_eum:        "#f08300",')  # KTX-이음 orange
-    lines.append('  ktx_cheongryong:"#920783",')  # KTX-청룡 purple
+    lines.append('  ktx:             "#0068b7",')  # KTX blue
+    lines.append('  ktx_sancheon:    "#e60012",')  # KTX-산천 red
+    lines.append('  ktx_eum:         "#f08300",')  # KTX-이음 orange
+    lines.append('  ktx_cheongryong: "#920783",')  # KTX-청룡 purple
     lines.append("};")
     lines.append("")
     lines.append('export const LINE_SPEEDS: Record<RailLine, "ktx" | "regional" | "local"> = {')
-    lines.append('  ktx:            "ktx",')
-    lines.append('  ktx_sancheon:   "ktx",')
-    lines.append('  ktx_eum:        "regional",')
-    lines.append('  ktx_cheongryong:"ktx",')
+    lines.append('  ktx:             "ktx",')
+    lines.append('  ktx_sancheon:    "ktx",')
+    lines.append('  ktx_eum:         "regional",')
+    lines.append('  ktx_cheongryong: "ktx",')
     lines.append("};")
     lines.append("")
-
-    # Populate EDGE_LINES_RAW from parsed data
-    lines.append("const EDGE_LINES_RAW: Record<string, RailLine> = {")
-    for (a, b), line in sorted(edge_lines.items()):
-        canonical = "_".join(sorted([a, b]))
-        lines.append(f'  "{canonical}": "{line}",')
-    lines.append("};")
-
-    lines.append("const EDGE_WAYPOINTS_RAW: Record<string, [number, number][]> = {};")
-    lines.append("")
-    lines.append("function canonicalKey(a: StationId, b: StationId): string {")
-    lines.append('  return [a, b].sort().join("_");')
-    lines.append("}")
-    lines.append("")
-    lines.append("export function getEdgeLine(a: StationId, b: StationId): RailLine {")
-    lines.append('  return EDGE_LINES_RAW[canonicalKey(a, b)] ?? "ktx";')
-    lines.append("}")
-    lines.append("")
-    lines.append("export function getEdgePoints(a: StationId, b: StationId): [number, number][] {")
-    lines.append("  const stA = STATIONS[a];")
-    lines.append("  const stB = STATIONS[b];")
-    lines.append("  if (!stA || !stB) return [];")
-    lines.append("  const key = canonicalKey(a, b);")
-    lines.append("  const wps = EDGE_WAYPOINTS_RAW[key] ?? [];")
-    lines.append("  const start: [number, number] = [stA.x, stA.y];")
-    lines.append("  const end: [number, number]   = [stB.x, stB.y];")
-    lines.append("  const sorted = [a, b].sort();")
-    lines.append("  const reversed = sorted[0] !== a;")
-    lines.append("  return reversed ? [start, ...[...wps].reverse(), end] : [start, ...wps, end];")
-    lines.append("}")
-    lines.append("")
-    lines.append("export const NODE_IDS = new Set<StationId>([]);")
+    lines.append("// EDGES, ADJACENCY, getEdgeLine, getEdgePoints, NODE_IDS")
+    lines.append("// are in src/data/network_edges.ts — edit that file directly.")
     lines.append("")
 
     NETWORK_OUT.parent.mkdir(parents=True, exist_ok=True)
