@@ -247,11 +247,15 @@ def to_svg(lat: float, lon: float) -> tuple[float, float]:
 # The Organisation column drives edge colouring.
 
 ORG_NORMALIZE: dict[str, str] = {
-    "KTX":      "ktx",
-    "KTX-산천": "ktx_sancheon",
-    "KTX_산천": "ktx_sancheon",
-    "KTX-이음": "ktx_eum",
-    "KTX-청룡": "ktx_cheongryong",
+    "KTX":           "ktx",
+    "KTX-산천":      "ktx_sancheon",
+    "KTX_산천":      "ktx_sancheon",
+    "KTX-Sancheon":  "ktx_sancheon",
+    "KTX-Sancheon2": "ktx_sancheon",
+    "KTX-이음":      "ktx_eum",
+    "KTX-Ieum":      "ktx_eum",
+    "KTX-청룡":      "ktx_cheongryong",
+    "KTX-Cheongryong": "ktx_cheongryong",
 }
 
 # Lower number = higher priority when a segment is served by multiple orgs.

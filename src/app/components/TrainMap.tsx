@@ -16,7 +16,7 @@ interface TrainMapProps {
 
 // SVG coordinate space matches south_korea.svg (800×1200).
 // viewBox is cropped to the area that contains all KTX stations.
-const VIEWBOX = "0 140 800 820";
+const VIEWBOX = "0 150 640 740";
 
 const PLAYER_HEX_COLORS: Record<string, string> = {
   red:   "#ef4444",

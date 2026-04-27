@@ -259,8 +259,28 @@ const EDGE_COLORS: Record<string, RailLine> = {
 // Key format: same as EDGE_COLORS.
 
 const EDGE_WAYPOINTS: Record<string, [number, number][]> = {
-  // Example:
-  // "daejeon_seoul": [[260, 320]],
+  "bugulsan_taehwagang": [[559.5, 624.0], [564.4, 645.4]],
+  "changwon_masan": [[435.9, 710.9]],
+  "cheonan_asan_gwangmyeong": [[164.6, 354.1], [147.7, 331.6], [131.1, 275.0]],
+  "deokso_yangpyeong": [[196.7, 234.7], [205.6, 231.7]],
+  "gangneung_jeongdongjin": [[496.5, 194.6]],
+  "gangneung_jinbu_odaesan": [[485.3, 197.8], [466.9, 196.8]],
+  "gijang_namchang": [[548.7, 696.7]],
+  "gimcheon_gumi_seodaegu": [[369.4, 524.8], [385.9, 532.6], [385.5, 547.9], [395.1, 561.6], [411.2, 567.9], [412.7, 581.3]],
+  "gyeongju_taehwagang": [[518.7, 597.5], [558.9, 623.0], [564.4, 644.7]],
+  "gyeongju_yeongcheon": [[520.1, 594.5], [500.5, 565.8]],
+  "gyeongsan_miryang": [[449.0, 621.2], [463.2, 674.8]],
+  "gyeryong_nonsan": [[191.0, 499.4], [190.1, 512.9]],
+  "iksan_nonsan": [[145.7, 539.4]],
+  "jecheon_wonju": [[343.0, 321.2], [326.8, 308.0], [317.1, 283.9], [299.2, 276.5]],
+  "jeongdongjin_mukho": [[501.6, 214.5]],
+  "jinyeong_miryang": [[472.4, 684.0], [463.7, 681.6]],
+  "mokpo_naju": [[65.1, 796.2], [75.2, 761.5]],
+  "pohang_yeongdeok": [[561.9, 533.6]],
+  "punggi_yeongju": [[429.9, 380.0]],
+  "samcheok_uljin": [[554.2, 294.8]],
+  "uiseong_yeongcheon": [[448.9, 515.3]],
+  "uljin_yeongdeok": [[576.6, 403.9]],
 };
 
 // ── Helper functions (used by TrainMap + RailEdge) ────────────────────────────
