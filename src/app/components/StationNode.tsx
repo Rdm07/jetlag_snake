@@ -1,7 +1,6 @@
 "use client";
 
-import { STATIONS } from "@/data/network";
-import { NODE_IDS } from "@/data/network_edges";
+import { STATION_POSITIONS, NODE_IDS } from "@/data/network_edges";
 import type { StationId } from "@/shared/types";
 
 interface StationNodeProps {
@@ -31,7 +30,7 @@ export default function StationNode({
   snakeColor,
   onClick,
 }: StationNodeProps) {
-  const station = STATIONS[stationId];
+  const station = STATION_POSITIONS[stationId];
   if (!station) return null;
 
   const { x, y, name } = station;

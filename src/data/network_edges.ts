@@ -1,46 +1,40 @@
 /**
- * MANUALLY MAINTAINED — edit freely, the build script never touches this file.
+ * ════════════════════════════════════════════════════════════════
+ *  MANUALLY MAINTAINED — edit this file freely.
+ *  build_timetable.py never touches it.
+ * ════════════════════════════════════════════════════════════════
  *
- * HOW TO ADD / REMOVE AN EDGE
- * ────────────────────────────
- * Add or remove a pair from EDGES.  Use the station IDs exactly as they appear
- * in the STATIONS object in network.ts (e.g. "dongdaegu", "gwangmyeong").
+ *  EDGES
+ *  ─────
+ *  List of [stationA, stationB] undirected connections.
+ *  Use station IDs exactly as they appear in network.ts.
  *
- * HOW TO SET AN EDGE COLOUR
- * ──────────────────────────
- * Add an entry to EDGE_COLORS.  The key is the two station IDs sorted
- * alphabetically and joined with a single underscore:
+ *  EDGE_THICK
+ *  ──────────
+ *  Set of edges that should be drawn thick (main/express lines).
+ *  Key format: sort([stationA, stationB]).join("_")
+ *  Example:  EDGE_THICK.add("daejeon_seoul")
  *
- *   key = [stationA, stationB].sort().join("_")
+ *  EDGE_WAYPOINTS
+ *  ──────────────
+ *  Intermediate [x, y] bend-points for an edge (same SVG coordinate
+ *  space as station positions: x 0–615, y 0–960).
+ *  Key format: same sorted-underscore format as EDGE_THICK.
+ *  Example:  "daejeon_seoul": [[250, 310], [200, 270]]
  *
- * Examples
- *   Seoul ↔ Gwangmyeong  →  "gwangmyeong_seoul"
- *   Dongdaegu ↔ Gyeongju  →  "dongdaegu_gyeongju"
- *
- * AVAILABLE COLOURS  (from LINE_COLORS in network.ts)
- * ─────────────────
- *   "ktx"             #0068b7  blue   — standard KTX
- *   "ktx_sancheon"    #e60012  red    — KTX-산천
- *   "ktx_eum"         #f08300  orange — KTX-이음
- *   "ktx_cheongryong" #920783  purple — KTX-청룡
- *
- * Any edge not listed in EDGE_COLORS defaults to "ktx" (blue).
- *
- * HOW TO ADD A WAYPOINT (bend a straight edge)
- * ─────────────────────────────────────────────
- * Add an entry to EDGE_WAYPOINTS.  Key is the same sorted-underscore format.
- * Value is an array of [x, y] points in the same SVG coordinate space as
- * the STATIONS coordinates.
- *
- *   "daejeon_seoul": [[250, 310], [280, 270]]
+ *  STATION_OVERRIDES
+ *  ─────────────────
+ *  Override the auto-generated x/y for any station.
+ *  Keys must be valid StationId values from network.ts.
+ *  Example:  seoul: { x: 150, y: 232 }
+ * ════════════════════════════════════════════════════════════════
  */
 
 import type { StationId } from "@/shared/types";
 import { STATIONS } from "@/data/network";
-import type { RailLine } from "@/data/network";
+import type { StationMeta } from "@/data/network";
 
 // ── Edge list ─────────────────────────────────────────────────────────────────
-// Each pair is an undirected connection between two adjacent stations.
 
 export const EDGES: [StationId, StationId][] = [
   ["andong", "uiseong"],
@@ -141,7 +135,7 @@ export const EDGES: [StationId, StationId][] = [
   ["yeocheon", "yeosu_expo"],
 ];
 
-// ── ADJACENCY (auto-built from EDGES — do not edit) ───────────────────────────
+// ── ADJACENCY (auto-built — do not edit) ─────────────────────────────────────
 
 export const ADJACENCY: Record<StationId, StationId[]> = {};
 for (const [a, b] of EDGES) {
@@ -151,112 +145,34 @@ for (const [a, b] of EDGES) {
   ADJACENCY[b].push(a);
 }
 
-// ── Edge colours ──────────────────────────────────────────────────────────────
-// Key format: sort([stationA, stationB]).join("_")
-// Unlisted edges default to "ktx" (blue).
+// ── Thick edges ───────────────────────────────────────────────────────────────
+// Add the canonical key (sort([a, b]).join("_")) of any edge that should be
+// drawn with a heavier stroke weight.  All other edges are drawn thin.
 
-const EDGE_COLORS: Record<string, RailLine> = {
-  "andong_uiseong":                    "ktx_eum",
-  "andong_yeongju":                    "ktx_eum",
-  "angseong_oncheon_chungju":          "ktx_eum",
-  "angseong_oncheon_gamgok_janghowon": "ktx_eum",
-  "bubal_ganam":                       "ktx_eum",
-  "bubal_pangyo":                      "ktx_eum",
-  "bugulsan_gyeongju":                 "ktx_eum",
-  "bugulsan_taehwagang":               "ktx_eum",
-  "bujeon_centum":                     "ktx_eum",
-  "bujeon_taehwagang":                 "ktx_eum",
-  "busan_gupo":                        "ktx",
-  "centum_sinhaeundae":                "ktx_eum",
-  "changwon_changwon_jungang":         "ktx_sancheon",
-  "changwon_masan":                    "ktx_sancheon",
-  "changwon_jungang_jinyeong":         "ktx_sancheon",
-  "cheonan_asan_gwangmyeong":          "ktx_sancheon",
-  "cheonan_asan_osong":                "ktx",
-  "cheonan_asan_pyeongtaek_jije":      "ktx",
-  "cheongnyangni_sangbong":            "ktx_eum",
-  "cheongnyangni_seoul":               "ktx_eum",
-  "chungju_salmi":                     "ktx_eum",
-  "daejeon_gimcheon_gumi":             "ktx",
-  "daejeon_osong":                     "ktx",
-  "danyang_jecheon":                   "ktx_eum",
-  "danyang_punggi":                    "ktx_eum",
-  "deokso_sangbong":                   "ktx_eum",
-  "deokso_yangpyeong":                 "ktx_eum",
-  "dongdaegu_gimcheon_gumi":           "ktx",
-  "dongdaegu_gyeongju":                "ktx",
-  "dongdaegu_gyeongsan":               "ktx_sancheon",
-  "dongdaegu_pohang":                  "ktx_sancheon",
-  "dongdaegu_seodaegu":                "ktx",
-  "donghae_mukho":                     "ktx_eum",
-  "donghae_samcheok":                  "ktx_eum",
-  "dongtan_pyeongtaek_jije":           "ktx",
-  "dongtan_suseo":                     "ktx",
-  "dunnae_hoengseong":                 "ktx_eum",
-  "dunnae_pyeongchang":                "ktx_eum",
-  "gamgok_janghowon_ganam":            "ktx_eum",
-  "gangneung_jeongdongjin":            "ktx_eum",
-  "gangneung_jinbu_odaesan":           "ktx_eum",
-  "gijang_namchang":                   "ktx_eum",
-  "gijang_sinhaeundae":                "ktx_eum",
-  "gimcheon_gumi_seodaegu":            "ktx",
-  "gimje_iksan":                       "ktx_sancheon",
-  "gimje_jeongeup":                    "ktx_sancheon",
-  "gokseong_guryegu":                  "ktx",
-  "gokseong_namwon":                   "ktx_sancheon",
-  "gongju_osong":                      "ktx",
-  "gongju_seodaejeon":                 "ktx_sancheon",
-  "gupo_mulgeum":                      "ktx",
-  "guryegu_suncheon":                  "ktx_sancheon",
-  "gwangju_songjeong_jangseong":       "ktx_sancheon",
-  "gwangju_songjeong_naju":            "ktx_sancheon",
-  "gwangmyeong_seoul":                 "ktx_sancheon",
-  "gwangmyeong_suseo":                 "ktx",
-  "gwangmyeong_suwon":                 "ktx",
-  "gwangmyeong_yongsan":               "ktx",
-  "gyeongju_pohang":                   "ktx_eum",
-  "gyeongju_taehwagang":               "ktx_eum",
-  "gyeongju_ulsan":                    "ktx",
-  "gyeongju_yeongcheon":               "ktx_eum",
-  "gyeongsan_miryang":                 "ktx",
-  "gyeongsan_ulsan":                   "ktx",
-  "gyeryong_nonsan":                   "ktx",
-  "gyeryong_seodaejeon":               "ktx",
-  "haengsin_seoul":                    "ktx",
-  "hoengseong_manjong":                "ktx_eum",
-  "iksan_jeonju":                      "ktx_sancheon",
-  "iksan_nonsan":                      "ktx",
-  "jangseong_jeongeup":                "ktx_sancheon",
-  "jecheon_wonju":                     "ktx_eum",
-  "jeongdongjin_mukho":                "ktx_eum",
-  "jeonju_namwon":                     "ktx_sancheon",
-  "jinbu_odaesan_pyeongchang":         "ktx_eum",
-  "jinju_masan":                       "ktx_sancheon",
-  "jinyeong_miryang":                  "ktx_sancheon",
-  "manjong_seowonju":                  "ktx_eum",
-  "miryang_mulgeum":                   "ktx",
-  "mokpo_naju":                        "ktx_sancheon",
-  "mungyeong_yeonpung":                "ktx_eum",
-  "namchang_taehwagang":               "ktx_eum",
-  "pohang_yeongdeok":                  "ktx_eum",
-  "punggi_yeongju":                    "ktx_eum",
-  "salmi_suanbo_oncheon":              "ktx_eum",
-  "samcheok_uljin":                    "ktx_eum",
-  "seoul_yeongdeungpo":                "ktx",
-  "seoul_yongsan":                     "ktx",
-  "seowonju_wonju":                    "ktx_eum",
-  "seowonju_yangpyeong":               "ktx_eum",
-  "suanbo_oncheon_yeonpung":           "ktx_eum",
-  "suncheon_yeocheon":                 "ktx_sancheon",
-  "suwon_yeongdeungpo":                "ktx",
-  "uiseong_yeongcheon":                "ktx_eum",
-  "uljin_yeongdeok":                   "ktx_eum",
-  "yeocheon_yeosu_expo":               "ktx_sancheon",
-};
+export const EDGE_THICK = new Set<string>([
+  // Main Gyeongbu HSR corridor
+  "gwangmyeong_seoul",
+  "cheonan_asan_gwangmyeong",
+  "cheonan_asan_osong",
+  "daejeon_osong",
+  "daejeon_gimcheon_gumi",
+  "dongdaegu_gimcheon_gumi",
+  "dongdaegu_gyeongju",
+  "gyeongju_ulsan",
+  // Honam HSR corridor
+  "gongju_osong",
+  "iksan_nonsan",
+  "gwangju_songjeong_naju",
+  "mokpo_naju",
+  // Gyeongbu conventional south
+  "miryang_mulgeum",
+  "gupo_mulgeum",
+  "busan_gupo",
+]);
 
 // ── Edge waypoints ────────────────────────────────────────────────────────────
-// Optional intermediate SVG [x, y] points to bend a straight edge.
-// Key format: same as EDGE_COLORS.
+// Intermediate [x, y] points that bend a straight edge into a curve.
+// Key: sort([stationA, stationB]).join("_")
 
 const EDGE_WAYPOINTS: Record<string, [number, number][]> = {
   "bugulsan_taehwagang": [[559.5, 624.0], [564.4, 645.4]],
@@ -283,32 +199,51 @@ const EDGE_WAYPOINTS: Record<string, [number, number][]> = {
   "uljin_yeongdeok": [[576.6, 403.9]],
 };
 
-// ── Helper functions (used by TrainMap + RailEdge) ────────────────────────────
+// ── Station position overrides ────────────────────────────────────────────────
+// Override the auto-generated x/y for any station.
+// Keys must be valid StationId values.  Leave empty if you want to use the
+// positions generated by build_timetable.py for all stations.
+
+export const STATION_OVERRIDES: Partial<Record<StationId, { x: number; y: number }>> = {
+  // Example — uncomment and adjust to reposition a station:
+  // seoul: { x: 150, y: 232 },
+};
+
+// ── Merged station positions ──────────────────────────────────────────────────
+// Use this everywhere instead of STATIONS from network.ts so that overrides
+// take effect automatically.
+
+export const STATION_POSITIONS: Record<StationId, StationMeta> = Object.fromEntries(
+  Object.entries(STATIONS).map(([id, meta]) => {
+    const ov = STATION_OVERRIDES[id as StationId];
+    return [id, ov ? { ...meta, ...ov } : meta];
+  })
+) as Record<StationId, StationMeta>;
+
+// ── Node stations (larger dot + interchange ring) ─────────────────────────────
+
+export const NODE_IDS = new Set<StationId>([
+  // "seoul", "busan", "dongdaegu",
+]);
+
+// ── Helper functions ──────────────────────────────────────────────────────────
 
 function canonicalKey(a: StationId, b: StationId): string {
   return [a, b].sort().join("_");
 }
 
-export function getEdgeLine(a: StationId, b: StationId): RailLine {
-  return EDGE_COLORS[canonicalKey(a, b)] ?? "ktx";
+export function isEdgeThick(a: StationId, b: StationId): boolean {
+  return EDGE_THICK.has(canonicalKey(a, b));
 }
 
 export function getEdgePoints(a: StationId, b: StationId): [number, number][] {
-  const stA = STATIONS[a];
-  const stB = STATIONS[b];
+  const stA = STATION_POSITIONS[a];
+  const stB = STATION_POSITIONS[b];
   if (!stA || !stB) return [];
   const key = canonicalKey(a, b);
   const wps = EDGE_WAYPOINTS[key] ?? [];
   const start: [number, number] = [stA.x, stA.y];
   const end: [number, number]   = [stB.x, stB.y];
-  const sorted = [a, b].sort();
-  const reversed = sorted[0] !== a;
+  const reversed = [a, b].sort()[0] !== a;
   return reversed ? [start, ...[...wps].reverse(), end] : [start, ...wps, end];
 }
-
-// ── Node stations (major interchange hubs) ────────────────────────────────────
-// Add station IDs here to give them a larger dot + gold interchange ring.
-
-export const NODE_IDS = new Set<StationId>([
-  // "seoul", "busan", "dongdaegu",
-]);

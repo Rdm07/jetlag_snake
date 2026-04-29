@@ -1,8 +1,7 @@
 "use client";
 
 import { useRef, useState, useCallback, useEffect } from "react";
-import { STATIONS, LINE_COLORS, LINE_SPEEDS } from "@/data/network";
-import { EDGES, getEdgeLine, getEdgePoints } from "@/data/network_edges";
+import { EDGES, getEdgePoints, isEdgeThick, STATION_POSITIONS } from "@/data/network_edges";
 import { KOREA_PROVINCES } from "@/data/korea_map";
 import type { SerializableGameState, StationId, PlayerId, ActiveTrain } from "@/shared/types";
 import { hhmmToGameMin, positionAlongPolyline } from "@/lib/trainRoutes";
@@ -111,8 +110,8 @@ function usePlayerDots(state: SerializableGameState | null) {
         const points = getEdgePoints(fromStop.stationId, toStop.stationId);
         if (points.length < 2) {
           // Fallback: use station coordinates directly
-          const a = STATIONS[fromStop.stationId];
-          const b = STATIONS[toStop.stationId];
+          const a = STATION_POSITIONS[fromStop.stationId];
+          const b = STATION_POSITIONS[toStop.stationId];
           if (!a || !b) return;
           result.push({
             id: playerId,
@@ -323,7 +322,7 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
               key={segAB}
               from={a}
               to={b}
-              lineName={getEdgeLine(a, b)}
+              isThick={isEdgeThick(a, b)}
               isVisited={visited}
               isCursed={isCursed}
               hasRoadblock={hasRoadblock}
@@ -333,7 +332,7 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
         })}
 
         {/* Station nodes */}
-        {Object.keys(STATIONS).map((sid) => {
+        {Object.keys(STATION_POSITIONS).map((sid) => {
           const stationId = sid as StationId;
           const stPlacement = getPlacement(stationId);
           return (

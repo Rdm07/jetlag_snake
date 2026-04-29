@@ -1,14 +1,12 @@
 "use client";
 
-import { STATIONS, LINE_COLORS, LINE_SPEEDS } from "@/data/network";
 import { getEdgePoints } from "@/data/network_edges";
-import type { RailLine } from "@/data/network";
 import type { StationId } from "@/shared/types";
 
 interface RailEdgeProps {
   from: StationId;
   to: StationId;
-  lineName: RailLine;
+  isThick: boolean;
   isVisited: boolean;
   isCursed: boolean;
   hasRoadblock: boolean;
@@ -21,28 +19,11 @@ const SNAKE_COLORS: Record<string, string> = {
   green: "#22c55e",
 };
 
-const SPEED_WIDTHS: Record<string, { base: number; visited: number; glow: number }> = {
-  ktx:      { base: 2,   visited: 4,   glow: 8  },
-  regional: { base: 1.5, visited: 3,   glow: 6  },
-  local:    { base: 1,   visited: 2.5, glow: 5  },
-};
-
-const SPEED_OPACITY: Record<string, number> = {
-  ktx:      0.85,
-  regional: 0.70,
-  local:    0.60,
-};
-
-/**
- * Build an SVG path string through the given points, with smooth rounded corners
- * at each intermediate waypoint using quadratic bezier curves.
- */
 function pathThroughPoints(pts: [number, number][], cornerRadius = 12): string {
   if (pts.length < 2) return "";
   if (pts.length === 2) {
     return `M ${pts[0][0]},${pts[0][1]} L ${pts[1][0]},${pts[1][1]}`;
   }
-
   let d = `M ${pts[0][0]},${pts[0][1]}`;
   for (let i = 1; i < pts.length - 1; i++) {
     const [px, py] = pts[i - 1];
@@ -65,54 +46,41 @@ function pathThroughPoints(pts: [number, number][], cornerRadius = 12): string {
 export default function RailEdge({
   from,
   to,
-  lineName,
+  isThick,
   isVisited,
   isCursed,
   hasRoadblock,
   snakeColor = "green",
 }: RailEdgeProps) {
-  const a = STATIONS[from];
-  const b = STATIONS[to];
-  if (!a || !b) return null;
-
   const points = getEdgePoints(from, to);
+  if (points.length < 2) return null;
   const pathData = pathThroughPoints(points);
 
-  const speed = LINE_SPEEDS[lineName] ?? "local";
-  const widths = SPEED_WIDTHS[speed];
-  const baseOpacity = SPEED_OPACITY[speed];
-  const lineColor = LINE_COLORS[lineName] ?? "#4b5563";
+  const snakeHex = SNAKE_COLORS[snakeColor] ?? "#22c55e";
 
-  const stroke = isVisited
-    ? (SNAKE_COLORS[snakeColor] ?? "#22c55e")
-    : isCursed
-    ? "#c084fc"
-    : lineColor;
-
-  const strokeWidth = isVisited ? widths.visited : widths.base;
-  const strokeOpacity = isVisited ? 1 : isCursed ? 0.9 : baseOpacity;
+  const stroke = isVisited ? snakeHex : isCursed ? "#c084fc" : "#9ca3af";
+  const strokeWidth = isVisited
+    ? (isThick ? 5 : 3)
+    : (isThick ? 2.5 : 1.2);
+  const strokeOpacity = isVisited ? 1 : isCursed ? 0.9 : isThick ? 0.75 : 0.55;
   const dashArray = isCursed && !isVisited ? "7 5" : undefined;
 
   // Midpoint for icon overlay
-  const mx = (a.x + b.x) / 2;
-  const my = (a.y + b.y) / 2;
+  const mid = points[Math.floor(points.length / 2)];
 
   return (
     <g>
-      {/* Glow layer for visited segments */}
       {isVisited && (
         <path
           d={pathData}
           fill="none"
-          stroke={SNAKE_COLORS[snakeColor]}
-          strokeWidth={widths.glow}
-          strokeOpacity={0.2}
+          stroke={snakeHex}
+          strokeWidth={strokeWidth + 6}
+          strokeOpacity={0.18}
           strokeLinecap="round"
           strokeLinejoin="round"
         />
       )}
-
-      {/* Main edge */}
       <path
         d={pathData}
         fill="none"
@@ -123,12 +91,10 @@ export default function RailEdge({
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-
-      {/* Roadblock icon at segment midpoint */}
       {hasRoadblock && !isVisited && (
         <text
-          x={mx}
-          y={my}
+          x={mid[0]}
+          y={mid[1]}
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={14}
