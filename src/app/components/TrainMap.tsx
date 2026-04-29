@@ -3,6 +3,7 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import { STATIONS, LINE_COLORS, LINE_SPEEDS } from "@/data/network";
 import { EDGES, getEdgeLine, getEdgePoints } from "@/data/network_edges";
+import { KOREA_PROVINCES } from "@/data/korea_map";
 import type { SerializableGameState, StationId, PlayerId, ActiveTrain } from "@/shared/types";
 import { hhmmToGameMin, positionAlongPolyline } from "@/lib/trainRoutes";
 import RailEdge from "./RailEdge";
@@ -14,9 +15,9 @@ interface TrainMapProps {
   localPlayerId: PlayerId;
 }
 
-// SVG coordinate space matches south_korea.svg (800×1200).
-// viewBox is cropped to the area that contains all KTX stations.
-const VIEWBOX = "0 0 800 1000";
+// Korea SVG content spans x=0..615, y=0..960 in its internal coordinate space.
+const MAP_W = 615;
+const MAP_H = 960;
 
 const PLAYER_HEX_COLORS: Record<string, string> = {
   red:   "#ef4444",
@@ -157,6 +158,16 @@ function usePlayerDots(state: SerializableGameState | null) {
 }
 
 // ── Main component ──────────────────────────────────────────────────────────
+function fitTransform(el: HTMLElement) {
+  const { width, height } = el.getBoundingClientRect();
+  const scale = Math.min(width / MAP_W, height / MAP_H) * 0.97;
+  return {
+    x: (width - MAP_W * scale) / 2,
+    y: (height - MAP_H * scale) / 2,
+    scale,
+  };
+}
+
 export default function TrainMap({ state, onStationClick, localPlayerId }: TrainMapProps) {
   const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
   const dragging = useRef(false);
@@ -164,14 +175,27 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
   const containerRef = useRef<HTMLDivElement>(null);
   const playerDots = usePlayerDots(state);
 
-  // Native (non-passive) wheel handler
+  // Compute fit-to-container transform on mount
+  useEffect(() => {
+    const el = containerRef.current;
+    if (el) setTransform(fitTransform(el));
+  }, []);
+
+  // Native (non-passive) wheel handler — zoom toward mouse pointer
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const handler = (e: WheelEvent) => {
       e.preventDefault();
+      const rect = el.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
       const factor = e.deltaY < 0 ? 1.12 : 0.88;
-      setTransform((t) => ({ ...t, scale: Math.min(4, Math.max(0.4, t.scale * factor)) }));
+      setTransform((t) => {
+        const newScale = Math.min(12, Math.max(0.3, t.scale * factor));
+        const r = newScale / t.scale;
+        return { x: mx + (t.x - mx) * r, y: my + (t.y - my) * r, scale: newScale };
+      });
     };
     el.addEventListener("wheel", handler, { passive: false });
     return () => el.removeEventListener("wheel", handler);
@@ -217,7 +241,14 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
       const dist = Math.sqrt(dx * dx + dy * dy);
       const factor = dist / lastTouchDist.current;
       lastTouchDist.current = dist;
-      setTransform((t) => ({ ...t, scale: Math.min(4, Math.max(0.4, t.scale * factor)) }));
+      const rect = containerRef.current?.getBoundingClientRect();
+      const mx = rect ? (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left : 0;
+      const my = rect ? (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top : 0;
+      setTransform((t) => {
+        const newScale = Math.min(12, Math.max(0.3, t.scale * factor));
+        const r = newScale / t.scale;
+        return { x: mx + (t.x - mx) * r, y: my + (t.y - my) * r, scale: newScale };
+      });
     }
   }, []);
 
@@ -262,23 +293,18 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <svg
-        width="100%"
-        height="100%"
-        viewBox={VIEWBOX}
-        preserveAspectRatio="xMidYMid meet"
-        style={{
-          transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`,
-          transformOrigin: "center center",
-          transition: dragging.current ? "none" : "transform 0.05s ease-out",
-        }}
-      >
-        {/* Korea map — SVG polyline map, tinted dark green via CSS filter */}
-        <image
-          href="/maps/south_korea.svg"
-          x={0} y={0} width={800} height={1200}
-          style={{ filter: "brightness(0.18) sepia(1) hue-rotate(85deg) saturate(6)" }}
-        />
+      <svg width="100%" height="100%">
+        <g transform={`translate(${transform.x}, ${transform.y}) scale(${transform.scale})`}>
+        {/* Korea province outlines — inlined directly so coordinates match stations exactly */}
+        {KOREA_PROVINCES.map((p) => (
+          <polygon
+            key={p.id}
+            points={p.points}
+            fill="#162418"
+            stroke="#263c2a"
+            strokeWidth={0.8}
+          />
+        ))}
 
         {/* Rail edges */}
         {EDGES.map(([a, b]) => {
@@ -335,13 +361,15 @@ export default function TrainMap({ state, onStationClick, localPlayerId }: Train
             label={dot.label}
           />
         ))}
+        </g>
       </svg>
 
       <button
         className="absolute bottom-3 right-3 bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded"
         onClick={(e) => {
           e.stopPropagation();
-          setTransform({ x: 0, y: 0, scale: 1 });
+          const el = containerRef.current;
+          if (el) setTransform(fitTransform(el));
         }}
       >
         Reset view
